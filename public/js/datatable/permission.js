@@ -1,4 +1,5 @@
 const columns = [
+  { data: "cb", name: "cb" },
   {
     data: null,
     sortable: false,
@@ -7,20 +8,17 @@ const columns = [
     },
   },
   { data: "name", name: "name" },
-  { data: "desc", name: "desc" },
-  { data: "menus_count", name: "menus_count" },
-  { data: "permissions_count", name: "permissions_count" },
   { data: "aksi", name: "aksi" },
 ];
 
 const columnDefs = [
   {
-    targets: [0, 5],
+    targets: [0, 1, 3],
     orderable: false,
     className: "text-center",
   },
   {
-    targets: [1, 2, 3, 4],
+    targets: [2],
     orderable: true,
   },
 ];

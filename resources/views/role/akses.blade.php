@@ -20,38 +20,34 @@
 
 @section('content')
   <!--begin::Card-->
-  <div class="card card-custom gutter-b">
-    <div class="card-body">
-      <form action="{{ route('akses.sync', ['role' => $app->data->id]) }}" class="row" method="POST">
-        @csrf
-        <div class="col-md-12">
-          <div class="card card-custom card-stretch gutter-b">
-            <div class="card-header">
-              <h3 class="card-title">Akses Ke Menu</h3>
-            </div>
-            <div class="card-body">
-              <div class="form-group">
-                <label>Akses Ke Menu</label>
-                <select class="form-control select2" name="menus[]" multiple="multiple">
-                  @foreach ($app->menus as $menu)
-                    <option value="{{ $menu->id }}"
-                      @foreach ($app->data->menus as $item)
+  <form action="{{ route('akses.sync', ['role' => $app->data->id]) }}" class="row" method="POST">
+    @csrf
+    <div class="col-md-12">
+      <div class="card card-custom card-stretch gutter-b">
+        <div class="card-header">
+          <h3 class="card-title">Akses Ke Menu</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Akses Ke Menu</label>
+            <select class="form-control select2" name="menus[]" multiple="multiple">
+              @foreach ($app->menus as $menu)
+                <option value="{{ $menu->id }}"
+                  @foreach ($app->data->menus as $item)
                       @if ($item->id == $menu->id)
                         selected
                       @endif @endforeach>
-                      {{ $menu->name }}</option>
-                  @endforeach
-                </select>
-              </div>
-            </div>
-
-            <x-form.submit-group-card route="{{ route('role.index') }}" />
-
+                  {{ $menu->name }}</option>
+              @endforeach
+            </select>
           </div>
         </div>
-      </form>
+
+        <x-form.submit-group-card route="{{ route('role.index') }}" />
+
+      </div>
     </div>
-  </div>
+  </form>
   <!--end::Card-->
 @endsection
 

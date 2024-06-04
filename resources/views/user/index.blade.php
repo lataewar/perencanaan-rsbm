@@ -25,7 +25,8 @@
 @endsection
 
 @section('content')
-  @include('sweetalert::alert')
+  @include('layouts.flash-data')
+
   <!--begin::Card-->
   <input type="hidden" id="urx" value="{{ URL('user') }}">
   <div class="card card-custom gutter-b">

@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Http\Requests\MenuRequest;
 use App\Models\Menu;
 use App\Repositories\MenuRepository;
-use Illuminate\Database\Eloquent\Collection;
 
 class MenuService extends BaseService
 {
@@ -24,15 +23,5 @@ class MenuService extends BaseService
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);
-  }
-
-  // public function delete(int $id): bool
-  // {
-  //   return $this->repository->delete($id);
-  // }
-
-  public function getAll(): Collection
-  {
-    return $this->repository->all();
   }
 }

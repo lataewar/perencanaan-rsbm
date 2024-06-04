@@ -19,16 +19,11 @@ class SubMenuService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update($id, SubMenuRequest $request): SubMenu
+  public function update(int $id, SubMenuRequest $request): SubMenu
   {
     return $this->repository->update(
       $id,
       (object) $request->validated()
     );
-  }
-
-  public function delete($id): bool
-  {
-    return $this->repository->delete($id);
   }
 }

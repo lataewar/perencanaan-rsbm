@@ -20,41 +20,37 @@
 
 @section('content')
   <!--begin::Card-->
-  <div class="card card-custom gutter-b">
-    <div class="card-body">
-      <form action="{{ route('role.update', ['role' => $data->id]) }}" class="row" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="col-md-12">
-          <div class="card card-custom card-stretch gutter-b">
-            <div class="card-header">
-              <h3 class="card-title">Ubah Role</h3>
+  <form action="{{ route('role.update', ['role' => $data->id]) }}" class="row" method="POST">
+    @csrf
+    @method('PUT')
+    <div class="col-md-12">
+      <div class="card card-custom card-stretch gutter-b">
+        <div class="card-header">
+          <h3 class="card-title">Ubah Role</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <x-validation.txt-stack type="text" id="name" name="name" placeholder="Nama Role"
+                value="{{ old('name') ?? $data->name }}" :messages="$errors->get('name')">Nama Role
+                <x-redstar /></x-validation.txt-stack>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <x-validation.txt-stack type="text" id="name" name="name" placeholder="Nama Role"
-                    value="{{ old('name') ?? $data->name }}" :messages="$errors->get('name')">Nama Role
-                    <x-redstar /></x-validation.txt-stack>
-                </div>
-                <div class="col-md-6">
-                  <x-form.txtarea-stack name="desc" placeholder="Keterangan">
-                    @slot('title')
-                      Keterangan
-                    @endslot
-                    {{ old('desc') ?? $data->desc }}
-                  </x-form.txtarea-stack>
-                </div>
-              </div>
+            <div class="col-md-6">
+              <x-form.txtarea-stack name="desc" placeholder="Keterangan">
+                @slot('title')
+                  Keterangan
+                @endslot
+                {{ old('desc') ?? $data->desc }}
+              </x-form.txtarea-stack>
             </div>
-
-            <x-form.submit-group-card route="{{ route('role.index') }}" />
-
           </div>
         </div>
-      </form>
+
+        <x-form.submit-group-card route="{{ route('role.index') }}" />
+
+      </div>
     </div>
-  </div>
+  </form>
   <!--end::Card-->
 @endsection
 

@@ -76,10 +76,10 @@ class InitSeeder extends Seeder
     ]);
     $user->assignRole('super admin');
 
-    $permissions = ['create menu', 'read menu', 'update menu', 'delete menu'];
-    $permissions = [...$permissions, ...['create permission', 'read permission', 'update permission', 'delete permission', 'multidelete permission']];
-    $permissions = [...$permissions, ...['create role', 'read role', 'update role', 'delete role', 'setakses role', 'setpermission role']];
-    $permissions = [...$permissions, ...['create user', 'read user', 'update user', 'delete user', 'multidelete user']];
+    $permissions = ['menu create', 'menu read', 'menu update', 'menu delete'];
+    $permissions = [...$permissions, ...['permission create', 'permission read', 'permission update', 'permission delete', 'permission multidelete']];
+    $permissions = [...$permissions, ...['role create', 'role read', 'role update', 'role delete', 'role setakses', 'role setpermission']];
+    $permissions = [...$permissions, ...['user create', 'user read', 'user update', 'user delete', 'user multidelete']];
 
     foreach ($permissions as $item) {
       Permission::create(['name' => $item]);

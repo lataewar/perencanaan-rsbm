@@ -55,7 +55,7 @@
 
                   <x-validation.select-static-stack name="role_id" :messages="$errors->get('role_id')">
                     Role <x-redstar />
-                    @slot('items', \App\Enums\UserRole::toArray())
+                    @slot('items', \App\Enums\UserRoleEnum::toArray())
                   </x-validation.select-static-stack>
 
                 </div>

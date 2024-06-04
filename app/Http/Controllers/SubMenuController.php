@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubMenuRequest;
-use App\Models\Menu;
-use App\Models\SubMenu;
 use App\Services\Datatables\SubMenuTableService;
+use App\Services\MenuService;
 use App\Services\SubMenuService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -16,11 +15,17 @@ class SubMenuController extends Controller
   public function __construct(
     protected SubMenuService $service
   ) {
+    $this->middleware('permission:menu create')->only(['create', 'store']);
+    $this->middleware('permission:menu read')->only(['index', 'datatable']);
+    $this->middleware('permission:menu update')->only(['edit', 'update']);
+    $this->middleware('permission:menu delete')->only(['destroy']);
   }
 
-  public function index(Menu $menu): View
+  public function index($menu): View
   {
-    return view('submenu.index', ['data' => $menu]);
+    return view('submenu.index', [
+      'data' => app(MenuService::class)->find($menu)
+    ]);
   }
 
   public function datatable(int $menu, SubMenuTableService $datatable): JsonResponse
@@ -28,34 +33,35 @@ class SubMenuController extends Controller
     return $datatable->table($menu);
   }
 
-  public function create(Menu $menu): View
+  public function create($menu): View
   {
-    return view('submenu.create', ['data' => $menu]);
+    return view('submenu.create', [
+      'data' => app(MenuService::class)->find($menu)
+    ]);
   }
 
   public function store($menu, SubMenuRequest $request): RedirectResponse
   {
-    // return $request;
     $query = $this->service->store($request);
     if ($query)
-      Alert::html('<i>Sukses</i>', '<b>' . $query->name . '</b> berhasil ditambahkan.', 'success');
+      return redirect()->route('submenu.index', ['menu' => $menu])->with('success', '<b>' . $query->name . '</b> berhasil ditambahkan.');
 
     return redirect()->route('submenu.index', ['menu' => $menu]);
   }
 
-  public function edit(Menu $menu, SubMenu $submenu)
+  public function edit($menu, $submenu): View
   {
     return view('submenu.edit', [
-      'data' => $submenu,
-      'menu' => $menu
+      'data' => $this->service->find($submenu),
+      'menu' => app(MenuService::class)->find($menu),
     ]);
   }
 
-  public function update($menu, SubMenu $submenu, SubMenuRequest $request): RedirectResponse
+  public function update($menu, $submenu, SubMenuRequest $request): RedirectResponse
   {
     $query = $this->service->update($submenu, $request);
     if ($query)
-      Alert::html('<i>Sukses</i>', '<b>' . $query->name . '</b> berhasil diubah.', 'success');
+      return redirect()->route('submenu.index', ['menu' => $menu])->with('success', '<b>' . $query->name . '</b> berhasil diubah.');
 
     return redirect()->route('submenu.index', ['menu' => $menu]);
   }

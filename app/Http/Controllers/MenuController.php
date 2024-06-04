@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MenuRequest;
-use App\Models\Menu;
 use App\Services\Datatables\MenuTableService;
 use App\Services\MenuService;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +14,10 @@ class MenuController extends Controller
   public function __construct(
     protected MenuService $service
   ) {
+    $this->middleware('permission:menu create')->only(['create', 'store']);
+    $this->middleware('permission:menu read')->only(['index', 'datatable']);
+    $this->middleware('permission:menu update')->only(['edit', 'update']);
+    $this->middleware('permission:menu delete')->only(['destroy']);
   }
 
   public function index(): View
@@ -41,10 +44,10 @@ class MenuController extends Controller
     return redirect()->route('menu.index');
   }
 
-  public function edit(Menu $menu): View
+  public function edit($menu): View
   {
     return view('menu.edit', [
-      'data' => $menu
+      'data' => $this->service->find($menu)
     ]);
   }
 

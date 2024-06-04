@@ -19,11 +19,6 @@ class SubMenuRepository extends BaseRepository
     return $this->model->where('menu_id', $id);
   }
 
-  public function show(int|string $id): SubMenu
-  {
-    return $this->model->findOrFail($id);
-  }
-
   public function store(stdClass $request): SubMenu
   {
     return $this->model->create([

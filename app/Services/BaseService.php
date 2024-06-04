@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+
 class BaseService
 {
   /**
@@ -12,8 +15,23 @@ class BaseService
   ) {
   }
 
+  public function find(int $id): ?Model
+  {
+    return $this->repo->find($id);
+  }
+
+  public function getAll(): Collection
+  {
+    return $this->repo->all();
+  }
+
   public function delete(int $id): bool
   {
     return $this->repo->delete($id);
+  }
+
+  public function multipleDelete(array $ids): bool
+  {
+    return $this->repo->multipleDelete($ids);
   }
 }

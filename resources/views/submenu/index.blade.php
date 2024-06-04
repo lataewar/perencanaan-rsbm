@@ -26,7 +26,8 @@
 @endsection
 
 @section('content')
-  @include('sweetalert::alert')
+  @include('layouts.flash-data')
+
   <!--begin::Card-->
   <input type="hidden" id="urx" value="{{ URL('menu/submenu/' . $data->id) }}">
   <div class="card card-custom gutter-b">
@@ -56,7 +57,6 @@
 @push('js')
   <!--begin::Page Vendors(used by this page)-->
   <script src="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.js"></script>
-  <script src="{{ asset('assets') }}/js/pages/features/miscellaneous/sweetalert2.js"></script>
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
   <script src="{{ asset('js') }}/datatable/submenu.js"></script>

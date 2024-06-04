@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\Menu;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use stdClass;
 
 class MenuRepository extends BaseRepository
@@ -18,11 +17,6 @@ class MenuRepository extends BaseRepository
   public function table(): Builder
   {
     return $this->model->query();
-  }
-
-  public function show(int|string $id): Menu
-  {
-    return $this->model->findOrFail($id);
   }
 
   public function store(stdClass $request): Menu
