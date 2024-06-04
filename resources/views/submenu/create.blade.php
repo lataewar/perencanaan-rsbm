@@ -20,44 +20,40 @@
 
 @section('content')
   <!--begin::Card-->
-  <div class="card card-custom gutter-b">
-    <div class="card-body">
-      <form action="{{ route('submenu.store', ['menu' => $data->id]) }}" class="row" method="POST">
-        @csrf
-        <div class="col-md-12">
-          <div class="card card-custom card-stretch gutter-b">
-            <div class="card-header">
-              <h3 class="card-title">Tambah Sub Menu</h3>
+  <form action="{{ route('submenu.store', ['menu' => $data->id]) }}" class="row" method="POST">
+    @csrf
+    <div class="col-md-12">
+      <div class="card card-custom card-stretch gutter-b">
+        <div class="card-header">
+          <h3 class="card-title">Tambah Sub Menu</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <input type="hidden" name="menu_id" value="{{ $data->id }}">
+              <x-validation.txt-stack type="text" id="name" name="name" placeholder="Nama Sub Menu"
+                value="{{ old('name') }}" :messages="$errors->get('name')">Nama Sub Menu
+                <x-redstar /></x-validation.txt-stack>
+
+              <x-form.txt-stack name="route" value="{{ old('route') }}">Route </x-form.txt-stack>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <input type="hidden" name="menu_id" value="{{ $data->id }}">
-                  <x-validation.txt-stack type="text" id="name" name="name" placeholder="Nama Sub Menu"
-                    value="{{ old('name') }}" :messages="$errors->get('name')">Nama Sub Menu
-                    <x-redstar /></x-validation.txt-stack>
-
-                  <x-form.txt-stack name="route" value="{{ old('route') }}">Route </x-form.txt-stack>
-                </div>
-                <div class="col-md-6">
-                  <x-form.txt-stack name="icon" value="{{ old('icon') }}">Icon </x-form.txt-stack>
-                  <x-form.txtarea-stack name="desc" placeholder="Keterangan">
-                    @slot('title')
-                      Keterangan
-                    @endslot
-                    {{ old('desc') }}
-                  </x-form.txtarea-stack>
-                </div>
-              </div>
+            <div class="col-md-6">
+              <x-form.txt-stack name="icon" value="{{ old('icon') }}">Icon </x-form.txt-stack>
+              <x-form.txtarea-stack name="desc" placeholder="Keterangan">
+                @slot('title')
+                  Keterangan
+                @endslot
+                {{ old('desc') }}
+              </x-form.txtarea-stack>
             </div>
-
-            <x-form.submit-group-card route="{{ route('submenu.index', ['menu' => $data->id]) }}" />
-
           </div>
         </div>
-      </form>
+
+        <x-form.submit-group-card route="{{ route('submenu.index', ['menu' => $data->id]) }}" />
+
+      </div>
     </div>
-  </div>
+  </form>
   <!--end::Card-->
 @endsection
 

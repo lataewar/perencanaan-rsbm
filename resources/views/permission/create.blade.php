@@ -20,37 +20,33 @@
 
 @section('content')
   <!--begin::Card-->
-  <div class="card card-custom gutter-b">
-    <div class="card-body">
-      <form action="{{ route('permission.store') }}" class="row" method="POST">
-        @csrf
-        <div class="col-md-12">
-          <div class="card card-custom card-stretch gutter-b">
-            <div class="card-header">
-              <h3 class="card-title">Tambah Permission</h3>
+  <form action="{{ route('permission.store') }}" class="row" method="POST">
+    @csrf
+    <div class="col-md-12">
+      <div class="card card-custom card-stretch gutter-b">
+        <div class="card-header">
+          <h3 class="card-title">Tambah Permission</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 bgi-no-repeat"
+              style="background-position: center; background-size: 80% auto; background-image: url({{ asset('assets/media/bg/working.png') }})">
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6 bgi-no-repeat"
-                  style="background-position: center; background-size: 80% auto; background-image: url({{ asset('assets/media/bg/working.png') }})">
-                </div>
-                <div class="col-md-6">
+            <div class="col-md-6">
 
-                  <x-validation.txt-stack type="text" id="name" name="name" placeholder="Nama Permission"
-                    value="{{ old('name') }}" :messages="$errors->get('name')">Nama Permission
-                    <x-redstar /></x-validation.txt-stack>
+              <x-validation.txt-stack type="text" id="name" name="name" placeholder="Nama Permission"
+                value="{{ old('name') }}" :messages="$errors->get('name')">Nama Permission
+                <x-redstar /></x-validation.txt-stack>
 
-                </div>
-              </div>
             </div>
-
-            <x-form.submit-group-card route="{{ route('permission.index') }}" />
-
           </div>
         </div>
-      </form>
+
+        <x-form.submit-group-card route="{{ route('permission.index') }}" />
+
+      </div>
     </div>
-  </div>
+  </form>
   <!--end::Card-->
 @endsection
 
