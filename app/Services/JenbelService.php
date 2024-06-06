@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\JenbelRequest;
 use App\Models\JenisBelanja;
 use App\Repositories\JenbelRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class JenbelService extends BaseService
 {
@@ -32,5 +33,10 @@ class JenbelService extends BaseService
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);
+  }
+
+  public function getLevel3Jenbel(): Collection
+  {
+    return $this->repository->getLevel3Jenbel();
   }
 }

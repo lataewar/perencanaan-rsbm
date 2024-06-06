@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BarangRequest;
+use App\Services\BarangService;
+use App\Services\Datatables\BarangTableService;
+use App\Services\JenbelService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class BarangController extends Controller
 {
   public function __construct(
-    protected UnitService $service
+    protected BarangService $service
   ) {
     // $this->middleware('permission:barang create')->only(['create', 'store']);
     // $this->middleware('permission:barang read')->only(['index', 'datatable']);
@@ -17,54 +24,57 @@ class BarangController extends Controller
   }
 
   //----------  INDEX  ----------//
-  public function index(): View
+  public function index(int $id = 0): View
   {
-    return view('unit.index');
+    return view('barang.index', [
+      'id' => $id,
+      'jenbel' => app(JenbelService::class)->getLevel3Jenbel(),
+    ]);
   }
 
   //----------  DATATABLE  ----------//
-  public function datatable(): JsonResponse
+  public function datatable($id = 0): JsonResponse
   {
-    return app(UnitTableService::class)->table();
+    return app(BarangTableService::class)->table($id);
   }
 
   //----------  CREATE  ----------//
-  public function create(): View
+  public function create($id): View
   {
-    return view('unit.create');
+    return view('barang.create', compact('id'));
   }
 
   //----------  STORE  ----------//
-  public function store(UnitRequest $request): RedirectResponse
+  public function store($id, BarangRequest $request): RedirectResponse
   {
     $query = $this->service->store($request);
     if ($query)
-      return redirect()->route('unit.index')->with('success', '<b>' . $query->u_name . '</b> berhasil ditambahkan.');
+      return redirect()->route('barang.index', ['id' => $id])->with('success', '<b>' . $query->br_name . '</b> berhasil ditambahkan.');
 
-    return redirect()->route('unit.index');
+    return redirect()->route('barang.index', ['id' => $id]);
   }
 
   //----------  EDIT  ----------//
-  public function edit($unit): View
+  public function edit($id, $barang): View
   {
-    return view('unit.edit', ['data' => $this->service->find($unit)]);
+    return view('barang.edit', ['data' => $this->service->find($barang)]);
   }
 
   //----------  UPDATE  ----------//
-  public function update($unit, UnitRequest $request): RedirectResponse
+  public function update($id, $barang, BarangRequest $request): RedirectResponse
   {
-    $query = $this->service->update($unit, $request);
+    $query = $this->service->update($barang, $request);
     if ($query)
-      return redirect()->route('unit.index')->with('success', '<b>' . $query->u_name . '</b> berhasil diubah.');
+      return redirect()->route('barang.index', ['id' => $id])->with('success', '<b>' . $query->br_name . '</b> berhasil diubah.');
 
-    return redirect()->route('unit.index');
+    return redirect()->route('barang.index', ['id' => $id]);
   }
 
   //----------  DESTROY  ----------//
-  public function destroy($unit): JsonResponse
+  public function destroy($id, $barang): JsonResponse
   {
     try {
-      $this->service->delete($unit);
+      $this->service->delete($barang);
       return response()->json(['sukses' => 'Data berhasil dihapus.']);
     } catch (\Throwable $th) {
       return response()->json(['gagal' => (string) $th]);
@@ -72,7 +82,7 @@ class BarangController extends Controller
   }
 
   //----------  MULTDELETE  ----------//
-  public function multdelete(Request $request): JsonResponse
+  public function multdelete($id, Request $request): JsonResponse
   {
     try {
       $this->service->multipleDelete($request->post('ids'));

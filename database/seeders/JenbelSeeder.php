@@ -34,5 +34,6 @@ class JenbelSeeder extends Seeder
         'updated_at' => now(),
       ],
     ]);
+
   }
 }

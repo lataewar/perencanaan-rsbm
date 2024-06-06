@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\JenisBelanja;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use stdClass;
 
@@ -38,5 +39,10 @@ class JenbelRepository extends BaseRepository
       'jb_name' => $request->jb_name,
       'jb_desc' => $request->jb_desc,
     ]);
+  }
+
+  public function getLevel3Jenbel(): Collection
+  {
+    return $this->model->where('jb_level', 3)->get(['id', 'jb_name', 'jb_fullkode']);
   }
 }

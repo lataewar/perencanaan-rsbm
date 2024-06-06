@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/tes.php';
 
 Route::get('/', function () {
   return redirect()->route('login');
@@ -71,7 +72,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/multdelete', [JenbelController::class, 'multdelete'])->name('jenbel.multdelete');
   });
 
-  Route::post('barang/datatable', [BarangController::class, 'datatable'])->name('barang.datatable');
-  Route::post('barang/multdelete', [BarangController::class, 'multdelete'])->name('barang.multdelete');
-  Route::resource('barang', BarangController::class)->except('show');
+  Route::prefix('barang/{id?}')->group(function () {
+    Route::get('/', [BarangController::class, 'index'])->name('barang.index');
+    Route::post('/datatable', [BarangController::class, 'datatable'])->name('barang.datatable');
+    Route::get('/create', [BarangController::class, 'create'])->name('barang.create');
+    Route::post('/store', [BarangController::class, 'store'])->name('barang.store');
+    Route::get('/{barang}/edit', [BarangController::class, 'edit'])->name('barang.edit');
+    Route::put('/update/{barang}', [BarangController::class, 'update'])->name('barang.update');
+    Route::delete('/{barang}', [BarangController::class, 'destroy'])->name('barang.destroy');
+    Route::post('/multdelete', [BarangController::class, 'multdelete'])->name('barang.multdelete');
+  });
 });
