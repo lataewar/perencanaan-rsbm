@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UnitRequest;
-use App\Services\Datatables\UnitTableService;
-use App\Services\UnitService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
-class UnitController extends Controller
+class BarangController extends Controller
 {
   public function __construct(
     protected UnitService $service
   ) {
-    // $this->middleware('permission:kode create')->only(['create', 'store']);
-    // $this->middleware('permission:kode read')->only(['index', 'datatable']);
-    // $this->middleware('permission:kode update')->only(['edit', 'update']);
-    // $this->middleware('permission:kode delete')->only(['destroy']);
-    // $this->middleware('permission:kode multidelete')->only(['multdelete']);
+    // $this->middleware('permission:barang create')->only(['create', 'store']);
+    // $this->middleware('permission:barang read')->only(['index', 'datatable']);
+    // $this->middleware('permission:barang update')->only(['edit', 'update']);
+    // $this->middleware('permission:barang delete')->only(['destroy']);
+    // $this->middleware('permission:barang multidelete')->only(['multdelete']);
   }
 
   //----------  INDEX  ----------//

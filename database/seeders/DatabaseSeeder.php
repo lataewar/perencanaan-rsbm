@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
   {
     $this->call([
       InitSeeder::class,
+      AppSeeder::class,
+      JenbelSeeder::class,
     ]);
   }
 }

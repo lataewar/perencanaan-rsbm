@@ -5,7 +5,7 @@
 @endpush
 
 @section('subheader')
-  <x-subheader title="Satuan Kerja">
+  <x-subheader title="Unit Kerja">
     @slot('breadcrumb')
       <x-bc.item route="#">Data</x-bc.item>
     @endslot
@@ -15,7 +15,7 @@
         class="btn-sm btn-light-danger mr-2 btn-multdelete">
         Hapus Terpilih</x-btn.weight-bold-svg>
 
-      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('satker.create') }}"
+      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('unit.create') }}"
         class="btn-sm btn-light-success btn-create">
         Tambah Data</x-btn.a-weight-bold-svg>
     </div>
@@ -25,12 +25,13 @@
 @endsection
 
 @section('content')
-  @include('sweetalert::alert')
+  @include('layouts.flash-data')
+
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ URL('satker') }}">
+  <input type="hidden" id="urx" value="{{ URL('unit') }}">
   <div class="card card-custom gutter-b">
     <div class="card-body">
-      <form action="{{ route('satker.multdelete') }}" id="form-multdelete">
+      <form action="{{ route('unit.multdelete') }}" id="form-multdelete">
         <!--begin: Datatable-->
         <table class="table table-hover" id="Datatable">
           <thead>
@@ -42,8 +43,8 @@
                 </label>
               </th>
               <th>No</th>
-              <th>Nama Satuan Kerja</th>
-              <th class="text-center">Kode Satuan Kerja</th>
+              <th>Nama Unit Kerja</th>
+              <th class="text-center">Kode Unit Kerja</th>
               <th>Keterangan</th>
               <th class="text-center">Aksi</th>
             </tr>
@@ -62,10 +63,9 @@
 @push('js')
   <!--begin::Page Vendors(used by this page)-->
   <script src="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.js"></script>
-  <script src="{{ asset('assets') }}/js/pages/features/miscellaneous/sweetalert2.js"></script>
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
-  <script src="{{ asset('js') }}/datatable/satker.js"></script>
+  <script src="{{ asset('js') }}/datatable/unit.js"></script>
   <script src="{{ asset('js') }}/app.js"></script>
   <script src="{{ asset('js') }}/datatable/dt.js"></script>
   <!--end::Page Scripts-->

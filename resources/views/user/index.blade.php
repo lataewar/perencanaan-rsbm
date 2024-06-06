@@ -64,7 +64,6 @@
 @push('js')
   <!--begin::Page Vendors(used by this page)-->
   <script src="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.js"></script>
-  <script src="{{ asset('assets') }}/js/pages/features/miscellaneous/sweetalert2.js"></script>
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
   <script src="{{ asset('js') }}/datatable/user.js"></script>

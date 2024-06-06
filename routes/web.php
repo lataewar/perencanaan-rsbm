@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JenbelController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubMenuController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +55,23 @@ Route::middleware('auth')->group(function () {
     Route::resource('role', RoleController::class)->except('show');
   });
   // end PROTECTED ROLE -> super admin, admin, pimpinan
+
+  Route::post('unit/datatable', [UnitController::class, 'datatable'])->name('unit.datatable');
+  Route::post('unit/multdelete', [UnitController::class, 'multdelete'])->name('unit.multdelete');
+  Route::resource('unit', UnitController::class)->except('show');
+
+  Route::prefix('jenbel/{parent?}')->group(function () {
+    Route::get('/', [JenbelController::class, 'index'])->name('jenbel.index');
+    Route::post('/datatable', [JenbelController::class, 'datatable'])->name('jenbel.datatable');
+    Route::get('/create', [JenbelController::class, 'create'])->name('jenbel.create');
+    Route::post('/store', [JenbelController::class, 'store'])->name('jenbel.store');
+    Route::get('/{jenbel}/edit', [JenbelController::class, 'edit'])->name('jenbel.edit');
+    Route::put('/update/{jenbel}', [JenbelController::class, 'update'])->name('jenbel.update');
+    Route::delete('/{jenbel}', [JenbelController::class, 'destroy'])->name('jenbel.destroy');
+    Route::post('/multdelete', [JenbelController::class, 'multdelete'])->name('jenbel.multdelete');
+  });
+
+  Route::post('barang/datatable', [BarangController::class, 'datatable'])->name('barang.datatable');
+  Route::post('barang/multdelete', [BarangController::class, 'multdelete'])->name('barang.multdelete');
+  Route::resource('barang', BarangController::class)->except('show');
 });

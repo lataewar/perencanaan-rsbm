@@ -7,22 +7,10 @@ const columns = [
       return meta.row + meta.settings._iDisplayStart + 1;
     },
   },
-  {
-    data: "u_name",
-    name: "u_name",
-  },
-  {
-    data: "u_kode",
-    name: "u_kode",
-  },
-  {
-    data: "u_desc",
-    name: "u_desc",
-  },
-  {
-    data: "aksi",
-    name: "aksi",
-  },
+  { data: "jb_kode", name: "jb_kode" },
+  { data: "jb_name", name: "jb_name" },
+  { data: "jb_desc", name: "jb_desc" },
+  { data: "aksi", name: "aksi" },
 ];
 
 const columnDefs = [
@@ -32,12 +20,12 @@ const columnDefs = [
     className: "text-center",
   },
   {
-    targets: [3],
+    targets: [2],
     orderable: true,
     className: "text-center",
   },
   {
-    targets: [2, 4],
+    targets: [3, 4],
     orderable: true,
   },
 ];

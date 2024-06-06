@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Services;
+
+use App\Http\Requests\JenbelRequest;
+use App\Models\JenisBelanja;
+use App\Repositories\JenbelRepository;
+
+class JenbelService extends BaseService
+{
+  public function __construct(
+    protected JenbelRepository $repository
+  ) {
+    parent::__construct($repository);
+  }
+
+  public function store(JenbelRequest $request, int $parent): JenisBelanja
+  {
+    $jenis_belanja_id = $parent == 0 ? null : $parent;
+
+    $jb_fullkode = $request->parent_fullkode == 0 ?
+      $request->jb_kode :
+      $request->parent_fullkode . "." . $request->jb_kode;
+
+    return $this->repository->store((object) ($request->validated() + [
+      'jenis_belanja_id' => $jenis_belanja_id,
+      'jb_fullkode' => $jb_fullkode,
+    ]));
+  }
+
+  public function update(int $id, JenbelRequest $request): JenisBelanja
+  {
+    $validated = (object) $request->validated();
+    return $this->repository->update($id, $validated);
+  }
+}
