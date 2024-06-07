@@ -12,12 +12,12 @@ class BaseRepository
   ) {
   }
 
-  public function find(int $id): ?Model
+  public function find(string|int $id): ?Model
   {
     return $this->model->find($id);
   }
 
-  public function delete(int $id): bool
+  public function delete(string|int $id): bool
   {
     $model = $this->find($id);
     return $model->delete();

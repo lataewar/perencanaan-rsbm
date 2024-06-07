@@ -13,7 +13,7 @@ class JenbelTableService extends DatatableService
   ) {
   }
 
-  public function table(int $parent): JsonResponse
+  public function table(int|string $parent): JsonResponse
   {
     $id = !$parent ? null : $parent;
 

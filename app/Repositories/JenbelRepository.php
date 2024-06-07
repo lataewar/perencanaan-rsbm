@@ -15,7 +15,7 @@ class JenbelRepository extends BaseRepository
     parent::__construct($x_model);
   }
 
-  public function table(?int $id): Builder|Model
+  public function table(?string $id): Builder|Model
   {
     return $this->model->where('jenis_belanja_id', $id);
   }
@@ -32,7 +32,7 @@ class JenbelRepository extends BaseRepository
     ]);
   }
 
-  public function update(int $id, stdClass $request): JenisBelanja
+  public function update(string $id, stdClass $request): JenisBelanja
   {
     $model = $this->find($id);
     return tap($model)->update([

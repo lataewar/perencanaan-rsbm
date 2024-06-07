@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\Unit;
+use App\Models\Perencanaan;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use stdClass;
 
-class UnitRepository extends BaseRepository
+class PerencanaanRepository extends BaseRepository
 {
-  public function __construct(Unit $x_model)
+  public function __construct(Perencanaan $x_model)
   {
     parent::__construct($x_model);
   }
@@ -19,7 +19,7 @@ class UnitRepository extends BaseRepository
     return $this->model->query();
   }
 
-  public function store(stdClass $request): Unit
+  public function store(stdClass $request): Perencanaan
   {
     return $this->model->create([
       'u_name' => $request->u_name,
@@ -28,7 +28,7 @@ class UnitRepository extends BaseRepository
     ]);
   }
 
-  public function update(string $id, stdClass $request): Unit
+  public function update(string $id, stdClass $request): Perencanaan
   {
     $model = $this->find($id);
     return tap($model)->update([

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use stdClass;
 
@@ -19,7 +20,7 @@ class UserRepository extends BaseRepository
     return $this->model->query();
   }
 
-  public function store(stdClass $request): User
+  public function store(stdClass $request): User|Model
   {
     return $this->model->create([
       'name' => $request->name,
@@ -29,7 +30,7 @@ class UserRepository extends BaseRepository
     ]);
   }
 
-  public function update(int $id, stdClass $request): User
+  public function update(string $id, stdClass $request): User
   {
     $model = $this->find($id);
     return tap($model)->update([
@@ -40,7 +41,7 @@ class UserRepository extends BaseRepository
     ]);
   }
 
-  public function updateWithoutPwd(int $id, stdClass $request): User
+  public function updateWithoutPwd(string $id, stdClass $request): User
   {
     $model = $this->find($id);
     return tap($model)->update([

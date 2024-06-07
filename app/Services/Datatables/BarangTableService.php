@@ -13,7 +13,7 @@ class BarangTableService extends DatatableService
   ) {
   }
 
-  public function table(int $id = null): JsonResponse
+  public function table(int|string $id = null): JsonResponse
   {
     return DataTables::of($this->repository->table($id))
       ->addColumn('aksi', function ($data) use ($id) {

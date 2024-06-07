@@ -22,18 +22,18 @@ class RoleRepository extends BaseRepository
     return $this->model->withCount(['menus', 'permissions']);
   }
 
-  public function findSpatieRole(int $id): RoleContract
+  public function findSpatieRole(int|string $id): RoleContract
   {
     return SpatieRole::findById($id);
   }
 
-  public function getSpatiePermission(int $id): Collection
+  public function getSpatiePermission(int|string $id): Collection
   {
     $role = $this->findSpatieRole($id);
     return $role->permissions()->pluck('name');
   }
 
-  public function syncSpatiePermission(int $id, array $permissions): RoleContract
+  public function syncSpatiePermission(int|string $id, array $permissions): RoleContract
   {
     $role = $this->findSpatieRole($id);
     return $role->syncPermissions($permissions);
@@ -48,7 +48,7 @@ class RoleRepository extends BaseRepository
     ]);
   }
 
-  public function update(int $id, stdClass $request): Role
+  public function update(int|string $id, stdClass $request): Role
   {
     return tap($this->find($id))->update([
       'name' => $request->name,
@@ -56,7 +56,7 @@ class RoleRepository extends BaseRepository
     ]);
   }
 
-  public function findByIdWithMenus(int $id): ?Role
+  public function findByIdWithMenus(int|string $id): ?Role
   {
     return $this->model->with([
       'menus' => function ($query) {
@@ -65,7 +65,7 @@ class RoleRepository extends BaseRepository
     ])->where('id', $id)->get()->first();
   }
 
-  public function syncMenus(int $id, array $menus): array
+  public function syncMenus(int|string $id, array $menus): array
   {
     $model = $this->model->find($id);
     return $model->menus()->sync($menus);

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\JenisBelanja;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class JenbelSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class JenbelSeeder extends Seeder
 
     JenisBelanja::insert([
       [
-        'id' => 1,
+        'id' => Str::uuid(),
         'jb_kode' => '5.2.2',
         'jb_fullkode' => '5.2.2',
         'jb_name' => 'Belanja Barang dan Jasa',
@@ -24,7 +25,7 @@ class JenbelSeeder extends Seeder
         'updated_at' => now(),
       ],
       [
-        'id' => 2,
+        'id' => Str::uuid(),
         'jb_kode' => '5.2.3',
         'jb_fullkode' => '5.2.3',
         'jb_name' => 'Belanja Modal',

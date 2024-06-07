@@ -12,6 +12,11 @@ return new class extends Migration {
   {
     Schema::create('perencanaans', function (Blueprint $table) {
       $table->uuid('id')->primary();
+      $table->year('p_tahun');
+      $table->tinyInteger('p_periode')->nullable();
+      $table->tinyInteger('p_status');
+      $table->foreignUuid('unit_id')->constrained('units');
+      $table->foreignUuid('user_id')->constrained('users');
       $table->timestamps();
     });
   }

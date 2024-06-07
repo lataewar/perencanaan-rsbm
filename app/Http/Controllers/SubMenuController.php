@@ -28,7 +28,7 @@ class SubMenuController extends Controller
     ]);
   }
 
-  public function datatable(int $menu, SubMenuTableService $datatable): JsonResponse
+  public function datatable($menu, SubMenuTableService $datatable): JsonResponse
   {
     return $datatable->table($menu);
   }

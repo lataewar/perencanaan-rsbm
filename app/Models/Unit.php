@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Unit extends Model
 {
-  use HasFactory;
+  use HasFactory, UUID;
 
   protected $fillable = ['u_name', 'u_kode', 'u_desc'];
 

@@ -19,7 +19,7 @@ class UnitService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update(int $id, UnitRequest $request): Unit
+  public function update(string $id, UnitRequest $request): Unit
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);

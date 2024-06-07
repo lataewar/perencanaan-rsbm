@@ -19,7 +19,7 @@ class PermissionService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update(int $id, PermissionRequest $request): Permission
+  public function update(int|string $id, PermissionRequest $request): Permission
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);

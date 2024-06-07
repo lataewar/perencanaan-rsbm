@@ -26,7 +26,7 @@ class PermissionRepository extends BaseRepository
     ]);
   }
 
-  public function update(int $id, stdClass $request): Permission
+  public function update(string $id, stdClass $request): Permission
   {
     $model = $this->find($id);
     return tap($model)->update([

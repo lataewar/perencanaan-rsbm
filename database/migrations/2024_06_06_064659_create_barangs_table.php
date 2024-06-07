@@ -11,11 +11,11 @@ return new class extends Migration {
   public function up(): void
   {
     Schema::create('barangs', function (Blueprint $table) {
-      $table->id();
+      $table->uuid('id')->primary();
       $table->string('br_name', 150);
       $table->string('br_kode', 20)->nullable();
       $table->string('br_satuan', 50);
-      $table->foreignId('jenis_belanja_id')->constrained('jenis_belanjas');
+      $table->foreignUuid('jenis_belanja_id')->constrained('jenis_belanjas');
       $table->text('br_desc')->nullable();
       $table->timestamps();
     });

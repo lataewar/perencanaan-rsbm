@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Barang;
 use App\Models\JenisBelanja;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -47,6 +48,10 @@ class SubJenbelSeeder extends Seeder
             )->create();
         });
     }
+
+    // ----------------- SEEDING 400 BARANG ----------------- //
+
+    Barang::factory(400)->create();
 
   }
 }

@@ -68,7 +68,6 @@ class InitSeeder extends Seeder
     DB::table('menu_role')->insert(['menu_id' => 1, 'role_id' => 1]);
 
     $user = User::factory()->create([
-      'id' => 1,
       'name' => 'Super Admin',
       'email' => 'supadmin@admin.com',
       'password' => Hash::make('zzzzzzzz'),

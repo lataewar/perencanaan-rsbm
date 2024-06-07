@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenbelController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PerencanaanController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -81,5 +82,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/update/{barang}', [BarangController::class, 'update'])->name('barang.update');
     Route::delete('/{barang}', [BarangController::class, 'destroy'])->name('barang.destroy');
     Route::post('/multdelete', [BarangController::class, 'multdelete'])->name('barang.multdelete');
+  });
+
+  Route::prefix('perencanaan')->group(function () {
+    Route::get('/', [PerencanaanController::class, 'index'])->name('perencanaan.index');
+    Route::post('/datatable', [PerencanaanController::class, 'datatable'])->name('perencanaan.datatable');
+    Route::get('/create', [PerencanaanController::class, 'create'])->name('perencanaan.create');
+    Route::post('/store', [PerencanaanController::class, 'store'])->name('perencanaan.store');
+    Route::post('/multdelete', [PerencanaanController::class, 'multdelete'])->name('perencanaan.multdelete');
   });
 });

@@ -14,7 +14,7 @@ class BarangRepository extends BaseRepository
     parent::__construct($x_model);
   }
 
-  public function table(?int $id): Builder|Model
+  public function table(?string $id): Builder|Model
   {
     return $this->model->where('jenis_belanja_id', $id);
   }
@@ -30,7 +30,7 @@ class BarangRepository extends BaseRepository
     ]);
   }
 
-  public function update(int $id, stdClass $request): Barang
+  public function update(string $id, stdClass $request): Barang
   {
     $model = $this->find($id);
     return tap($model)->update([

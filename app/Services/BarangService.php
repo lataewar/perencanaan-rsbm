@@ -19,7 +19,7 @@ class BarangService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update(int $id, BarangRequest $request): Barang
+  public function update(string $id, BarangRequest $request): Barang
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);

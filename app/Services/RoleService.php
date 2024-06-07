@@ -27,18 +27,18 @@ class RoleService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update(int $id, RoleRequest $request): Role
+  public function update(int|string $id, RoleRequest $request): Role
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);
   }
 
-  public function delete(int $id): bool
+  public function delete(int|string $id): bool
   {
     return $this->repository->delete($id);
   }
 
-  public function createAkses(int $id): array
+  public function createAkses(int|string $id): array
   {
     $menuRepo = app(MenuRepository::class);
     return [
@@ -49,12 +49,12 @@ class RoleService extends BaseService
     ];
   }
 
-  public function syncAkses(int $id, array $menus): array
+  public function syncAkses(int|string $id, array $menus): array
   {
     return $this->repository->syncMenus($id, $menus);
   }
 
-  public function createPermission(int $id): array
+  public function createPermission(int|string $id): array
   {
     return [
       'app' => (object) [
@@ -65,7 +65,7 @@ class RoleService extends BaseService
     ];
   }
 
-  public function syncPermission(int $id, array $permissions): RoleContract
+  public function syncPermission(int|string $id, array $permissions): RoleContract
   {
     return $this->repository->syncSpatiePermission($id, $permissions);
   }

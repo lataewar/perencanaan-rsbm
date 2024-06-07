@@ -15,7 +15,7 @@ class JenbelService extends BaseService
     parent::__construct($repository);
   }
 
-  public function store(JenbelRequest $request, int $parent): JenisBelanja
+  public function store(JenbelRequest $request, int|string $parent): JenisBelanja
   {
     $jenis_belanja_id = $parent == 0 ? null : $parent;
 
@@ -29,7 +29,7 @@ class JenbelService extends BaseService
     ]));
   }
 
-  public function update(int $id, JenbelRequest $request): JenisBelanja
+  public function update(int|string $id, JenbelRequest $request): JenisBelanja
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);

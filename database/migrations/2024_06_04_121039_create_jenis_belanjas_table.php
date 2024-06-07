@@ -11,18 +11,18 @@ return new class extends Migration {
   public function up(): void
   {
     Schema::create('jenis_belanjas', function (Blueprint $table) {
-      $table->id();
+      $table->uuid('id')->primary();
       $table->string('jb_name', 100);
       $table->string('jb_kode', 20);
       $table->string('jb_fullkode', 50);
       $table->integer('jb_level')->nullable();
       $table->text('jb_desc')->nullable();
-      // $table->foreignId('jenis_belanja_id')->nullable();
+      // $table->foreignUuid('jenis_belanja_id')->nullable();
       $table->timestamps();
     });
 
     Schema::table('jenis_belanjas', function (Blueprint $table) {
-      $table->foreignId('jenis_belanja_id')->nullable()->constrained('jenis_belanjas');
+      $table->foreignUuid('jenis_belanja_id')->nullable()->constrained('jenis_belanjas');
     });
   }
 

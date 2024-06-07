@@ -35,6 +35,14 @@ class AppSeeder extends Seeder
       'desc' => 'Menu Pengelolaan Barang',
       'has_submenu' => 0,
     ]);
+    Menu::create([
+      'id' => 4,
+      'name' => 'Perencanaan',
+      'route' => 'perencanaan.index',
+      'icon' => 'Communication/Clipboard-list.svg',
+      'desc' => 'Menu Perencanaan',
+      'has_submenu' => 0,
+    ]);
 
     SubMenu::insert([
       [
@@ -58,24 +66,20 @@ class AppSeeder extends Seeder
     DB::table('menu_role')->insert([
       ['menu_id' => 2, 'role_id' => 1],
       ['menu_id' => 3, 'role_id' => 1],
-      // ['menu_id' => 4, 'role_id' => 1],
+      ['menu_id' => 4, 'role_id' => 1],
     ]);
 
     // ------------------------------  ------------------------------ //
 
-    Unit::insert([
-      [
-        'id' => 1,
-        'u_name' => 'Sekertariat Jenderal',
-        'u_kode' => '-',
-        'u_desc' => 'Sekertariat Jenderal',
-      ],
-      [
-        'id' => 2,
-        'u_name' => 'Bimbingan Masyarakat Islam',
-        'u_kode' => '-',
-        'u_desc' => 'Bimbingan Masyarakat Islam',
-      ],
+    Unit::create([
+      'u_name' => 'Sekertariat Jenderal',
+      'u_kode' => '-',
+      'u_desc' => 'Sekertariat Jenderal',
+    ]);
+    Unit::create([
+      'u_name' => 'Bimbingan Masyarakat Islam',
+      'u_kode' => '-',
+      'u_desc' => 'Bimbingan Masyarakat Islam',
     ]);
 
     // ------------------------------  ------------------------------ //

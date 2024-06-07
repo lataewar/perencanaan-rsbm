@@ -15,7 +15,7 @@ class BaseService
   ) {
   }
 
-  public function find(int $id): ?Model
+  public function find(string|int $id): ?Model
   {
     return $this->repo->find($id);
   }
@@ -25,7 +25,7 @@ class BaseService
     return $this->repo->all();
   }
 
-  public function delete(int $id): bool
+  public function delete(string|int $id): bool
   {
     return $this->repo->delete($id);
   }

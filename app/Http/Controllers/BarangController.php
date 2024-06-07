@@ -24,7 +24,7 @@ class BarangController extends Controller
   }
 
   //----------  INDEX  ----------//
-  public function index(int $id = 0): View
+  public function index($id = 0): View
   {
     return view('barang.index', [
       'id' => $id,

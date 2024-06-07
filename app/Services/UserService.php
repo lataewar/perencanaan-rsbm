@@ -19,7 +19,7 @@ class UserService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update(int $id, UserRequest $request): User
+  public function update(string $id, UserRequest $request): User
   {
     $data = (object) $request->validated();
     if (isset($data->password)) {
