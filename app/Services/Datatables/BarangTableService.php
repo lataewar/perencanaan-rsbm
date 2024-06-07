@@ -16,10 +16,10 @@ class BarangTableService extends DatatableService
   public function table(int $id = null): JsonResponse
   {
     return DataTables::of($this->repository->table($id))
-      ->addColumn('aksi', function ($data) {
+      ->addColumn('aksi', function ($data) use ($id) {
         return
-          self::editBtnA(route('barang.edit', ['barang' => $data->id]))
-          . self::deleteBtn($data->id, $data->u_name);
+          self::editBtnA(route('barang.edit', ['barang' => $data->id, 'id' => $id]))
+          . self::deleteBtn($data->id, $data->br_name);
       })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);

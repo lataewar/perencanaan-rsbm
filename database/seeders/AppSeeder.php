@@ -22,9 +22,9 @@ class AppSeeder extends Seeder
   {
     Menu::create([
       'id' => 2,
-      'name' => 'Admin',
+      'name' => 'Data',
       'icon' => 'Code/Settings4.svg',
-      'desc' => 'Menu Admin',
+      'desc' => 'Menu Data',
       'has_submenu' => 1,
     ]);
     Menu::create([

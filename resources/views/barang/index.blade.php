@@ -64,7 +64,7 @@
 
       <x-separator margin="3" />
 
-      <form action="{{ route('barang.multdelete') }}" id="form-multdelete">
+      <form action="{{ route('barang.multdelete', ['id' => $id ?? 0]) }}" id="form-multdelete">
         <!--begin: Datatable-->
         <table class="table table-hover" id="Datatable">
           <thead>

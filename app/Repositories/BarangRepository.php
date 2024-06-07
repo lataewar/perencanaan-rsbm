@@ -34,8 +34,10 @@ class BarangRepository extends BaseRepository
   {
     $model = $this->find($id);
     return tap($model)->update([
-      'jb_name' => $request->jb_name,
-      'jb_desc' => $request->jb_desc,
+      'br_name' => $request->br_name,
+      'br_kode' => $request->br_kode,
+      'br_desc' => $request->br_desc,
+      'br_satuan' => $request->br_satuan,
     ]);
   }
 }

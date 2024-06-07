@@ -5,14 +5,14 @@
 @endpush
 
 @section('subheader')
-  <x-subheader title="Unit Kerja">
+  <x-subheader title="Barang">
     <x-slot name="breadcrumb">
-      <x-bc.item route="{{ route('unit.index') }}">Data</x-bc.item>
+      <x-bc.item route="{{ route('barang.index') }}">Data</x-bc.item>
       <x-bc.separator />
       <x-bc.item route="#">Ubah Data</x-bc.item>
     </x-slot>
 
-    <x-btn.a-weight-bold-svg href="{{ route('unit.index') }}" svg="Navigation/Angle-left.svg"
+    <x-btn.a-weight-bold-svg href="{{ route('barang.index', ['id' => $id]) }}" svg="Navigation/Angle-left.svg"
       class="btn-sm btn-light-primary ml-2">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
@@ -20,13 +20,13 @@
 
 @section('content')
   <!--begin::Card-->
-  <form action="{{ route('unit.update', ['unit' => $data->id]) }}" class="row" method="POST">
+  <form action="{{ route('barang.update', ['barang' => $data->id, 'id' => $id]) }}" class="row" method="POST">
     @csrf
     @method('PUT')
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
         <div class="card-header">
-          <h3 class="card-title">Ubah Unit Kerja</h3>
+          <h3 class="card-title">Ubah Barang</h3>
         </div>
         <div class="card-body">
           <div class="row">
@@ -34,27 +34,34 @@
               style="background-position: center; background-size: 80% auto; background-image: url({{ asset('assets/media/bg/working.png') }})">
             </div>
             <div class="col-md-6">
+              @include('layouts.validation-error')
 
-              <x-validation.txt-stack type="text" id="u_name" name="u_name" placeholder="Nama Unit Kerja"
-                value="{{ old('u_name') ?? $data->u_name }}" :messages="$errors->get('u_name')">Nama Unit Kerja
+              <input type="hidden" name="id" value="{{ $data->id }}">
+
+              <x-validation.txt-stack type="text" id="br_kode" name="br_kode" placeholder="Kode Barang"
+                value="{{ old('br_kode') ?? $data->br_kode }}" :messages="$errors->get('br_kode')">Kode Barang
+              </x-validation.txt-stack>
+
+              <x-validation.txt-stack type="text" id="br_name" name="br_name" placeholder="Nama Barang"
+                value="{{ old('br_name') ?? $data->br_name }}" :messages="$errors->get('br_name')">Nama Barang
                 <x-redstar /></x-validation.txt-stack>
 
-              <x-validation.txt-stack type="text" id="u_kode" name="u_kode" placeholder="Kode Unit Kerja"
-                value="{{ old('u_kode') ?? $data->u_kode }}" :messages="$errors->get('u_kode')">Kode Unit Kerja
+              <x-validation.txt-stack type="text" id="br_satuan" name="br_satuan" placeholder="Satuan"
+                value="{{ old('br_satuan') ?? $data->br_satuan }}" :messages="$errors->get('br_satuan')">Satuan
                 <x-redstar /></x-validation.txt-stack>
 
-              <x-form.txtarea-stack name="u_desc" placeholder="Keterangan">
+              <x-form.txtarea-stack name="br_desc" placeholder="Keterangan">
                 @slot('title')
                   Keterangan
                 @endslot
-                {{ old('u_desc') ?? $data->u_desc }}
+                {{ old('br_desc') ?? $data->br_desc }}
               </x-form.txtarea-stack>
 
             </div>
           </div>
         </div>
 
-        <x-form.submit-group-card route="{{ route('unit.index') }}" />
+        <x-form.submit-group-card route="{{ route('barang.index', ['id' => $id]) }}" />
 
       </div>
     </div>

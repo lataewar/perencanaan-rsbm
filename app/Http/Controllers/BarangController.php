@@ -57,7 +57,10 @@ class BarangController extends Controller
   //----------  EDIT  ----------//
   public function edit($id, $barang): View
   {
-    return view('barang.edit', ['data' => $this->service->find($barang)]);
+    return view('barang.edit', [
+      'id' => $id,
+      'data' => $this->service->find($barang),
+    ]);
   }
 
   //----------  UPDATE  ----------//
