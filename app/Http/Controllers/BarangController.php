@@ -28,7 +28,7 @@ class BarangController extends Controller
   {
     return view('barang.index', [
       'id' => $id,
-      'jenbel' => app(JenbelService::class)->getLevel3Jenbel(),
+      'jenbel' => app(JenbelService::class)->getALlByLevel(3),
     ]);
   }
 

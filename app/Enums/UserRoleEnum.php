@@ -14,7 +14,7 @@ enum UserRoleEnum: int
   {
     $data = [];
     foreach (self::cases() as $case) {
-      array_push($data, ['id' => $case, 'name' => $case->getLabelText()]);
+      array_push($data, ['id' => $case->value, 'name' => $case->getLabelText()]);
     }
     return $data;
   }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRoleEnum;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,8 @@ class UserRequest extends FormRequest
       return [
         'name' => 'required|string|max:255',
         'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->id)],
-        'role_id' => 'required',
+        'role_id' => ['required'],
+        'unit_id' => [Rule::requiredIf(UserRoleEnum::UNIT->value == $this->role_id)],
       ];
     }
 
@@ -24,14 +26,21 @@ class UserRequest extends FormRequest
       'name' => 'required|string|max:255',
       'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->id)],
       'password' => ['required', 'confirmed', Rules\Password::defaults()],
-      'role_id' => 'required',
+      'role_id' => ['required'],
+      'unit_id' => [Rule::requiredIf(UserRoleEnum::UNIT->value == $this->role_id)],
     ];
   }
 
-  public function messages()
+  /*
+  protected function prepareForValidation(): void
   {
-    return [
-      'role_id.required' => 'Role is required.',
-    ];
+    $unit = $this->unit_id;
+    if ($this->role_id != UserRoleEnum::UNIT->value)
+      $unit = null;
+
+    $this->merge([
+      'unit_id' => $unit,
+    ]);
   }
+  */
 }

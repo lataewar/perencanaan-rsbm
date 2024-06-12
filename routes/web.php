@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BelanjaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailBelanjaController;
 use App\Http\Controllers\JenbelController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PerencanaanController;
@@ -89,6 +91,28 @@ Route::middleware('auth')->group(function () {
     Route::post('/datatable', [PerencanaanController::class, 'datatable'])->name('perencanaan.datatable');
     Route::get('/create', [PerencanaanController::class, 'create'])->name('perencanaan.create');
     Route::post('/store', [PerencanaanController::class, 'store'])->name('perencanaan.store');
+    Route::delete('/{perencanaan}', [PerencanaanController::class, 'destroy'])->name('perencanaan.destroy');
     Route::post('/multdelete', [PerencanaanController::class, 'multdelete'])->name('perencanaan.multdelete');
+    Route::get('/{perencanaan}/belanja', [PerencanaanController::class, 'belanja'])->name('perencanaan.belanja');
+
+    Route::prefix('belanja')->group(function () {
+      Route::get('/', [BelanjaController::class, 'index'])->name('belanja.index');
+      Route::post('/datatable', [BelanjaController::class, 'datatable'])->name('belanja.datatable');
+      Route::get('/create', [BelanjaController::class, 'create'])->name('belanja.create');
+      Route::post('/store', [BelanjaController::class, 'store'])->name('belanja.store');
+      Route::get('/detail/{belanja}', [BelanjaController::class, 'detail'])->name('belanja.detail');
+      Route::delete('/{belanja}', [BelanjaController::class, 'destroy'])->name('belanja.destroy');
+    });
+
+    Route::prefix('detailbelanja')->group(function () {
+      Route::get('/', [DetailBelanjaController::class, 'index'])->name('detailbelanja.index');
+      Route::post('/datatable', [DetailBelanjaController::class, 'datatable'])->name('detailbelanja.datatable');
+      Route::get('/create', [DetailBelanjaController::class, 'create'])->name('detailbelanja.create');
+      Route::post('/store', [DetailBelanjaController::class, 'store'])->name('detailbelanja.store');
+      Route::get('/{barang}/edit', [DetailBelanjaController::class, 'edit'])->name('detailbelanja.edit');
+      Route::put('/update/{barang}', [DetailBelanjaController::class, 'update'])->name('detailbelanja.update');
+      Route::delete('/{barang}', [DetailBelanjaController::class, 'destroy'])->name('detailbelanja.destroy');
+      Route::post('/multdelete', [DetailBelanjaController::class, 'multdelete'])->name('detailbelanja.multdelete');
+    });
   });
 });

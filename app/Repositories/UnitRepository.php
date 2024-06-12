@@ -40,6 +40,6 @@ class UnitRepository extends BaseRepository
 
   public function all(): Collection
   {
-    return $this->model->select(['id', 'u_name'])->get();
+    return $this->model->select(['id', 'u_name as name'])->get();
   }
 }

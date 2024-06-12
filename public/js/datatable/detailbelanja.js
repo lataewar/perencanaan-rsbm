@@ -8,20 +8,20 @@ const columns = [
     },
   },
   {
-    data: "unit.u_name",
-    name: "unit.u_name",
+    data: "br_kode",
+    name: "br_kode",
   },
   {
-    data: "p_tahun",
-    name: "p_tahun",
+    data: "br_name",
+    name: "br_name",
   },
   {
-    data: "status",
-    name: "status",
+    data: "br_satuan",
+    name: "br_satuan",
   },
   {
-    data: "dibuat",
-    name: "dibuat",
+    data: "br_desc",
+    name: "br_desc",
   },
   {
     data: "aksi",
@@ -31,17 +31,17 @@ const columns = [
 
 const columnDefs = [
   {
-    targets: [0, 1, 5, 6],
+    targets: [0, 1, 6],
     orderable: false,
     className: "text-center",
   },
   {
-    targets: [2],
-    orderable: true,
-  },
-  {
-    targets: [3, 4],
+    targets: [2, 4],
     orderable: true,
     className: "text-center",
+  },
+  {
+    targets: [3, 5],
+    orderable: true,
   },
 ];

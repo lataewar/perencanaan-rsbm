@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Services\Datatables\UserTableService;
+use App\Services\UnitService;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -37,7 +38,9 @@ class UserController extends Controller
   //----------  CREATE  ----------//
   public function create(): View
   {
-    return view('user.create');
+    return view('user.create', [
+      'units' => app(UnitService::class)->getAll()
+    ]);
   }
 
   //----------  STORE  ----------//
@@ -53,7 +56,10 @@ class UserController extends Controller
   //----------  EDIT  ----------//
   public function edit($user): View
   {
-    return view('user.edit', ['data' => $this->service->find($user)]);
+    return view('user.edit', [
+      'data' => $this->service->find($user),
+      'units' => app(UnitService::class)->getAll(),
+    ]);
   }
 
   //----------  UPDATE  ----------//

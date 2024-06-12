@@ -17,14 +17,21 @@ class PerencanaanTableService extends DatatableService
   {
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
-        return
-          self::editBtnA(route('perencanaan.edit', ['perencanaan' => $data->id]))
-          . self::deleteBtn($data->id, '');
+        $strMenu = self::naviItem(route('perencanaan.belanja', ['perencanaan' => $data->id]), 'Perbelanjaan', "la la-money-check-alt", "");
+        $strMenu .= self::naviItem('javascript:;', 'Hapus Data', "la la-trash", "onclick=\"destroy('" . $data->id . "', 'Perencanaan " . $data->unit->u_name . ' Tahun ' . $data->p_tahun . "')\"");
+
+        return self::aksiDropdown($strMenu);
+      })
+      ->addColumn('status', function ($data) {
+        return $data->p_status->getLabelHTML();
+      })
+      ->addColumn('dibuat', function ($data) {
+        return formatTime($data->created_at);
       })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);
       })
-      ->rawColumns(['aksi', 'cb'])
+      ->rawColumns(['aksi', 'cb', 'status', 'dibuat'])
       ->make();
   }
 }

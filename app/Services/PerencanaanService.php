@@ -19,9 +19,20 @@ class PerencanaanService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update(string $id, PerencanaanRequest $request): Perencanaan
+  public function find(int|string $id): ?Perencanaan
   {
-    $validated = (object) $request->validated();
-    return $this->repository->update($id, $validated);
+    return $this->repository->find($id);
+  }
+
+  public function getTahun(): array
+  {
+    $arrays = array();
+    for ($i = 0; $i < 10; $i++) {
+      array_push($arrays, [
+        'id' => 2024 + $i,
+        'name' => 2024 + $i,
+      ]);
+    }
+    return $arrays;
   }
 }

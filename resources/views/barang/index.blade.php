@@ -41,10 +41,10 @@
                 <option value="" hidden>Pilih Jenis Belanja...</option>
                 @foreach ($jenbel as $item)
                   @if ($id == $item->id)
-                    <option value="{{ $item->id }}" selected>{{ $item->jb_fullkode . ' - ' . $item->jb_name }}
+                    <option value="{{ $item->id }}" selected>{{ $item->fullkode . ' - ' . $item->name }}
                     </option>
                   @else
-                    <option value="{{ $item->id }}">{{ $item->jb_fullkode . ' - ' . $item->jb_name }}</option>
+                    <option value="{{ $item->id }}">{{ $item->fullkode . ' - ' . $item->name }}</option>
                   @endif
                 @endforeach
               </select>

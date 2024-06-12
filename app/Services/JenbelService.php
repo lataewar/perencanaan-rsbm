@@ -35,8 +35,8 @@ class JenbelService extends BaseService
     return $this->repository->update($id, $validated);
   }
 
-  public function getLevel3Jenbel(): Collection
+  public function getAllByLevel(int $lvl): Collection
   {
-    return $this->repository->getLevel3Jenbel();
+    return $this->repository->getAllByLevel($lvl);
   }
 }

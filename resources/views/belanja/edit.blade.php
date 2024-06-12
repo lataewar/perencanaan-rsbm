@@ -4,57 +4,55 @@
   <link href="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 @endpush
 
+@php $parent_id = $parent->id ?? 0; @endphp
+
 @section('subheader')
-  <x-subheader title="Unit Kerja">
+  <x-subheader title="Jenis Belanja">
     <x-slot name="breadcrumb">
-      <x-bc.item route="{{ route('unit.index') }}">Data</x-bc.item>
+      <x-bc.item route="{{ route('jenbel.index') }}">Data</x-bc.item>
       <x-bc.separator />
       <x-bc.item route="#">Ubah Data</x-bc.item>
     </x-slot>
 
-    <x-btn.a-weight-bold-svg href="{{ route('unit.index') }}" svg="Navigation/Angle-left.svg"
+    <x-btn.a-weight-bold-svg href="{{ route('jenbel.index', ['parent' => $parent_id]) }}" svg="Navigation/Angle-left.svg"
       class="btn-sm btn-light-primary ml-2">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
 @endsection
 
 @section('content')
+  @include('layouts.validation-error')
   <!--begin::Card-->
-  <form action="{{ route('unit.update', ['unit' => $data->id]) }}" class="row" method="POST">
+  <form action="{{ route('jenbel.update', ['jenbel' => $data->id, 'parent' => $parent_id]) }}" class="row"
+    method="POST">
     @csrf
     @method('PUT')
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
         <div class="card-header">
-          <h3 class="card-title">Ubah Unit Kerja</h3>
+          <h3 class="card-title">Ubah jenbel</h3>
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-md-6 bgi-no-repeat"
-              style="background-position: center; background-size: 80% auto; background-image: url({{ asset('assets/media/bg/working.png') }})">
-            </div>
             <div class="col-md-6">
 
-              <x-validation.txt-stack type="text" id="u_name" name="u_name" placeholder="Nama Unit Kerja"
-                value="{{ old('u_name') ?? $data->u_name }}" :messages="$errors->get('u_name')">Nama Unit Kerja
+              <x-validation.txt-stack type="text" id="jb_name" name="jb_name" placeholder="Nama Jenis Belanja"
+                value="{{ old('jb_name') ?? $data->jb_name }}" :messages="$errors->get('jb_name')">Nama Jenis Belanja
                 <x-redstar /></x-validation.txt-stack>
 
-              <x-validation.txt-stack type="text" id="u_kode" name="u_kode" placeholder="Kode Unit Kerja"
-                value="{{ old('u_kode') ?? $data->u_kode }}" :messages="$errors->get('u_kode')">Kode Unit Kerja
-                <x-redstar /></x-validation.txt-stack>
-
-              <x-form.txtarea-stack name="u_desc" placeholder="Keterangan">
+            </div>
+            <div class="col-md-6">
+              <x-form.txtarea-stack name="jb_desc" placeholder="Keterangan">
                 @slot('title')
                   Keterangan
                 @endslot
-                {{ old('u_desc') ?? $data->u_desc }}
+                {{ old('jb_desc') ?? $data->jb_desc }}
               </x-form.txtarea-stack>
-
             </div>
           </div>
         </div>
 
-        <x-form.submit-group-card route="{{ route('unit.index') }}" />
+        <x-form.submit-group-card route="{{ route('jenbel.index', ['parent' => $parent_id]) }}" />
 
       </div>
     </div>

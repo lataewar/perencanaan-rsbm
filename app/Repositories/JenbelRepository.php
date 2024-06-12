@@ -41,8 +41,8 @@ class JenbelRepository extends BaseRepository
     ]);
   }
 
-  public function getLevel3Jenbel(): Collection
+  public function getAllByLevel(int $lvl): Collection
   {
-    return $this->model->where('jb_level', 3)->get(['id', 'jb_name', 'jb_fullkode']);
+    return $this->model->where('jb_level', $lvl)->get(['id', 'jb_name as name', 'jb_fullkode as fullkode', 'jb_kode as kode']);
   }
 }

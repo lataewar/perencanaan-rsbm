@@ -15,9 +15,9 @@ class UserRepository extends BaseRepository
     parent::__construct($x_model);
   }
 
-  public function table(): Builder
+  public function table(): Builder|Model
   {
-    return $this->model->query();
+    return $this->model->orderBy('created_at');
   }
 
   public function store(stdClass $request): User|Model
@@ -27,6 +27,7 @@ class UserRepository extends BaseRepository
       'email' => $request->email,
       'password' => Hash::make($request->password),
       'role_id' => $request->role_id,
+      'unit_id' => $request->unit_id,
     ]);
   }
 
@@ -38,6 +39,7 @@ class UserRepository extends BaseRepository
       'email' => $request->email,
       'password' => $request->password,
       'role_id' => $request->role_id,
+      'unit_id' => $request->unit_id,
     ]);
   }
 
@@ -48,6 +50,7 @@ class UserRepository extends BaseRepository
       'name' => $request->name,
       'email' => $request->email,
       'role_id' => $request->role_id,
+      'unit_id' => $request->unit_id,
     ]);
   }
 }

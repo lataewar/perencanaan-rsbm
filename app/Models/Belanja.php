@@ -2,28 +2,25 @@
 
 namespace App\Models;
 
-use App\Enums\StatusEnum;
 use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Perencanaan extends Model
+class Belanja extends Model
 {
   use HasFactory, UUID;
 
-  protected $fillable = ['p_tahun', 'p_periode', 'p_status', 'unit_id', 'user_id'];
+  protected $fillable = ['perencanaan_id', 'jenis_belanja_id', 'b_desc', 'user_id'];
 
-  protected function casts(): array
+  public function perencanaan(): BelongsTo
   {
-    return [
-      'p_status' => StatusEnum::class,
-    ];
+    return $this->belongsTo(Perencanaan::class);
   }
 
-  public function unit(): BelongsTo
+  public function jenis_belanja(): BelongsTo
   {
-    return $this->belongsTo(Unit::class, 'unit_id', 'id');
+    return $this->belongsTo(JenisBelanja::class);
   }
 
   public function user(): BelongsTo

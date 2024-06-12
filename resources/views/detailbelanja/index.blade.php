@@ -5,22 +5,23 @@
 @endpush
 
 @section('subheader')
-  <x-subheader title="Perencanaan">
+  <x-subheader title="Detail Belanja">
     @slot('breadcrumb')
       <x-bc.item route="#">Data</x-bc.item>
     @endslot
 
-    <div class="default-btns">
+    <div>
       <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
         class="btn-sm btn-light-danger mr-2 btn-multdelete">
         Hapus Terpilih</x-btn.weight-bold-svg>
 
-      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('perencanaan.create') }}"
+      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('detailbelanja.create') }}"
         class="btn-sm btn-light-success btn-create">
         Tambah Data</x-btn.a-weight-bold-svg>
     </div>
-    <x-btn.weight-bold-svg svg="Navigation/Angle-left.svg" style="display: none;" class="btn-sm btn-light-primary ml-2">
-      Kembali</x-btn.weight-bold-svg>
+    <x-btn.a-weight-bold-svg href="{{ route('belanja.index') }}" svg="Navigation/Angle-left.svg"
+      class="btn-sm btn-light-primary ml-2">
+      Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
 @endsection
 
@@ -28,10 +29,13 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ URL('perencanaan') }}">
+  <input type="hidden" id="urx" value="{{ URL('perencanaan/detailbelanja/') }}">
   <div class="card card-custom gutter-b">
     <div class="card-body">
-      <form action="{{ route('perencanaan.multdelete') }}" id="form-multdelete">
+
+      <x-separator margin="3" />
+
+      <form action="{{ route('barang.multdelete') }}" id="form-multdelete">
         <!--begin: Datatable-->
         <table class="table table-hover" id="Datatable">
           <thead>
@@ -43,10 +47,10 @@
                 </label>
               </th>
               <th>No</th>
-              <th>Unit</th>
-              <th class="text-center">Tahun</th>
-              <th class="text-center">Status</th>
-              <th>Dibuat</th>
+              <th class="text-center">Kode Barang</th>
+              <th>Nama Barang</th>
+              <th>Satuan</th>
+              <th>Keterangan</th>
               <th class="text-center">Aksi</th>
             </tr>
           </thead>
@@ -63,10 +67,11 @@
 
 @push('js')
   <!--begin::Page Vendors(used by this page)-->
+
   <script src="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.js"></script>
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
-  <script src="{{ asset('js') }}/datatable/perencanaan.js"></script>
+  <script src="{{ asset('js') }}/datatable/detailbelanja.js"></script>
   <script src="{{ asset('js') }}/app.js"></script>
   <script src="{{ asset('js') }}/datatable/dt.js"></script>
   <!--end::Page Scripts-->

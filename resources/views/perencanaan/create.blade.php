@@ -5,14 +5,14 @@
 @endpush
 
 @section('subheader')
-  <x-subheader title="Unit Kerja">
+  <x-subheader title="Buat Perencanaan">
     <x-slot name="breadcrumb">
-      <x-bc.item route="{{ route('unit.index') }}">Data</x-bc.item>
+      <x-bc.item route="{{ route('perencanaan.index') }}">Data</x-bc.item>
       <x-bc.separator />
       <x-bc.item route="#">Tambah Data</x-bc.item>
     </x-slot>
 
-    <x-btn.a-weight-bold-svg href="{{ route('unit.index') }}" svg="Navigation/Angle-left.svg"
+    <x-btn.a-weight-bold-svg href="{{ route('perencanaan.index') }}" svg="Navigation/Angle-left.svg"
       class="btn-sm btn-light-primary ml-2">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
@@ -20,41 +20,44 @@
 
 @section('content')
   <!--begin::Card-->
-  <form action="{{ route('unit.store') }}" class="row" method="POST">
+  <form action="{{ route('perencanaan.store') }}" class="row" method="POST">
     @csrf
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
         <div class="card-header">
-          <h3 class="card-title">Tambah Unit Kerja</h3>
+          <h3 class="card-title">Tambah Perencanaan</h3>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-6 bgi-no-repeat"
-              style="background-position: center; background-size: 80% auto; background-image: url({{ asset('assets/media/bg/working.png') }})">
-            </div>
-            <div class="col-md-6">
+          <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
+            <div class="col-xl-12 col-xxl-9">
+              <!--begin::Wizard Data-->
+              <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
 
-              <x-validation.txt-stack type="text" id="u_name" name="u_name" placeholder="Nama Unit Kerja"
-                value="{{ old('u_name') }}" :messages="$errors->get('u_name')">Nama Unit Kerja
-                <x-redstar /></x-validation.txt-stack>
+                <h3 class="mb-10 font-weight-bold text-dark">Isi Data</h3>
+                <!--begin::Input-->
 
-              <x-validation.txt-stack type="text" id="u_kode" name="u_kode" placeholder="Kode Unit Kerja"
-                value="{{ old('u_kode') }}" :messages="$errors->get('u_kode')">Kode Unit Kerja
-                <x-redstar /></x-validation.txt-stack>
+                <x-validation.inline.select-static name="p_tahun" :messages="$errors->get('p_tahun')">
+                  Jenis Layanan<x-redstar />
+                  @slot('items', $tahuns)
+                </x-validation.inline.select-static>
+                <!--end::Group-->
+              </div>
+              <!--end::Wizard Data-->
 
-              <x-form.txtarea-stack name="u_desc" placeholder="Keterangan">
-                @slot('title')
-                  Keterangan
-                @endslot
-                {{ old('u_desc') }}
-              </x-form.txtarea-stack>
-
+              <!--begin::Wizard Actions-->
+              <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                <div class="mr-2"> </div>
+                <div>
+                  <a href="{{ route('perencanaan.index') }}"
+                    class="btn btn-danger font-weight-bolder text-uppercase px-9 py-4">Batal</a>
+                  <button type="submit"
+                    class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4">Simpan</button>
+                </div>
+              </div>
+              <!--end::Wizard Actions-->
             </div>
           </div>
         </div>
-
-        <x-form.submit-group-card route="{{ route('unit.index') }}" />
-
       </div>
     </div>
   </form>

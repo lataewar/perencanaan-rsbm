@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Barang;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use stdClass;
 
@@ -39,5 +40,10 @@ class BarangRepository extends BaseRepository
       'br_desc' => $request->br_desc,
       'br_satuan' => $request->br_satuan,
     ]);
+  }
+
+  public function getByBelanja(string $id): ?Collection
+  {
+    return $this->model->where('jenis_belanja_id', $id)->get(['id', 'br_name as name', 'br_kode as kode']);
   }
 }

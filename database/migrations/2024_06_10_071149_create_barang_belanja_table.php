@@ -10,16 +10,16 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('perencanaans', function (Blueprint $table) {
-      $table->uuid('id')->primary();
-      $table->year('p_tahun');
-      $table->tinyInteger('p_periode');
-      $table->tinyInteger('p_status');
-      $table->foreignUuid('unit_id')->constrained('units');
+    Schema::create('barang_belanja', function (Blueprint $table) {
+      $table->foreignUuid('barang_id')->constrained('barangs');
+      $table->foreignUuid('belanja_id')->constrained('belanjas');
+      $table->integer('jumlah');
+      $table->bigInteger('harga');
+      $table->text('desc')->nullable();
       $table->foreignUuid('user_id')->constrained('users');
       $table->timestamps();
 
-      $table->unique(['p_tahun', 'p_periode', 'unit_id']);
+      $table->primary(['barang_id', 'belanja_id']);
     });
   }
 
@@ -28,6 +28,6 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::dropIfExists('perencanaans');
+    Schema::dropIfExists('barang_belanja');
   }
 };

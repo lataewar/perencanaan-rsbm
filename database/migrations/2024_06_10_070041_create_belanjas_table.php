@@ -10,16 +10,13 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::create('perencanaans', function (Blueprint $table) {
+    Schema::create('belanjas', function (Blueprint $table) {
       $table->uuid('id')->primary();
-      $table->year('p_tahun');
-      $table->tinyInteger('p_periode');
-      $table->tinyInteger('p_status');
-      $table->foreignUuid('unit_id')->constrained('units');
+      $table->foreignUuid('perencanaan_id')->constrained('perencanaans');
+      $table->foreignUuid('jenis_belanja_id')->constrained('jenis_belanjas');
       $table->foreignUuid('user_id')->constrained('users');
+      $table->text('b_desc')->nullable();
       $table->timestamps();
-
-      $table->unique(['p_tahun', 'p_periode', 'unit_id']);
     });
   }
 
@@ -28,6 +25,6 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::dropIfExists('perencanaans');
+    Schema::dropIfExists('belanjas');
   }
 };
