@@ -41,7 +41,8 @@
                     Barang<x-redstar />
                   </label>
                   <div class="col-lg-9 col-xl-9">
-                    <select class="form-control form-control-lg" name="barang_id" id="selector1">
+                    <select class="form-control form-control-lg @if ($errors->has('barang_id')) is-invalid @endif"
+                      name="barang_id" id="selector1">
                       <option value="" hidden>- Pilih Salah Satu -</option>
                       @foreach ($barangs as $item)
                         @if (old('barang_id') == $item->id)
@@ -57,11 +58,13 @@
                 </div>
 
                 <x-validation.inline.txt type="text" name="harga" placeholder="Harga Barang"
-                  value="{{ old('harga') }}" :messages="$errors->get('harga')">Harga Barang<x-redstar />
+                  value="{{ old('harga') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('harga')">Harga
+                  Barang<x-redstar />
                 </x-validation.inline.txt>
 
-                <x-validation.inline.txt type="number" name="jumlah" placeholder="Jumlah Barang"
-                  value="{{ old('jumlah') }}" :messages="$errors->get('jumlah')">Jumlah Barang<x-redstar />
+                <x-validation.inline.txt type="text" name="jumlah" placeholder="Jumlah Barang"
+                  value="{{ old('jumlah') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('jumlah')">Jumlah
+                  Barang<x-redstar />
                 </x-validation.inline.txt>
 
                 <x-validation.inline.txtarea name="desc" placeholder="Keterangan" :messages="$errors->get('desc')">

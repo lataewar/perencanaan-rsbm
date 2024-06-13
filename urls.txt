@@ -1,0 +1,23 @@
+laravel update pivot data
+
+https://www.google.com/search?q=laravel+update+pivot+data&oq=laravel+update+pivot+data&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQLhhA0gEJMTE5MTZqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8
+https://laracasts.com/discuss/channels/general-discussion/updating-a-recorde-on-a-pivot-table
+https://heikoklingele.de/blog/laravel-how-to-update-pivot-columns
+https://serversideup.net/managing-pivot-data-with-laravel-eloquent/
+https://stackoverflow.com/questions/33543897/how-to-update-a-pivot-table-using-eloquent-in-laravel-5
+
+
+laravel calculating data from pivot
+
+https://stackoverflow.com/questions/27434338/laravel-get-pivot-data-for-specific-many-to-many-relation
+https://laracasts.com/discuss/channels/eloquent/accessor-to-calculate-on-values-from-pivot-table-data
+https://stackoverflow.com/questions/54479823/how-to-get-pivot-data-inside-eloquent-withcount-function-callback
+https://stackoverflow.com/questions/28267550/how-to-group-and-sum-a-pivot-table-column-in-eloquent-relationship
+https://laracasts.com/discuss/channels/eloquent/how-to-sum-a-pivot-table-column-in-model
+
+
+laravel how to call model attribute
+
+https://stackoverflow.com/questions/26047536/laravel-get-model-attribute-difference-between-two-methods
+https://laravel.com/docs/11.x/eloquent-mutators
+https://www.youtube.com/watch?v=aGZ9vYCbW1U

@@ -9,6 +9,7 @@ use App\Services\DetailBelanjaService;
 use App\Services\Datatables\DetailBelanjaTableService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -21,29 +22,25 @@ class DetailBelanjaController extends Controller
     // $this->middleware('permission:perencanaan read')->only(['index', 'datatable']);
     // $this->middleware('permission:perencanaan delete')->only(['destroy']);
     // $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
+
+    if (!Session::get('belanja_id'))
+      redirect()->route('belanja.index');
   }
 
   //----------  INDEX  ----------//
-  public function index()//: View|RedirectResponse
+  public function index(): View|RedirectResponse
   {
-    // return app(BelanjaRepository::class)->table_barangs(Session::get('belanja_id'))->get();
-    $belanja = Session::get('belanja_id') ?? null;
-    if (!$belanja)
-      return redirect()->route('belanja.index');
-
-    return view('detailbelanja.index', [
-      // 'belanja' => $belanja,
-    ]);
+    return view('detailbelanja.index');
   }
 
   //----------  DATATABLE  ----------//
   public function datatable(): JsonResponse
   {
-    return app(DetailBelanjaTableService::class)->table(Session::get('belanja_id') ?? "x");
+    return app(DetailBelanjaTableService::class)->table(Session::get('belanja_id'));
   }
 
   //----------  CREATE  ----------//
-  public function create()//: View
+  public function create(): View
   {
     return view('detailbelanja.create', [
       'barangs' => app(BarangService::class)->getByBelanja(Session::get('belanja_id')),
@@ -57,15 +54,13 @@ class DetailBelanjaController extends Controller
     if ($query)
       return redirect()->route('detailbelanja.index')->with('success', 'Data berhasil ditambahkan.');
 
-    return redirect()->route('detailbelanja.index');
+    return redirect()->route('detailbelanja.index')->with('error', 'Data gagal ditambahkan.');
   }
 
   //----------  EDIT  ----------//
-  public function edit($barang, $belanja)//: View
+  public function edit($barang, $belanja): View
   {
-    // return $this->service->find_pivot($barang, $belanja);
     return view('detailbelanja.edit', [
-      'barangs' => app(BarangService::class)->getByBelanja(Session::get('belanja_id')),
       'data' => $this->service->find_pivot($barang, $belanja),
     ]);
   }
@@ -73,18 +68,19 @@ class DetailBelanjaController extends Controller
   //----------  UPDATE  ----------//
   public function update($barang, $belanja, DetailBelanjaRequest $request): RedirectResponse
   {
-    $query = $this->service->update($barang, $request);
+    $query = $this->service->update($barang, $belanja, $request);
     if ($query)
-      return redirect()->route('detailbelanja.index', ['id' => $id])->with('success', '<b>' . $query->br_name . '</b> berhasil diubah.');
+      return redirect()->route('detailbelanja.index')->with('success', 'Data berhasil diubah.');
 
-    return redirect()->route('detailbelanja.index', ['id' => $id]);
+    return redirect()->route('detailbelanja.index')->with('error', 'Data gagal diubah.');
   }
 
   //----------  DESTROY  ----------//
-  public function destroy($id, $barang): JsonResponse
+  public function destroy($barang): JsonResponse
   {
+    $ids = explode("-x-", $barang);
     try {
-      $this->service->delete($barang);
+      $this->service->delete_pivot($ids[0], $ids[1]);
       return response()->json(['sukses' => 'Data berhasil dihapus.']);
     } catch (\Throwable $th) {
       return response()->json(['gagal' => (string) $th]);
@@ -92,10 +88,10 @@ class DetailBelanjaController extends Controller
   }
 
   //----------  MULTDELETE  ----------//
-  public function multdelete($id, Request $request): JsonResponse
+  public function multdelete(Request $request): JsonResponse
   {
     try {
-      $this->service->multipleDelete($request->post('ids'));
+      $this->service->delete_pivot($request->post('ids'), Session::get('belanja_id'));
       return response()->json(['sukses' => count($request->post('ids')) . ' Data berhasil dihapus.']);
     } catch (\Throwable $th) {
       return response()->json(['gagal' => (string) $th]);

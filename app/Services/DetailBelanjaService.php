@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use App\Http\Requests\BarangRequest;
 use App\Http\Requests\DetailBelanjaRequest;
-use App\Models\Barang;
-use App\Models\Belanja;
 use App\Repositories\BelanjaRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class DetailBelanjaService extends BaseService
 {
@@ -17,7 +14,7 @@ class DetailBelanjaService extends BaseService
     parent::__construct($repository);
   }
 
-  public function find_pivot(string $barang, string $belanja)//: Collection
+  public function find_pivot(string $barang, string $belanja): ?Model
   {
     return $this->repository->find_pivot($barang, $belanja);
   }
@@ -27,15 +24,15 @@ class DetailBelanjaService extends BaseService
     return $this->repository->store_pivot($id, (object) $request->validated());
   }
 
-  public function update(string $id, DetailBelanjaRequest $request): Belanja
+  public function update(string $barang, string $belanja, DetailBelanjaRequest $request): bool
   {
     $validated = (object) $request->validated();
-    return $this->repository->update_pivot($id, $validated);
+    return $this->repository->update_pivot($barang, $belanja, $validated);
   }
 
-  public function delete(string|int $id): bool
+  public function delete_pivot(string|array $barang, string $belanja): bool
   {
-    return $this->repository->delete_pivot($id);
+    return $this->repository->delete_pivot($barang, $belanja);
   }
 
 }

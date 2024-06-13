@@ -33,9 +33,31 @@
   <div class="card card-custom gutter-b">
     <div class="card-body">
 
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-6">
+          <div class="text-dark-50 line-height-lg">
+            <div class="d-flex flex-column">
+
+              <div class="d-flex justify-content-between">
+                <span class="font-weight-bold mr-15 mb-5 text-dark">Jenis Belanja:</span>
+                <div class="text-right"></div>
+              </div>
+
+              @foreach ($array as $item)
+                <div class="d-flex justify-content-between">
+                  <span class="font-weight-bold mr-15">{{ $item['kode'] }}</span>
+                  <span class="text-right font-weight-light">{{ $item['name'] }}</span>
+                </div>
+                <div class="separator separator-dashed my-1"></div>
+              @endforeach
+
+            </div>
+          </div>
+        </div>
+      </div>
       <x-separator margin="3" />
 
-      <form action="{{ route('barang.multdelete') }}" id="form-multdelete">
+      <form action="{{ route('detailbelanja.multdelete') }}" id="form-multdelete">
         <!--begin: Datatable-->
         <table class="table table-hover" id="Datatable">
           <thead>

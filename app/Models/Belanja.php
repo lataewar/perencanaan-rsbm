@@ -35,4 +35,12 @@ class Belanja extends Model
       ->withPivot(['jumlah', 'harga', 'desc', 'user_id'])
       ->withTimestamps();
   }
+
+  public function getTotalBarangAttribute()
+  {
+    return $this->barangs->reduce(function ($carry, $barang) {
+      return $carry + $barang->pivot->jumlah * $barang->pivot->harga;
+    }, 0);
+  }
+
 }
