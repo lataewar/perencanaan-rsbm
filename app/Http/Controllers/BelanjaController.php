@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BelanjaRequest;
 use App\Services\BelanjaService;
-use App\Services\Datatables\BelanjaTableService;
 use App\Services\JenbelService;
 use App\Services\PerencanaanService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -27,12 +24,12 @@ class BelanjaController extends Controller
   //----------  INDEX  ----------//
   public function index()//: View|RedirectResponse
   {
-    $perencanaan = app(PerencanaanService::class)->find(Session::get('rbelanja') ?? "x");
+    $perencanaan = app(PerencanaanService::class)->find(Session::get('perencanaan_id') ?? "x");
     if (!$perencanaan)
       return redirect()->route('perencanaan.index');
 
     return view('belanja.index', [
-      'belanjas' => $this->service->table(Session::get('rbelanja')),
+      'belanjas' => $this->service->table(Session::get('perencanaan_id')),
       'data' => $perencanaan,
     ]);
   }
@@ -58,7 +55,7 @@ class BelanjaController extends Controller
   //----------  DETAIL  ----------//
   public function detail(string $belanja): RedirectResponse
   {
-    Session::put('rbarang', $belanja);
+    Session::put('belanja_id', $belanja);
     return redirect()->route('detailbelanja.index');
   }
 

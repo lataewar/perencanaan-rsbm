@@ -29,7 +29,7 @@ class BelanjaRequest extends FormRequest
 
     $this->merge([
       'jenis_belanja_id' => $merged,
-      'perencanaan_id' => Session::get('rbelanja'),
+      'perencanaan_id' => Session::get('perencanaan_id'),
     ]);
   }
 

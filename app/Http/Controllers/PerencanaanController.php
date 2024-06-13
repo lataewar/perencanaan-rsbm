@@ -53,7 +53,7 @@ class PerencanaanController extends Controller
   //----------  BELANJA  ----------//
   public function belanja(string $id): RedirectResponse
   {
-    Session::put('rbelanja', $id);
+    Session::put('perencanaan_id', $id);
     return redirect()->route('belanja.index');
   }
 

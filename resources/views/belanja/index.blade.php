@@ -121,11 +121,11 @@
                   </td>
                   <td class="text-center">
                     {!! App\Services\Datatables\DatatableService::btn(
-                        'perencanaan/belanja/detail/' . $jenbel3->id,
+                        'perencanaan/belanja/detail/' . $jenbel3->belanja_id,
                         'Sub Jenis Belanja',
                         'Shopping/Box3.svg',
                     ) !!}
-                    {!! App\Services\Datatables\DatatableService::deleteBtn($jenbel3->id, $jenbel3->jb_name) !!}
+                    {!! App\Services\Datatables\DatatableService::deleteBtn($jenbel3->belanja_id, $jenbel3->jb_name) !!}
                   </td>
                 </tr>
               @endforeach

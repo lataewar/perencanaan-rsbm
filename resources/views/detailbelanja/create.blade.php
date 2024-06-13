@@ -64,6 +64,13 @@
                   value="{{ old('jumlah') }}" :messages="$errors->get('jumlah')">Jumlah Barang<x-redstar />
                 </x-validation.inline.txt>
 
+                <x-validation.inline.txtarea name="desc" placeholder="Keterangan" :messages="$errors->get('desc')">
+                  @slot('title')
+                    Keterangan
+                  @endslot
+                  {{ old('desc') }}
+                </x-validation.inline.txtarea>
+
               </div>
               <!--end::Wizard Data-->
 

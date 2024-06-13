@@ -20,7 +20,7 @@ class BelanjaService extends BaseService
 
   public function table(string $id): Collection
   {
-    $repos = $this->repository->table(Session::get('rbelanja'));
+    $repos = $this->repository->table(Session::get('perencanaan_id'));
 
     $jenbels = collect();
 
@@ -99,7 +99,9 @@ class BelanjaService extends BaseService
           "jb_kode" => $model->jb3_kode,
           "jb_fullkode" => $model->jb3_fullkode,
           "jb_level" => $model->jb3_level,
-          "jenis_belanjas" => collect(),
+          "belanja_id" => $model->id,
+          "belanja_desc" => $model->b_desc,
+          // "jenis_belanjas" => collect(),
         ];
 
       default:

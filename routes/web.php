@@ -109,8 +109,8 @@ Route::middleware('auth')->group(function () {
       Route::post('/datatable', [DetailBelanjaController::class, 'datatable'])->name('detailbelanja.datatable');
       Route::get('/create', [DetailBelanjaController::class, 'create'])->name('detailbelanja.create');
       Route::post('/store', [DetailBelanjaController::class, 'store'])->name('detailbelanja.store');
-      Route::get('/{barang}/edit', [DetailBelanjaController::class, 'edit'])->name('detailbelanja.edit');
-      Route::put('/update/{barang}', [DetailBelanjaController::class, 'update'])->name('detailbelanja.update');
+      Route::get('/{barang}/{belanja}/edit', [DetailBelanjaController::class, 'edit'])->name('detailbelanja.edit');
+      Route::put('/update/{barang}/{belanja}', [DetailBelanjaController::class, 'update'])->name('detailbelanja.update');
       Route::delete('/{barang}', [DetailBelanjaController::class, 'destroy'])->name('detailbelanja.destroy');
       Route::post('/multdelete', [DetailBelanjaController::class, 'multdelete'])->name('detailbelanja.multdelete');
     });

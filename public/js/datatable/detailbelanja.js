@@ -16,12 +16,19 @@ const columns = [
     name: "br_name",
   },
   {
-    data: "br_satuan",
-    name: "br_satuan",
+    data: "harga",
+    name: "barang_belanja.harga",
   },
   {
-    data: "br_desc",
-    name: "br_desc",
+    data: "jumlah",
+    name: "barang_belanja.jumlah",
+  },
+  {
+    data: "total",
+  },
+  {
+    data: "desc",
+    name: "barang_belanja.desc",
   },
   {
     data: "aksi",
@@ -31,17 +38,17 @@ const columns = [
 
 const columnDefs = [
   {
-    targets: [0, 1, 6],
+    targets: [0, 1, 8],
     orderable: false,
     className: "text-center",
   },
   {
-    targets: [2, 4],
+    targets: [2, 3, 7],
     orderable: true,
-    className: "text-center",
   },
   {
-    targets: [3, 5],
-    orderable: true,
+    targets: [4, 5, 6],
+    orderable: false,
+    className: "text-right",
   },
 ];

@@ -12,6 +12,7 @@ class DetailBelanjaRequest extends FormRequest
       'barang_id' => ['required'],
       'jumlah' => ['required', 'numeric'],
       'harga' => ['required', 'numeric'],
+      'desc' => [],
     ];
   }
 

@@ -44,6 +44,9 @@ class BarangRepository extends BaseRepository
 
   public function getByBelanja(string $id): ?Collection
   {
-    return $this->model->where('jenis_belanja_id', $id)->get(['id', 'br_name as name', 'br_kode as kode']);
+    return $this->model
+      ->join('belanjas', 'belanjas.jenis_belanja_id', '=', 'barangs.jenis_belanja_id')
+      ->where('belanjas.id', $id)
+      ->get(['barangs.id', 'br_name as name', 'br_kode as kode']);
   }
 }

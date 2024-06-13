@@ -3,10 +3,13 @@
 namespace App\Repositories;
 
 use App\Enums\StatusEnum;
+use App\Models\Barang;
 use App\Models\Belanja;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class BelanjaRepository extends BaseRepository
@@ -57,5 +60,38 @@ class BelanjaRepository extends BaseRepository
       'b_desc' => $request->b_desc,
       'user_id' => auth()->user()->id,
     ]);
+  }
+
+  public function table_barangs(string $id): BelongsToMany
+  {
+    return $this->model->find($id)->barangs();
+  }
+
+  public function store_pivot(string $id, stdClass $request): bool
+  {
+    DB::beginTransaction();
+
+    try {
+      $belanja = $this->model->find($id);
+      $belanja->barangs()->attach(
+        $request->barang_id,
+        [
+          'jumlah' => $request->jumlah,
+          'harga' => $request->harga,
+          'desc' => $request->desc,
+          'user_id' => auth()->user()->id,
+        ]
+      );
+      DB::commit();
+      return true;
+    } catch (\Exception $e) {
+      DB::rollback();
+      return false;
+    }
+  }
+
+  public function find_pivot(string $barang, string $belanja): ?Model
+  {
+    return $this->model->find($belanja)->barangs()->find($barang);
   }
 }
