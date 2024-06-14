@@ -46,7 +46,7 @@
 
               <div class="d-flex justify-content-between">
                 <span class="font-weight-bold mr-15">Unit:</span>
-                <span class="text-right font-weight-light">{{ $data->unit->u_name }}</span>
+                <span class="text-right font-weight-light">{{ $data->u_name }}</span>
               </div>
               <x-separator margin="1" />
               <div class="d-flex justify-content-between">
@@ -58,7 +58,12 @@
                 <span class="font-weight-bold mr-15">Status Pengajuan:</span>
                 <span class="text-right font-weight-light">{!! $data->p_status->getLabelHTML() !!}</span>
               </div>
-              <x-separator margin="1" />
+              <x-separator margin="2" />
+              <div class="d-flex justify-content-between text-primary">
+                <span class="font-weight-boldest mr-15">Total Belanja</span>
+                <span class="text-right font-weight-boldest">{{ formatNomor($data->total) }}</span>
+              </div>
+              <div class="separator separator-dashed my-1"></div>
 
             </div>
           </div>
@@ -104,19 +109,24 @@
                   <td>
                     <div class="col-md-11 mt-1 mb-2">
                       <div class="row border-bottom" style="background-color: #f5f5f5;">
-                        <div class="col-sm-4 font-size-sm">Nama Barang</div>
-                        <div class="col-sm-2 font-size-sm text-right">Harga</div>
+                        <div class="col-sm-3 font-size-sm">Nama Barang</div>
+                        <div class="col-sm-3 font-size-sm text-right">Harga</div>
                         <div class="col-sm-2 font-size-sm text-right">Jumlah</div>
                         <div class="col-sm-4 font-size-sm text-right">Total</div>
                       </div>
-                      @for ($i = 0; $i < 5; $i++)
+                      @foreach ($jenbel3->barangs as $barang)
                         <div class="row border-bottom">
-                          <div class="col-sm-4 font-size-sm">Lorem</div>
-                          <div class="col-sm-2 font-size-sm text-right">5.000</div>
-                          <div class="col-sm-2 font-size-sm text-right">2</div>
-                          <div class="col-sm-4 font-size-sm text-right">10.000.000.000</div>
+                          <div class="col-sm-3 font-size-sm">{{ $barang->br_name }}</div>
+                          <div class="col-sm-3 font-size-sm text-right">{{ formatNomor($barang->pivot->harga) }}</div>
+                          <div class="col-sm-2 font-size-sm text-right">{{ formatNomor($barang->pivot->jumlah) }}</div>
+                          <div class="col-sm-4 font-size-sm text-right">
+                            {{ formatNomor($barang->pivot->harga * $barang->pivot->jumlah) }}</div>
                         </div>
-                      @endfor
+                      @endforeach
+                      <div class="row border-bottom" style="background-color: #d7ecff;">
+                        <div class="col-sm-3 font-size-sm">Total Belanja</div>
+                        <div class="col-sm-9 font-size-sm text-right">{{ formatNomor($jenbel3->total_harga) }}</div>
+                      </div>
                     </div>
                   </td>
                   <td class="text-center">
@@ -126,6 +136,8 @@
                         'Shopping/Box3.svg',
                     ) !!}
                     {!! App\Services\Datatables\DatatableService::deleteBtn($jenbel3->belanja_id, $jenbel3->jb_name) !!}
+                    <button type='button' class='btn btn-sm btn-clean btn-icon mr-2' onclick="destroy('1', '1')"
+                      title='Hapus Data'><span class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
                   </td>
                 </tr>
               @endforeach

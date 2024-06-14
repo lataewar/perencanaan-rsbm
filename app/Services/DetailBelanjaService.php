@@ -14,6 +14,11 @@ class DetailBelanjaService extends BaseService
     parent::__construct($repository);
   }
 
+  public function detail_belanja(string $belanja): Model
+  {
+    return $this->repository->detail_belanja($belanja);
+  }
+
   public function find_pivot(string $barang, string $belanja): ?Model
   {
     return $this->repository->find_pivot($barang, $belanja);

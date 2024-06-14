@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Http\Requests\BelanjaRequest;
 use App\Models\Belanja;
 use App\Repositories\BelanjaRepository;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use stdClass;
@@ -22,7 +22,7 @@ class BelanjaService extends BaseService
   {
     $repos = $this->repository->table(Session::get('perencanaan_id'));
 
-    $jenbels = collect();
+    $jenbels = new Collection();
 
     foreach ($repos as $repo) {
 
@@ -101,7 +101,8 @@ class BelanjaService extends BaseService
           "jb_level" => $model->jb3_level,
           "belanja_id" => $model->id,
           "belanja_desc" => $model->b_desc,
-          // "jenis_belanjas" => collect(),
+          "barangs" => $model->barangs,
+          "total_harga" => $model->total_harga,
         ];
 
       default:

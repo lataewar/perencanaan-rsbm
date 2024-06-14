@@ -21,3 +21,48 @@ laravel how to call model attribute
 https://stackoverflow.com/questions/26047536/laravel-get-model-attribute-difference-between-two-methods
 https://laravel.com/docs/11.x/eloquent-mutators
 https://www.youtube.com/watch?v=aGZ9vYCbW1U
+
+
+php foreach get index
+
+https://stackoverflow.com/questions/141108/how-to-find-the-foreach-index
+
+
+laravel collection add attribute
+
+https://stackoverflow.com/questions/47364421/adding-new-property-to-eloquent-collection
+https://laracasts.com/discuss/channels/eloquent/is-there-any-way-to-add-attribute-to-objects-in-collection
+https://www.itsolutionstuff.com/post/laravel-collection-map-add-attribute-exampleexample.html#google_vignette
+
+
+laravel collection get item by key
+
+https://laravel.com/docs/11.x/collections
+https://www.jmsyst.com/libs/PHP-Collection
+https://stackoverflow.com/questions/20931020/get-object-from-collection-by-attribute
+
+
+laravel anonymous arrow function
+
+https://www.php.net/manual/en/functions.arrow.php
+https://stackoverflow.com/questions/76252250/use-multi-line-arrow-function-in-a-accessor-method-in-laravel-models
+
+
+laravel eloquent join with alias
+
+https://stackoverflow.com/questions/17713730/how-to-alias-a-table-in-laravel-eloquent-queries-or-using-query-builder
+https://github.com/laravel/framework/issues/35019
+https://www.tutorialspoint.com/how-to-alias-a-table-in-laravel-eloquent-queries-using-query-builder
+
+
+laravel eloquent order by relationship column
+
+https://stackoverflow.com/questions/38261546/order-by-relationship-column
+https://reinink.ca/articles/ordering-database-queries-by-relationship-columns-in-laravel
+https://laracasts.com/discuss/channels/general-discussion/laravel-sort-by-relation-column
+
+
+laravel collection each
+
+https://stackoverflow.com/questions/44219929/laravel-what-can-each-function-do
+https://laravel.com/docs/11.x/eloquent-relationships#the-save-method

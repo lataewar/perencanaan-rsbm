@@ -19,9 +19,9 @@ class PerencanaanService extends BaseService
     return $this->repository->store((object) $request->validated());
   }
 
-  public function find(int|string $id): ?Perencanaan
+  public function find_total(string $id): ?Perencanaan
   {
-    return $this->repository->find($id);
+    return $this->repository->find_total($id);
   }
 
   public function getTahun(): array

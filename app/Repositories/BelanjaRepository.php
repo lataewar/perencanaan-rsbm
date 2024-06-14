@@ -2,10 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Enums\StatusEnum;
-use App\Models\Barang;
 use App\Models\Belanja;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -47,7 +44,7 @@ class BelanjaRepository extends BaseRepository
       ->join('jenis_belanjas as jb3', 'jb3.id', '=', 'belanjas.jenis_belanja_id', 'left')
       ->join('jenis_belanjas as jb2', 'jb2.id', '=', 'jb3.jenis_belanja_id', 'left')
       ->join('jenis_belanjas as jb1', 'jb1.id', '=', 'jb2.jenis_belanja_id', 'left')
-
+      ->with(['barangs'])
       ->where('belanjas.perencanaan_id', $id)
       ->orderBy('jb3.jb_fullkode')
       ->get();
@@ -63,7 +60,7 @@ class BelanjaRepository extends BaseRepository
     ]);
   }
 
-  public function detail_belanja(?string $id)//: Collection
+  public function detail_belanja(string $id): Model
   {
     $id = Session::get('belanja_id');
     // dd($id);
@@ -82,8 +79,7 @@ class BelanjaRepository extends BaseRepository
       ->join('jenis_belanjas as jb1', 'jb1.id', '=', 'jb2.jenis_belanja_id', 'left')
       ->with(['barangs'])
       ->where('belanjas.id', $id)
-      ->orderBy('jb3.jb_fullkode')
-      ->get();
+      ->first();
   }
 
   public function table_barangs(string $id): BelongsToMany

@@ -25,7 +25,7 @@ class DetailBelanjaTableService extends DatatableService
         return formatNomor($data->harga);
       })
       ->addColumn('jumlah', function ($data) {
-        return formatNomor($data->jumlah);
+        return formatNomor($data->jumlah) . ' ' . $data->br_satuan;
       })
       ->addColumn('total', function ($data) {
         return formatNomor($data->harga * $data->jumlah);

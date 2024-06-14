@@ -19,18 +19,18 @@ class BelanjaController extends Controller
     // $this->middleware('permission:perencanaan read')->only(['index', 'datatable']);
     // $this->middleware('permission:perencanaan delete')->only(['destroy']);
     // $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
+
+    if (!Session::get('perencanaan_id'))
+      redirect()->route('perencanaan.index');
   }
 
   //----------  INDEX  ----------//
   public function index()//: View|RedirectResponse
   {
-    $perencanaan = app(PerencanaanService::class)->find(Session::get('perencanaan_id') ?? "x");
-    if (!$perencanaan)
-      return redirect()->route('perencanaan.index');
-
+    // return $this->service->table(Session::get('perencanaan_id'));
     return view('belanja.index', [
       'belanjas' => $this->service->table(Session::get('perencanaan_id')),
-      'data' => $perencanaan,
+      'data' => app(PerencanaanService::class)->find_total(Session::get('perencanaan_id')),
     ]);
   }
 

@@ -30,7 +30,9 @@ class DetailBelanjaController extends Controller
   //----------  INDEX  ----------//
   public function index(): View|RedirectResponse
   {
-    return view('detailbelanja.index');
+    return view('detailbelanja.index', [
+      'data' => $this->service->detail_belanja(Session::get('belanja_id')),
+    ]);
   }
 
   //----------  DATATABLE  ----------//

@@ -36,7 +36,14 @@ class Belanja extends Model
       ->withTimestamps();
   }
 
-  public function getTotalBarangAttribute()
+  public function getTotalJumlahAttribute()
+  {
+    return $this->barangs->reduce(function ($carry, $barang) {
+      return $carry + $barang->pivot->jumlah;
+    }, 0);
+  }
+
+  public function getTotalHargaAttribute()
   {
     return $this->barangs->reduce(function ($carry, $barang) {
       return $carry + $barang->pivot->jumlah * $barang->pivot->harga;

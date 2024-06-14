@@ -43,13 +43,34 @@
                 <div class="text-right"></div>
               </div>
 
-              @foreach ($array as $item)
-                <div class="d-flex justify-content-between">
-                  <span class="font-weight-bold mr-15">{{ $item['kode'] }}</span>
-                  <span class="text-right font-weight-light">{{ $item['name'] }}</span>
-                </div>
-                <div class="separator separator-dashed my-1"></div>
-              @endforeach
+              <div class="d-flex justify-content-between">
+                <span class="font-weight-bold mr-15">{{ $data->jb1_fullkode }}</span>
+                <span class="text-right font-weight-light">{{ $data->jb1_name }}</span>
+              </div>
+              <div class="separator separator-dashed my-1"></div>
+
+              <div class="d-flex justify-content-between">
+                <span class="font-weight-bold mr-15">{{ $data->jb2_fullkode }}</span>
+                <span class="text-right font-weight-light">{{ $data->jb2_name }}</span>
+              </div>
+              <div class="separator separator-dashed my-1"></div>
+
+              <div class="d-flex justify-content-between">
+                <span class="font-weight-boldest mr-15">{{ $data->jb3_fullkode }}</span>
+                <span class="text-right font-weight-boldest">{{ $data->jb3_name }}</span>
+              </div>
+              <div class="separator separator-dashed my-3"></div>
+
+              <div class="d-flex justify-content-between text-primary">
+                <span class="font-weight-boldest mr-15">Total Barang</span>
+                <span class="text-right font-weight-boldest">{{ formatNomor($data->total_jumlah) }}</span>
+              </div>
+              <div class="separator separator-dashed my-1"></div>
+              <div class="d-flex justify-content-between text-primary">
+                <span class="font-weight-boldest mr-15">Total Belanja</span>
+                <span class="text-right font-weight-boldest">{{ formatNomor($data->total_harga) }}</span>
+              </div>
+              <div class="separator separator-dashed my-1"></div>
 
             </div>
           </div>

@@ -7,6 +7,7 @@ use App\Models\Perencanaan;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class PerencanaanRepository extends BaseRepository
@@ -21,9 +22,30 @@ class PerencanaanRepository extends BaseRepository
     return $this->model->with(['unit:id,u_name'])->orderBy('created_at');
   }
 
-  public function find(int|string $id): ?Perencanaan
+  public function find_total(string $id): ?Perencanaan
   {
-    return $this->model->where('id', $id)->with(['unit', 'user'])->first();
+    return $this->model
+      ->select(
+        [
+          'perencanaans.id',
+          'perencanaans.p_tahun',
+          'perencanaans.p_periode',
+          'perencanaans.p_status',
+
+          'u.u_name',
+
+          DB::raw('SUM(bb.jumlah * bb.harga) as total'),
+        ]
+      )
+      ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
+      ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id')
+      ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id')
+      ->join('barangs as br', 'br.id', '=', 'bb.barang_id')
+      ->where('perencanaans.id', $id)
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.p_status', 'u.u_name',])
+      ->first();
+
+    // return $this->model->where('id', $id)->with(['unit', 'user'])->first();
   }
 
   public function store(stdClass $request): Perencanaan
