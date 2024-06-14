@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PerencanaanRequest;
 use App\Services\Datatables\PerencanaanTableService;
 use App\Services\PerencanaanService;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,11 +44,18 @@ class PerencanaanController extends Controller
   //----------  STORE  ----------//
   public function store(PerencanaanRequest $request): RedirectResponse
   {
-    $query = $this->service->store($request);
-    if ($query)
+    try {
+      $this->service->store($request);
       return redirect()->route('perencanaan.index')->with('success', 'Perencenaan baru berhasil ditambahkan.');
 
-    return redirect()->route('perencanaan.index');
+    } catch (QueryException $e) {
+      $errorCode = $e->errorInfo[1];
+      if ($errorCode == 1062) {
+        // we have a duplicate entry problem
+        return redirect()->route('perencanaan.index')->with('error', 'Tahun perencanaan sudah ada sebelumnya.');
+      }
+      return redirect()->route('perencanaan.index')->with('error', 'Perencenaan baru gagal ditambahkan.');
+    }
   }
 
   //----------  BELANJA  ----------//
