@@ -76,19 +76,17 @@
         <thead>
           <tr class="text-light" style="background-color: #434343;">
             {{-- <th>No</th> --}}
-            <th>Kode</th>
-            <th>Jenis Belanja</th>
-            <th>Keterangan</th>
-            <th class="text-center">Aksi</th>
+            <th width="10%">Kode</th>
+            <th width="20%">Jenis Belanja</th>
+            <th width="65%">Keterangan</th>
+            <th width="5%" class="text-center">Aksi</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($belanjas as $jenbel1)
             <tr class="font-weight-boldest" style="background-color: #dddddd;">
-              {{-- <td></td> --}}
               <td>{{ $jenbel1->jb_fullkode }}</td>
-              <td>{{ $jenbel1->jb_name }}</td>
-              <td></td>
+              <td colspan="2">{{ $jenbel1->jb_name }}</td>
               <td class="text-center"></td>
             </tr>
 
@@ -96,8 +94,7 @@
               <tr style="background-color: #efefef;">
                 {{-- <td></td> --}}
                 <td>{{ $jenbel2->jb_fullkode }}</td>
-                <td>{{ $jenbel2->jb_name }}</td>
-                <td></td>
+                <td colspan="2">{{ $jenbel2->jb_name }}</td>
                 <td class="text-center"></td>
               </tr>
 
@@ -135,9 +132,13 @@
                         'Sub Jenis Belanja',
                         'Shopping/Box3.svg',
                     ) !!}
-                    {!! App\Services\Datatables\DatatableService::deleteBtn($jenbel3->belanja_id, $jenbel3->jb_name) !!}
-                    <button type='button' class='btn btn-sm btn-clean btn-icon mr-2' onclick="destroy('1', '1')"
-                      title='Hapus Data'><span class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
+                    <form action="{{ route('belanja.destroy', ['belanja' => $jenbel3->belanja_id]) }}"
+                      class="deleteBelanja" method="POST">
+                      @method('DELETE') @csrf
+                      <input type="hidden" name="jb_name" value="{{ $jenbel3->jb_name }}">
+                      <button type='submit' class='btn btn-sm btn-clean btn-icon mr-2' title='Hapus Data'><span
+                          class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
+                    </form>
                   </td>
                 </tr>
               @endforeach
@@ -157,6 +158,6 @@
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
   <script src="{{ asset('js') }}/app.js"></script>
-  <script src="{{ asset('js') }}/datatable/dt.js"></script>
+  <script src="{{ asset('js') }}/belanja.js"></script>
   <!--end::Page Scripts-->
 @endpush

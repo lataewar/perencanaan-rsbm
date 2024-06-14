@@ -19,7 +19,27 @@ class PerencanaanRepository extends BaseRepository
 
   public function table(): Builder|Model
   {
-    return $this->model->with(['unit:id,u_name'])->orderBy('created_at');
+    return $this->model
+      ->select(
+        [
+          'perencanaans.id',
+          'perencanaans.p_tahun',
+          'perencanaans.p_periode',
+          'perencanaans.p_status',
+          'perencanaans.created_at',
+
+          'u.u_name',
+
+          DB::raw('SUM(bb.jumlah * bb.harga) as total'),
+        ]
+      )
+      ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
+      ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id', 'left')
+      ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id', 'left')
+      ->join('barangs as br', 'br.id', '=', 'bb.barang_id', 'left')
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.p_status', 'perencanaans.created_at', 'u.u_name',])
+      ->orderBy('perencanaans.created_at');
+    // return $this->model->with(['unit:id,u_name'])->orderBy('created_at');
   }
 
   public function find_total(string $id): ?Perencanaan
@@ -38,14 +58,12 @@ class PerencanaanRepository extends BaseRepository
         ]
       )
       ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
-      ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id')
-      ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id')
-      ->join('barangs as br', 'br.id', '=', 'bb.barang_id')
+      ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id', 'left')
+      ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id', 'left')
+      ->join('barangs as br', 'br.id', '=', 'bb.barang_id', 'left')
       ->where('perencanaans.id', $id)
       ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.p_status', 'u.u_name',])
       ->first();
-
-    // return $this->model->where('id', $id)->with(['unit', 'user'])->first();
   }
 
   public function store(stdClass $request): Perencanaan

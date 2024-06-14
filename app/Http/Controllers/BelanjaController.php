@@ -27,7 +27,6 @@ class BelanjaController extends Controller
   //----------  INDEX  ----------//
   public function index()//: View|RedirectResponse
   {
-    // return $this->service->table(Session::get('perencanaan_id'));
     return view('belanja.index', [
       'belanjas' => $this->service->table(Session::get('perencanaan_id')),
       'data' => app(PerencanaanService::class)->find_total(Session::get('perencanaan_id')),
@@ -35,7 +34,7 @@ class BelanjaController extends Controller
   }
 
   //----------  CREATE  ----------//
-  public function create()//: View
+  public function create(): View
   {
     return view('belanja.create', [
       'jenbels' => app(JenbelService::class)->getALlByLevel(3),
@@ -57,6 +56,16 @@ class BelanjaController extends Controller
   {
     Session::put('belanja_id', $belanja);
     return redirect()->route('detailbelanja.index');
+  }
+
+  //----------  DESTROY  ----------//
+  public function destroy(string $belanja): RedirectResponse
+  {
+    $query = $this->service->delete($belanja);
+    if ($query)
+      return redirect()->route('belanja.index')->with('success', 'Data berhasil dihapus.');
+
+    return redirect()->route('belanja.index')->with('error', 'Data gagal dihapus.');
   }
 
 }

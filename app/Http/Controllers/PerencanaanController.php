@@ -35,7 +35,7 @@ class PerencanaanController extends Controller
   }
 
   //----------  CREATE  ----------//
-  public function create()//: View
+  public function create(): View
   {
     return view('perencanaan.create', ['tahuns' => $this->service->getTahun()]);
   }

@@ -19,8 +19,16 @@ class BaseRepository
 
   public function delete(string|int $id): bool
   {
-    $model = $this->find($id);
-    return $model->delete();
+    DB::beginTransaction();
+
+    try {
+      $this->find($id)->delete();
+      DB::commit();
+      return true;
+    } catch (\Exception $e) {
+      DB::rollback();
+      return false;
+    }
   }
 
   public function multipleDelete(array $ids): bool

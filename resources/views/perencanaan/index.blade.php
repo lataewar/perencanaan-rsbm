@@ -43,10 +43,10 @@
                 </label>
               </th>
               <th>No</th>
-              <th>Unit</th>
-              <th class="text-center">Tahun</th>
+              <th>Unit / Tahun</th>
+              <th class="text-center">Dibuat</th>
               <th class="text-center">Status</th>
-              <th>Dibuat</th>
+              <th class="text-right">Total Anggaran</th>
               <th class="text-center">Aksi</th>
             </tr>
           </thead>
