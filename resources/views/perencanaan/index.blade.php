@@ -32,7 +32,7 @@
   <div class="card card-custom gutter-b">
     <div class="card-body">
       <form action="{{ route('perencanaan.multdelete') }}" id="form-multdelete">
-        <!--begin: Datatable-->
+        <!--begin: Table-->
         <table class="table table-hover" id="Datatable">
           <thead>
             <tr>
@@ -44,7 +44,7 @@
               </th>
               <th>No</th>
               <th>Unit / Tahun</th>
-              <th class="text-center">Dibuat</th>
+              <th class="text-center">Waktu</th>
               <th class="text-center">Status</th>
               <th class="text-right">Total Anggaran</th>
               <th class="text-center">Aksi</th>
@@ -54,7 +54,7 @@
 
           </tbody>
         </table>
-        <!--end: Datatable-->
+        <!--end: Table-->
       </form>
     </div>
   </div>

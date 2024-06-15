@@ -56,7 +56,7 @@
               <x-separator margin="1" />
               <div class="d-flex justify-content-between">
                 <span class="font-weight-bold mr-15">Status Pengajuan:</span>
-                <span class="text-right font-weight-light">{!! $data->p_status->getLabelHTML() !!}</span>
+                <span class="text-right font-weight-light">{!! App\Enums\StatusEnum::from($data->status)->getLabelHTML() !!}</span>
               </div>
               <x-separator margin="2" />
               <div class="d-flex justify-content-between text-primary">

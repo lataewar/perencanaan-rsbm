@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Enums\StatusEnum;
 use App\Models\Perencanaan;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use stdClass;
@@ -25,8 +24,11 @@ class PerencanaanRepository extends BaseRepository
           'perencanaans.id',
           'perencanaans.p_tahun',
           'perencanaans.p_periode',
-          'perencanaans.p_status',
           'perencanaans.created_at',
+
+          'statuses.status',
+          'statuses.message',
+          'statuses.created_at as st_created_at',
 
           'u.u_name',
 
@@ -37,9 +39,13 @@ class PerencanaanRepository extends BaseRepository
       ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id', 'left')
       ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id', 'left')
       ->join('barangs as br', 'br.id', '=', 'bb.barang_id', 'left')
-      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.p_status', 'perencanaans.created_at', 'u.u_name',])
+      ->leftJoin('statuses', function ($query) {
+        $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
+          ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
+      }) // get last data from proses
+      // ->where('statuses.status', StatusEnum::DRAFT->value)
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name',])
       ->orderBy('perencanaans.created_at');
-    // return $this->model->with(['unit:id,u_name'])->orderBy('created_at');
   }
 
   public function find_total(string $id): ?Perencanaan
@@ -50,7 +56,11 @@ class PerencanaanRepository extends BaseRepository
           'perencanaans.id',
           'perencanaans.p_tahun',
           'perencanaans.p_periode',
-          'perencanaans.p_status',
+          'perencanaans.created_at',
+
+          'statuses.status',
+          'statuses.message',
+          'statuses.created_at as st_created_at',
 
           'u.u_name',
 
@@ -61,19 +71,29 @@ class PerencanaanRepository extends BaseRepository
       ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id', 'left')
       ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id', 'left')
       ->join('barangs as br', 'br.id', '=', 'bb.barang_id', 'left')
+      ->leftJoin('statuses', function ($query) {
+        $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
+          ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
+      }) // get last data from proses
       ->where('perencanaans.id', $id)
-      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.p_status', 'u.u_name',])
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name',])
       ->first();
   }
 
   public function store(stdClass $request): Perencanaan
   {
-    return $this->model->create([
+    $perencanaan = $this->model->create([
       'p_tahun' => $request->p_tahun,
       'p_periode' => $request->p_periode,
-      'p_status' => StatusEnum::DRAFT->value,
       'user_id' => auth()->user()->id,
       'unit_id' => auth()->user()->unit_id,
     ]);
+    $perencanaan->statuses()->create([
+      'status' => StatusEnum::DRAFT->value,
+      'message' => 'Draft permohonan dibuat.',
+      'user_id' => auth()->user()->id,
+    ]);
+
+    return $perencanaan;
   }
 }

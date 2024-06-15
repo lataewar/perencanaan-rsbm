@@ -2,6 +2,7 @@
 
 namespace App\Services\Datatables;
 
+use App\Enums\StatusEnum;
 use App\Repositories\PerencanaanRepository;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
@@ -23,13 +24,15 @@ class PerencanaanTableService extends DatatableService
         return self::aksiDropdown($strMenu);
       })
       ->addColumn('status', function ($data) {
-        return $data->p_status->getLabelHTML();
+        return StatusEnum::from($data->status)->getLabelHTML();
       })
       ->addColumn('unit', function ($data) {
         return "<span class='font-weight-bold'>$data->u_name</span><br><span class='font-size-sm text-success'>$data->p_tahun</span>";
       })
-      ->addColumn('dibuat', function ($data) {
-        return formatTime($data->created_at);
+      ->addColumn('waktu', function ($data) {
+        $time = formatTime($data->st_created_at);
+        $tdfh = formatTDFH($data->st_created_at);
+        return "<div class=''>$time</div><div class='font-size-sm font-weight-light text-muted'>$tdfh</div>";
       })
       ->addColumn('total', function ($data) {
         return formatNomor($data->total);
@@ -37,7 +40,7 @@ class PerencanaanTableService extends DatatableService
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);
       })
-      ->rawColumns(['aksi', 'cb', 'status', 'dibuat', 'unit', 'total'])
+      ->rawColumns(['aksi', 'cb', 'status', 'waktu', 'unit', 'total'])
       ->make();
   }
 }

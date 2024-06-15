@@ -20,13 +20,12 @@ class BelanjaController extends Controller
     // $this->middleware('permission:perencanaan delete')->only(['destroy']);
     // $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
 
-    // dd(!Session::get('perencanaan_id'));
     if (!Session::get('perencanaan_id'))
       redirect()->route('perencanaan.index');
   }
 
   //----------  INDEX  ----------//
-  public function index()//: View|RedirectResponse
+  public function index(): View
   {
     return view('belanja.index', [
       'belanjas' => $this->service->table(Session::get('perencanaan_id')),

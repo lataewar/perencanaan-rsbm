@@ -12,8 +12,8 @@ const columns = [
     name: "unit",
   },
   {
-    data: "dibuat",
-    name: "dibuat",
+    data: "waktu",
+    name: "waktu",
   },
   {
     data: "status",

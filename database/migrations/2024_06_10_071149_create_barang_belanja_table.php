@@ -16,6 +16,8 @@ return new class extends Migration {
       $table->integer('jumlah');
       $table->bigInteger('harga');
       $table->text('desc')->nullable();
+      $table->boolean('is_exist')->default(false);
+      $table->string('message')->nullable();
       $table->foreignUuid('user_id')->constrained('users');
       $table->timestamps();
 

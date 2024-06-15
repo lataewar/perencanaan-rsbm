@@ -14,6 +14,7 @@ return new class extends Migration {
       $table->uuid('id')->primary();
       $table->foreignUuid('perencanaan_id')->constrained('perencanaans');
       $table->foreignUuid('jenis_belanja_id')->constrained('jenis_belanjas');
+      $table->tinyInteger('b_sumber_anggaran')->nullable();
       $table->foreignUuid('user_id')->constrained('users');
       $table->text('b_desc')->nullable();
       $table->timestamps();

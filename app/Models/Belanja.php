@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SumberAnggaranEnum;
 use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,14 @@ class Belanja extends Model
 {
   use HasFactory, UUID;
 
-  protected $fillable = ['perencanaan_id', 'jenis_belanja_id', 'b_desc', 'user_id'];
+  protected $fillable = ['perencanaan_id', 'jenis_belanja_id', 'b_desc', 'b_sumber_anggaran', 'user_id'];
+
+  protected function casts(): array
+  {
+    return [
+      'b_sumber_anggaran' => SumberAnggaranEnum::class,
+    ];
+  }
 
   public function perencanaan(): BelongsTo
   {
