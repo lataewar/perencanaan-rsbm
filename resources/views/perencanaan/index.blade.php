@@ -11,16 +11,12 @@
     @endslot
 
     <div class="default-btns">
-      <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
-        class="btn-sm btn-light-danger mr-2 btn-multdelete">
-        Hapus Terpilih</x-btn.weight-bold-svg>
-
-      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('perencanaan.create') }}"
-        class="btn-sm btn-light-success btn-create">
-        Tambah Data</x-btn.a-weight-bold-svg>
+      @can('perencanaan create')
+        <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('perencanaan.create') }}"
+          class="btn-sm btn-light-success btn-create">
+          Tambah Data</x-btn.a-weight-bold-svg>
+      @endcan
     </div>
-    <x-btn.weight-bold-svg svg="Navigation/Angle-left.svg" style="display: none;" class="btn-sm btn-light-primary ml-2">
-      Kembali</x-btn.weight-bold-svg>
   </x-subheader>
 @endsection
 

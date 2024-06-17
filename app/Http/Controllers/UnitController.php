@@ -15,11 +15,11 @@ class UnitController extends Controller
   public function __construct(
     protected UnitService $service
   ) {
-    // $this->middleware('permission:kode create')->only(['create', 'store']);
-    // $this->middleware('permission:kode read')->only(['index', 'datatable']);
-    // $this->middleware('permission:kode update')->only(['edit', 'update']);
-    // $this->middleware('permission:kode delete')->only(['destroy']);
-    // $this->middleware('permission:kode multidelete')->only(['multdelete']);
+    $this->middleware('permission:unit_kerja create')->only(['create', 'store']);
+    $this->middleware('permission:unit_kerja read')->only(['index', 'datatable']);
+    $this->middleware('permission:unit_kerja update')->only(['edit', 'update']);
+    $this->middleware('permission:unit_kerja delete')->only(['destroy']);
+    $this->middleware('permission:unit_kerja multidelete')->only(['multdelete']);
   }
 
   //----------  INDEX  ----------//

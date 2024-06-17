@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
     $this->call([
       InitSeeder::class,
       AppSeeder::class,
+      UnitSeeder::class,
+      UserSeeder::class,
       JenbelSeeder::class,
       SubJenbelSeeder::class,
     ]);

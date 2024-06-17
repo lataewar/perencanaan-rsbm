@@ -17,9 +17,12 @@ class UnitTableService extends DatatableService
   {
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
-        return
-          self::editBtnA(route('unit.edit', ['unit' => $data->id]))
-          . self::deleteBtn($data->id, $data->u_name);
+        $strMenu = auth()->user()->can('unit_kerja update') ?
+          self::editBtnA(route('unit.edit', ['unit' => $data->id])) : '';
+        $strMenu .= auth()->user()->can('unit_kerja delete') ?
+          self::deleteBtn($data->id, $data->u_name) : '';
+
+        return $strMenu;
       })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);

@@ -11,13 +11,17 @@
     @endslot
 
     <div class="default-btns">
-      <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
-        class="btn-sm btn-light-danger mr-2 btn-multdelete">
-        Hapus Terpilih</x-btn.weight-bold-svg>
+      @can('menu multidelete')
+        <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
+          class="btn-sm btn-light-danger mr-2 btn-multdelete">
+          Hapus Terpilih</x-btn.weight-bold-svg>
+      @endcan
 
-      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('submenu.create', ['menu' => $data->id]) }}"
-        class="btn-sm btn-light-success btn-create">
-        Tambah Data</x-btn.a-weight-bold-svg>
+      @can('menu create')
+        <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('submenu.create', ['menu' => $data->id]) }}"
+          class="btn-sm btn-light-success btn-create">
+          Tambah Data</x-btn.a-weight-bold-svg>
+      @endcan
     </div>
     <x-btn.a-weight-bold-svg href="{{ route('menu.index') }}" svg="Navigation/Angle-left.svg"
       class="btn-sm btn-light-primary ml-2">

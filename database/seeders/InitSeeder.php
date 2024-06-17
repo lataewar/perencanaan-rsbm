@@ -55,19 +55,24 @@ class InitSeeder extends Seeder
         'created_at' => now(),
         'updated_at' => now(),
       ],
-      [
-        'id' => 4,
-        'menu_id' => 1,
-        'name' => 'User',
-        'route' => 'user.index',
-        'created_at' => now(),
-        'updated_at' => now(),
-      ],
     ]);
 
-    DB::table('menu_role')->insert(['menu_id' => 1, 'role_id' => 1]);
+    Menu::create([
+      'id' => 2,
+      'name' => 'Pengguna',
+      'route' => 'user.index',
+      'icon' => 'General/User.svg',
+      'desc' => 'Menu User',
+      'has_submenu' => 0,
+    ]);
+
+    DB::table('menu_role')->insert([
+      ['menu_id' => 1, 'role_id' => 1],
+      ['menu_id' => 2, 'role_id' => 1]
+    ]);
 
     $user = User::factory()->create([
+      'id' => '6ac07c67-3c3f-4ebf-a9b0-c491955241cd',
       'name' => 'Super Admin',
       'email' => 'supadmin@admin.com',
       'password' => Hash::make('zzzzzzzz'),
@@ -75,10 +80,12 @@ class InitSeeder extends Seeder
     ]);
     $user->assignRole('super admin');
 
-    $permissions = ['menu create', 'menu read', 'menu update', 'menu delete'];
-    $permissions = [...$permissions, ...['permission create', 'permission read', 'permission update', 'permission delete', 'permission multidelete']];
-    $permissions = [...$permissions, ...['role create', 'role read', 'role update', 'role delete', 'role setakses', 'role setpermission']];
-    $permissions = [...$permissions, ...['user create', 'user read', 'user update', 'user delete', 'user multidelete']];
+    $p_menus = ['menu create', 'menu read', 'menu update', 'menu delete'];
+    $p_permissions = ['permission create', 'permission read', 'permission update', 'permission delete', 'permission multidelete'];
+    $p_roles = ['role create', 'role read', 'role update', 'role delete', 'role setakses', 'role setpermission'];
+    $p_users = ['user create', 'user read', 'user update', 'user delete', 'user multidelete'];
+
+    $permissions = [...$p_menus, ...$p_permissions, ...$p_roles, ...$p_users];
 
     foreach ($permissions as $item) {
       Permission::create(['name' => $item]);

@@ -16,10 +16,9 @@ class PerencanaanController extends Controller
   public function __construct(
     protected PerencanaanService $service
   ) {
-    // $this->middleware('permission:perencanaan create')->only(['create', 'store']);
-    // $this->middleware('permission:perencanaan read')->only(['index', 'datatable']);
-    // $this->middleware('permission:perencanaan delete')->only(['destroy']);
-    // $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
+    $this->middleware('permission:perencanaan create')->only(['create', 'store']);
+    $this->middleware('permission:perencanaan read')->only(['index', 'setfilter', 'belanja']);
+    $this->middleware('permission:perencanaan delete')->only(['destroy']);
   }
 
   //----------  INDEX  ----------//

@@ -17,9 +17,12 @@ class PermissionTableService extends DatatableService
   {
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
-        return
-          self::editBtnA(route('permission.edit', ['permission' => $data->id]))
-          . self::deleteBtn($data->id, $data->name);
+        $strMenu = auth()->user()->can('permission update') ?
+          self::editBtnA(route('permission.edit', ['permission' => $data->id])) : '';
+        $strMenu .= auth()->user()->can('permission delete') ?
+          self::deleteBtn($data->id, $data->name) : '';
+
+        return $strMenu;
       })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);

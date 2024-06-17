@@ -19,11 +19,14 @@ class JenbelTableService extends DatatableService
 
     return DataTables::of($this->repository->table($id))
       ->addColumn('aksi', function ($data) use ($id) {
-        return
-          ($data->jb_level > 2 ? '' :
-            self::btn("jenbel/" . $data->id . "/", "Sub Jenis Belanja"))
-          . self::editBtnA(route('jenbel.edit', ['jenbel' => $data->id, 'parent' => $id ?? 0]))
-          . self::deleteBtn($data->id, $data->jb_name);
+        $strMenu = $data->jb_level > 2 ? '' :
+          self::btn("jenbel/" . $data->id . "/", "Sub Jenis Belanja");
+        $strMenu .= auth()->user()->can('jenis_belanja update') ?
+          self::editBtnA(route('jenbel.edit', ['jenbel' => $data->id, 'parent' => $id ?? 0])) : '';
+        $strMenu .= auth()->user()->can('jenis_belanja delete') ?
+          self::deleteBtn($data->id, $data->jb_name) : '';
+
+        return $strMenu;
       })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);

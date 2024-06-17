@@ -15,10 +15,9 @@ class BelanjaController extends Controller
   public function __construct(
     protected BelanjaService $service
   ) {
-    // $this->middleware('permission:perencanaan create')->only(['create', 'store']);
-    // $this->middleware('permission:perencanaan read')->only(['index', 'datatable']);
-    // $this->middleware('permission:perencanaan delete')->only(['destroy']);
-    // $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
+    $this->middleware('permission:perencanaan update')->only(['create', 'store']);
+    $this->middleware('permission:perencanaan read')->only(['index', 'detail']);
+    $this->middleware('permission:perencanaan delete')->only(['destroy']);
 
     if (!Session::get('perencanaan_id'))
       redirect()->route('perencanaan.index');

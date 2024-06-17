@@ -16,11 +16,11 @@ class BarangController extends Controller
   public function __construct(
     protected BarangService $service
   ) {
-    // $this->middleware('permission:barang create')->only(['create', 'store']);
-    // $this->middleware('permission:barang read')->only(['index', 'datatable']);
-    // $this->middleware('permission:barang update')->only(['edit', 'update']);
-    // $this->middleware('permission:barang delete')->only(['destroy']);
-    // $this->middleware('permission:barang multidelete')->only(['multdelete']);
+    $this->middleware('permission:barang create')->only(['create', 'store']);
+    $this->middleware('permission:barang read')->only(['index', 'datatable']);
+    $this->middleware('permission:barang update')->only(['edit', 'update']);
+    $this->middleware('permission:barang delete')->only(['destroy']);
+    $this->middleware('permission:barang multidelete')->only(['multdelete']);
   }
 
   //----------  INDEX  ----------//

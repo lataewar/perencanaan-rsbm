@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JenbelRequest;
-use App\Models\JenisBelanja;
 use App\Services\Datatables\JenbelTableService;
 use App\Services\JenbelService;
 use Illuminate\Database\QueryException;
@@ -17,11 +16,11 @@ class JenbelController extends Controller
   public function __construct(
     protected JenbelService $service
   ) {
-    // $this->middleware('permission:jenis_belanja_1 create')->only(['create', 'store']);
-    // $this->middleware('permission:jenis_belanja_1 read')->only(['index', 'datatable']);
-    // $this->middleware('permission:jenis_belanja_1 update')->only(['edit', 'update']);
-    // $this->middleware('permission:jenis_belanja_1 delete')->only(['destroy']);
-    // $this->middleware('permission:jenis_belanja_1 multidelete')->only(['multdelete']);
+    $this->middleware('permission:jenis_belanja create')->only(['create', 'store']);
+    $this->middleware('permission:jenis_belanja read')->only(['index', 'datatable']);
+    $this->middleware('permission:jenis_belanja update')->only(['edit', 'update']);
+    $this->middleware('permission:jenis_belanja delete')->only(['destroy']);
+    $this->middleware('permission:jenis_belanja multidelete')->only(['multdelete']);
   }
 
   //----------  INDEX  ----------//

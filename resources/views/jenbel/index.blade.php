@@ -35,13 +35,17 @@
     @endslot
 
     <div class="default-btns">
-      <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
-        class="btn-sm btn-light-danger mr-2 btn-multdelete">
-        Hapus Terpilih</x-btn.weight-bold-svg>
+      @can('jenis_belanja multidelete')
+        <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
+          class="btn-sm btn-light-danger mr-2 btn-multdelete">
+          Hapus Terpilih</x-btn.weight-bold-svg>
+      @endcan
 
-      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('jenbel.create', ['parent' => $parent_id]) }}"
-        class="btn-sm btn-light-success btn-create">
-        Tambah Data</x-btn.a-weight-bold-svg>
+      @can('jenis_belanja create')
+        <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('jenbel.create', ['parent' => $parent_id]) }}"
+          class="btn-sm btn-light-success btn-create">
+          Tambah Data</x-btn.a-weight-bold-svg>
+      @endcan
     </div>
 
     @if ($parent)

@@ -17,9 +17,12 @@ class DetailBelanjaTableService extends DatatableService
   {
     return DataTables::of($this->repository->table_barangs($id))
       ->addColumn('aksi', function ($data) {
-        return
-          self::editBtnA(route('detailbelanja.edit', ['barang' => $data->barang_id, 'belanja' => $data->belanja_id]))
-          . self::deleteBtn($data->barang_id . '-x-' . $data->belanja_id, $data->br_name);
+        $strMenu = auth()->user()->can('perencanaan update') ?
+          self::editBtnA(route('detailbelanja.edit', ['barang' => $data->barang_id, 'belanja' => $data->belanja_id])) : '';
+        $strMenu .= auth()->user()->can('perencanaan delete') ?
+          self::deleteBtn($data->barang_id . '-x-' . $data->belanja_id, $data->br_name) : '';
+
+        return $strMenu;
       })
       ->addColumn('harga', function ($data) {
         return formatNomor($data->harga);

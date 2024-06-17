@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DetailBelanjaRequest;
-use App\Repositories\BelanjaRepository;
 use App\Services\BarangService;
 use App\Services\DetailBelanjaService;
 use App\Services\Datatables\DetailBelanjaTableService;
@@ -18,10 +17,10 @@ class DetailBelanjaController extends Controller
   public function __construct(
     protected DetailBelanjaService $service
   ) {
-    // $this->middleware('permission:perencanaan create')->only(['create', 'store']);
-    // $this->middleware('permission:perencanaan read')->only(['index', 'datatable']);
-    // $this->middleware('permission:perencanaan delete')->only(['destroy']);
-    // $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
+    $this->middleware('permission:perencanaan update')->only(['create', 'store', 'edit', 'update']);
+    $this->middleware('permission:perencanaan read')->only(['index', 'datatable']);
+    $this->middleware('permission:perencanaan delete')->only(['destroy']);
+    $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
 
     if (!Session::get('belanja_id'))
       redirect()->route('belanja.index');

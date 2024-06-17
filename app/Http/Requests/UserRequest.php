@@ -31,7 +31,6 @@ class UserRequest extends FormRequest
     ];
   }
 
-  /*
   protected function prepareForValidation(): void
   {
     $unit = $this->unit_id;
@@ -42,5 +41,5 @@ class UserRequest extends FormRequest
       'unit_id' => $unit,
     ]);
   }
-  */
+
 }

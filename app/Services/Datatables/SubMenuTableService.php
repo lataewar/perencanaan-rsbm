@@ -17,8 +17,12 @@ class SubMenuTableService extends DatatableService
   {
     return DataTables::of($this->repository->table($id))
       ->addColumn('aksi', function ($data) {
-        return self::editBtnA(route('submenu.edit', ['submenu' => $data->id, 'menu' => $data->menu_id]))
-          . self::deleteBtn($data->id, $data->name);
+        $strMenu = auth()->user()->can('menu update') ?
+          self::editBtnA(route('submenu.edit', ['submenu' => $data->id, 'menu' => $data->menu_id])) : '';
+        $strMenu .= auth()->user()->can('menu delete') ?
+          self::deleteBtn($data->id, $data->name) : '';
+
+        return $strMenu;
       })
       ->rawColumns(['aksi'])
       ->make();
