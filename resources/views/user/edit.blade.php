@@ -55,17 +55,19 @@
                 Password
                 <x-redstar /></x-validation.txt-stack>
 
-              <x-validation.select-static-stack name="role_id" :messages="$errors->get('role_id')">
+              <x-validation.select-static-stack name="role_id" id="role_id" :messages="$errors->get('role_id')">
                 Role <x-redstar />
                 @slot('items', \App\Enums\UserRoleEnum::toArray())
                 @slot('current', old('role_id') ?? $data->role_id->value)
               </x-validation.select-static-stack>
 
-              <x-validation.select-static-stack name="unit_id" :messages="$errors->get('unit_id')">
-                Role <x-redstar />
-                @slot('items', $units)
-                @slot('current', old('unit_id') ?? $data->unit_id)
-              </x-validation.select-static-stack>
+              <div id="unit" @if ($data->role_id->value != 5) style="display: none;" @endif>
+                <x-validation.select-static-stack name="unit_id" :messages="$errors->get('unit_id')">
+                  Role <x-redstar />
+                  @slot('items', $units)
+                  @slot('current', old('unit_id') ?? $data->unit_id)
+                </x-validation.select-static-stack>
+              </div>
 
             </div>
           </div>
@@ -81,7 +83,15 @@
 
 @push('js')
   <!--begin::Page Vendors(used by this page)-->
-  <script src="{{ asset('assets') }}/js/pages/crud/forms/widgets/bootstrap-switch.js"></script>
+  <script>
+    $('#role_id').on('change', function() {
+      if ($('#role_id').val() != 5) {
+        $('#unit').hide();
+      } else {
+        $('#unit').show();
+      }
+    });
+  </script>
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
   <script src="{{ asset('js') }}/app.js"></script>

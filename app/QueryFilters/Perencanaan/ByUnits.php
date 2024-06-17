@@ -5,15 +5,15 @@ namespace App\QueryFilters\Perencanaan;
 use App\QueryFilters\BaseFilter;
 use Illuminate\Database\Eloquent\Builder;
 
-class ByStatus extends BaseFilter
+class ByUnits extends BaseFilter
 {
   public function __construct()
   {
-    parent::__construct('session', 'ptable.status');
+    parent::__construct('session', 'ptable.units');
   }
 
   protected function applyFilter(Builder $builder): Builder
   {
-    return $builder->where('statuses.status', $this->getData());
+    return $builder->where('u.id', $this->getData());
   }
 }

@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Http\Requests\PerencanaanRequest;
 use App\Models\Perencanaan;
 use App\Repositories\PerencanaanRepository;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Session;
 
 class PerencanaanService extends BaseService
 {
@@ -12,6 +15,23 @@ class PerencanaanService extends BaseService
     protected PerencanaanRepository $repository
   ) {
     parent::__construct($repository);
+  }
+
+  public function table(): LengthAwarePaginator
+  {
+    return $this->repository->table();
+  }
+
+  public function setfilter(Request $request): void
+  {
+    if ($request->action == 'reset') {
+      Session::forget('ptable');
+    } else if ($request->action == 'submit') {
+      Session::put('ptable.units', $request->units);
+      Session::put('ptable.status', $request->status);
+    } else {
+      Session::put('ptable.per_page', $request->per_page);
+    }
   }
 
   public function store(PerencanaanRequest $request): Perencanaan

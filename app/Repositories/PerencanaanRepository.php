@@ -4,9 +4,11 @@ namespace App\Repositories;
 
 use App\Enums\StatusEnum;
 use App\Models\Perencanaan;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use App\QueryFilters\Perencanaan\ByStatus;
+use App\QueryFilters\Perencanaan\ByUnits;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Pipeline;
 use stdClass;
 
 class PerencanaanRepository extends BaseRepository
@@ -16,9 +18,9 @@ class PerencanaanRepository extends BaseRepository
     parent::__construct($x_model);
   }
 
-  public function table(): Builder|Model
+  public function table(): LengthAwarePaginator
   {
-    return $this->model
+    $query = $this->model
       ->select(
         [
           'perencanaans.id',
@@ -43,9 +45,16 @@ class PerencanaanRepository extends BaseRepository
         $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
           ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
       }) // get last data from proses
-      // ->where('statuses.status', StatusEnum::DRAFT->value)
       ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name',])
       ->orderBy('perencanaans.created_at');
+
+    return Pipeline::send($query)
+      ->through([
+        ByUnits::class,
+        ByStatus::class,
+      ])
+      ->thenReturn()
+      ->paginate(session()->get('ptable.per_page') ?? 10);
   }
 
   public function find_total(string $id): ?Perencanaan

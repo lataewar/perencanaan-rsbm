@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PerencanaanRequest;
-use App\Services\Datatables\PerencanaanTableService;
 use App\Services\PerencanaanService;
+use App\Services\UnitService;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -26,13 +25,17 @@ class PerencanaanController extends Controller
   //----------  INDEX  ----------//
   public function index(): View
   {
-    return view('perencanaan.index');
+    return view('perencanaan.index', [
+      'units' => app(UnitService::class)->getAll(),
+      'data' => $this->service->table(),
+    ]);
   }
 
-  //----------  DATATABLE  ----------//
-  public function datatable(): JsonResponse
+  //----------  SET FILTER  ----------//
+  public function setfilter(Request $request): RedirectResponse
   {
-    return app(PerencanaanTableService::class)->table();
+    $this->service->setfilter($request);
+    return redirect()->route('perencanaan.index');
   }
 
   //----------  CREATE  ----------//
@@ -66,24 +69,12 @@ class PerencanaanController extends Controller
   }
 
   //----------  DESTROY  ----------//
-  public function destroy($unit): JsonResponse
+  public function destroy(Request $request): RedirectResponse
   {
-    try {
-      $this->service->delete($unit);
-      return response()->json(['sukses' => 'Data berhasil dihapus.']);
-    } catch (\Throwable $th) {
-      return response()->json(['gagal' => (string) $th]);
-    }
-  }
+    if (!$this->service->delete($request->destroy))
+      Session::flash('error', 'Terjadi kesalahan pada proses hapus perencanaan.');
 
-  //----------  MULTDELETE  ----------//
-  public function multdelete(Request $request): JsonResponse
-  {
-    try {
-      $this->service->multipleDelete($request->post('ids'));
-      return response()->json(['sukses' => count($request->post('ids')) . ' Data berhasil dihapus.']);
-    } catch (\Throwable $th) {
-      return response()->json(['gagal' => (string) $th]);
-    }
+    Session::flash('success', 'Perencanaan terhapus.');
+    return redirect()->route('perencanaan.index');
   }
 }
