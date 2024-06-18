@@ -99,7 +99,7 @@
               <th class="text-right">Harga</th>
               <th class="text-right">Jumlah</th>
               <th class="text-right">Total</th>
-              <th>Keterangan</th>
+              <th>Spesifikasi</th>
               <th class="text-center">Aksi</th>
             </tr>
           </thead>

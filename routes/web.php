@@ -28,8 +28,6 @@ Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-  // start PROTECTED ROLE -> super admin, admin, pimpinan
-  // Route::group(['middleware' => ['role:super admin|admin|pimpinan']], function () {
   Route::post('menu/datatable', [MenuController::class, 'datatable'])->name('menu.datatable');
   Route::resource('menu', MenuController::class)->except('show');
 
@@ -57,8 +55,6 @@ Route::middleware('auth')->group(function () {
   Route::get('role/{role}/permission', [RoleController::class, 'createPermission'])->name('role.permission');
   Route::post('role/{role}/permission', [RoleController::class, 'syncPermission'])->name('permission.sync');
   Route::resource('role', RoleController::class)->except('show');
-  // });
-  // end PROTECTED ROLE -> super admin, admin, pimpinan
 
   Route::post('unit/datatable', [UnitController::class, 'datatable'])->name('unit.datatable');
   Route::post('unit/multdelete', [UnitController::class, 'multdelete'])->name('unit.multdelete');

@@ -50,9 +50,9 @@
                   :messages="$errors->get('jumlah')">Jumlah Barang<x-redstar />
                 </x-validation.inline.txt>
 
-                <x-validation.inline.txtarea name="desc" placeholder="Keterangan" :messages="$errors->get('desc')">
+                <x-validation.inline.txtarea name="desc" placeholder="Spesifikasi" :messages="$errors->get('desc')">
                   @slot('title')
-                    Keterangan
+                    Spesifikasi
                   @endslot
                   {{ old('desc') ?? $data->pivot->desc }}
                 </x-validation.inline.txtarea>

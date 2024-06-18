@@ -50,7 +50,7 @@ class UserController extends Controller
     if ($query)
       return redirect()->route('user.index')->with('success', '<b>' . $query->name . '</b> berhasil ditambahkan.');
 
-    return redirect()->route('user.index');
+    return redirect()->route('user.index')->with('error', 'User gagal ditambahkan.');
   }
 
   //----------  EDIT  ----------//
