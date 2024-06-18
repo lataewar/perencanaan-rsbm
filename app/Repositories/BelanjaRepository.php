@@ -55,8 +55,22 @@ class BelanjaRepository extends BaseRepository
     return $this->model->create([
       'perencanaan_id' => $request->perencanaan_id,
       'jenis_belanja_id' => $request->jenis_belanja_id,
+      'b_sumber_anggaran' => $request->b_sumber_anggaran,
       'b_desc' => $request->b_desc,
       'user_id' => auth()->user()->id,
+    ]);
+  }
+
+  public function find_edit(string $id): ?Model
+  {
+    return $this->model->with(['jenis_belanja'])->where('id', $id)->first();
+  }
+
+  public function update(string $id, stdClass $request): Belanja
+  {
+    return tap($this->find($id))->update([
+      'b_sumber_anggaran' => $request->b_sumber_anggaran,
+      'b_desc' => $request->b_desc,
     ]);
   }
 

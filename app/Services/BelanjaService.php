@@ -101,6 +101,7 @@ class BelanjaService extends BaseService
           "jb_level" => $model->jb3_level,
           "belanja_id" => $model->id,
           "belanja_desc" => $model->b_desc,
+          "sumber_anggaran" => $model->b_sumber_anggaran,
           "barangs" => $model->barangs,
           "total_harga" => $model->total_harga,
         ];
@@ -113,6 +114,16 @@ class BelanjaService extends BaseService
   public function store(BelanjaRequest $request): Belanja
   {
     return $this->repository->store((object) $request->validated());
+  }
+
+  public function find_edit(string $id): ?Model
+  {
+    return $this->repo->find_edit($id);
+  }
+
+  public function update(string $id, BelanjaRequest $request): Belanja
+  {
+    return $this->repository->update($id, (object) $request->validated());
   }
 
 }

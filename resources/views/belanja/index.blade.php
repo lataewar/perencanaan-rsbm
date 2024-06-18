@@ -82,7 +82,7 @@
             {{-- <th>No</th> --}}
             <th width="10%">Kode</th>
             <th width="20%">Jenis Belanja</th>
-            <th width="65%">Keterangan</th>
+            <th width="65%">Detail</th>
             <th width="5%" class="text-center">Aksi</th>
           </tr>
         </thead>
@@ -107,6 +107,7 @@
                   {{-- <td></td> --}}
                   <td>{{ $jenbel3->jb_fullkode }}</td>
                   <td>{{ $jenbel3->jb_name }}</td>
+
                   <td>
                     <div class="col-md-11 mt-1 mb-2">
                       <div class="row border-bottom" style="background-color: #f5f5f5;">
@@ -129,21 +130,37 @@
                         <div class="col-sm-9 font-size-sm text-right">{{ formatNomor($jenbel3->total_harga) }}</div>
                       </div>
                     </div>
+                    <div class="mt-2 font-size-m font-weight-bold">Sumber Anggaran :
+                      {{ $jenbel3->sumber_anggaran ? $jenbel3->sumber_anggaran->getName() : '' }}
+                    </div>
                   </td>
+
                   <td class="text-center">
-                    {!! App\Services\Datatables\DatatableService::btn(
-                        'perencanaan/belanja/detail/' . $jenbel3->belanja_id,
-                        'Sub Jenis Belanja',
-                        'Shopping/Box3.svg',
-                    ) !!}
-                    <form action="{{ route('belanja.destroy', ['belanja' => $jenbel3->belanja_id]) }}"
-                      class="deleteBelanja" method="POST">
-                      @method('DELETE') @csrf
-                      <input type="hidden" name="jb_name" value="{{ $jenbel3->jb_name }}">
-                      <button type='submit' class='btn btn-sm btn-clean btn-icon mr-2' title='Hapus Data'><span
-                          class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
-                    </form>
+                    @can('perencanaan read')
+                      {!! App\Services\Datatables\DatatableService::btn(
+                          'perencanaan/belanja/detail/' . $jenbel3->belanja_id,
+                          'Dateil Belanja',
+                          'Shopping/Box3.svg',
+                      ) !!}
+                    @endcan
+                    @can('perencanaan update')
+                      {!! App\Services\Datatables\DatatableService::btn(
+                          'perencanaan/belanja/' . $jenbel3->belanja_id . '/edit',
+                          'Ubah Belanja',
+                          'Design/edit.svg',
+                      ) !!}
+                    @endcan
+                    @can('perencanaan delete')
+                      <form action="{{ route('belanja.destroy', ['belanja' => $jenbel3->belanja_id]) }}"
+                        class="deleteBelanja" method="POST">
+                        @method('DELETE') @csrf
+                        <input type="hidden" name="jb_name" value="{{ $jenbel3->jb_name }}">
+                        <button type='submit' class='btn btn-sm btn-clean btn-icon mr-2' title='Hapus Data'><span
+                            class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
+                      </form>
+                    @endcan
                   </td>
+
                 </tr>
               @endforeach
             @endforeach

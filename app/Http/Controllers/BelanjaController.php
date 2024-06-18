@@ -15,7 +15,7 @@ class BelanjaController extends Controller
   public function __construct(
     protected BelanjaService $service
   ) {
-    $this->middleware('permission:perencanaan update')->only(['create', 'store']);
+    $this->middleware('permission:perencanaan update')->only(['create', 'store', 'edit', 'update']);
     $this->middleware('permission:perencanaan read')->only(['index', 'detail']);
     $this->middleware('permission:perencanaan delete')->only(['destroy']);
 
@@ -46,6 +46,24 @@ class BelanjaController extends Controller
     $query = $this->service->store($request);
     if ($query)
       return redirect()->route('belanja.index')->with('success', 'Data berhasil ditambahkan.');
+
+    return redirect()->route('belanja.index');
+  }
+
+  //----------  EDIT  ----------//
+  public function edit(string $id): View
+  {
+    return view('belanja.edit', [
+      'data' => $this->service->find_edit($id),
+    ]);
+  }
+
+  //----------  UPDATE  ----------//
+  public function update(string $id, BelanjaRequest $request): RedirectResponse
+  {
+    $query = $this->service->update($id, $request);
+    if ($query)
+      return redirect()->route('belanja.index')->with('success', 'Data berhasil diubah.');
 
     return redirect()->route('belanja.index');
   }

@@ -19,14 +19,13 @@
 @endsection
 
 @section('content')
-  @include('layouts.validation-error')
   <!--begin::Card-->
   <form action="{{ route('belanja.store') }}" class="row" method="POST">
     @csrf
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
         <div class="card-header">
-          <h3 class="card-title">Tambah Barang</h3>
+          <h3 class="card-title">Tambah Belanja</h3>
         </div>
         <div class="card-body">
           <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
@@ -42,7 +41,8 @@
                     Jenis Belanja<x-redstar />
                   </label>
                   <div class="col-lg-9 col-xl-9">
-                    <select class="form-control form-control-lg" name="jenis_belanja_id" id="selector1">
+                    <select class="form-control form-control-lg @if ($errors->has('jenis_belanja_id')) is-invalid @endif"
+                      name="jenis_belanja_id" id="selector1">
                       <option value="" hidden>- Pilih Salah Satu -</option>
                       @foreach ($jenbels as $item)
                         @if (old('jenis_belanja_id') == $item->id)
@@ -57,15 +57,25 @@
                   </div>
                 </div>
 
-                {{-- <x-validation.inline.select-static name="jenbel2" :messages="$errors->get('jenbel2')">
-                  Sub Jenis Belanja<x-redstar />
-                  @slot('items', $jenbels)
-                </x-validation.inline.select-static>
-
-                <x-validation.inline.select-static name="jenbel3" :messages="$errors->get('jenbel3')">
-                  Sub Jenis Belanja<x-redstar />
-                  @slot('items', $jenbels)
-                </x-validation.inline.select-static> --}}
+                <div class="form-group row">
+                  <label class="col-xl-3 col-lg-3 col-form-label">
+                    Sumber Anggaran
+                  </label>
+                  <div class="col-lg-9 col-xl-9">
+                    <select class="form-control" name="b_sumber_anggaran">
+                      <option value="" hidden>- Pilih Salah Satu -</option>
+                      @foreach (\App\Enums\SumberAnggaranEnum::toArray() as $item)
+                        @if (old('b_sumber_anggaran') == $item['id'])
+                          <option value="{{ $item['id'] }}" selected>{{ $item['name'] }}
+                          </option>
+                        @else
+                          <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                        @endif
+                      @endforeach
+                    </select>
+                    <x-validation.input-error :messages="$errors->get('b_sumber_anggaran')" />
+                  </div>
+                </div>
 
                 <x-validation.inline.txtarea name="b_desc" placeholder="Keterangan" :messages="$errors->get('b_desc')">
                   @slot('title')
@@ -80,7 +90,7 @@
               <div class="d-flex justify-content-between border-top mt-5 pt-10">
                 <div class="mr-2"> </div>
                 <div>
-                  <a href="{{ route('perencanaan.index') }}"
+                  <a href="{{ route('belanja.index') }}"
                     class="btn btn-danger font-weight-bolder text-uppercase px-9 py-4">Batal</a>
                   <button type="submit"
                     class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4">Simpan</button>

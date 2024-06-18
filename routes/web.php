@@ -96,6 +96,8 @@ Route::middleware('auth')->group(function () {
       Route::post('/datatable', [BelanjaController::class, 'datatable'])->name('belanja.datatable');
       Route::get('/create', [BelanjaController::class, 'create'])->name('belanja.create');
       Route::post('/store', [BelanjaController::class, 'store'])->name('belanja.store');
+      Route::get('/{id}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
+      Route::put('/update/{id}', [BelanjaController::class, 'update'])->name('belanja.update');
       Route::get('/detail/{belanja}', [BelanjaController::class, 'detail'])->name('belanja.detail');
       Route::delete('/{belanja}', [BelanjaController::class, 'destroy'])->name('belanja.destroy');
     });

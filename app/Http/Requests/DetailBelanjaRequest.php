@@ -10,7 +10,6 @@ class DetailBelanjaRequest extends FormRequest
   public function rules(): array
   {
     return [
-      // 'barang_id' => ['required'],
       'barang_id' => [Rule::requiredIf($this->method() == "POST")],
       'jumlah' => ['required', 'integer'],
       'harga' => ['required', 'integer'],
