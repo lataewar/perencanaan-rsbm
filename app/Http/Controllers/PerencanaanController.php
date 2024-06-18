@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Http\Requests\PerencanaanRequest;
 use App\Services\PerencanaanService;
 use App\Services\UnitService;
@@ -17,6 +18,8 @@ class PerencanaanController extends Controller
     protected PerencanaanService $service
   ) {
     $this->middleware('permission:perencanaan create')->only(['create', 'store']);
+    $this->middleware('permission:perencanaan send')->only(['send']);
+    $this->middleware('permission:perencanaan follow_up')->only(['accept', 'reject']);
     $this->middleware('permission:perencanaan read')->only(['index', 'setfilter', 'belanja']);
     $this->middleware('permission:perencanaan delete')->only(['destroy']);
   }
@@ -34,7 +37,7 @@ class PerencanaanController extends Controller
   public function setfilter(Request $request): RedirectResponse
   {
     $this->service->setfilter($request);
-    return redirect()->route('perencanaan.index');
+    return to_route('perencanaan.index');
   }
 
   //----------  CREATE  ----------//
@@ -48,15 +51,15 @@ class PerencanaanController extends Controller
   {
     try {
       $this->service->store($request);
-      return redirect()->route('perencanaan.index')->with('success', 'Perencenaan baru berhasil ditambahkan.');
+      return to_route('perencanaan.index')->with('success', 'Perencenaan baru berhasil ditambahkan.');
 
     } catch (QueryException $e) {
       $errorCode = $e->errorInfo[1];
       if ($errorCode == 1062) {
         // we have a duplicate entry problem
-        return redirect()->route('perencanaan.index')->with('error', 'Tahun perencanaan sudah ada sebelumnya.');
+        return to_route('perencanaan.index')->with('error', 'Tahun perencanaan sudah ada sebelumnya.');
       }
-      return redirect()->route('perencanaan.index')->with('error', 'Perencenaan baru gagal ditambahkan.');
+      return to_route('perencanaan.index')->with('error', 'Perencenaan baru gagal ditambahkan.');
     }
   }
 
@@ -64,7 +67,7 @@ class PerencanaanController extends Controller
   public function belanja(string $id): RedirectResponse
   {
     Session::put('perencanaan_id', $id);
-    return redirect()->route('belanja.index');
+    return to_route('belanja.index');
   }
 
   //----------  DESTROY  ----------//
@@ -74,6 +77,59 @@ class PerencanaanController extends Controller
       Session::flash('error', 'Terjadi kesalahan pada proses hapus perencanaan.');
 
     Session::flash('success', 'Perencanaan terhapus.');
-    return redirect()->route('perencanaan.index');
+    return to_route('perencanaan.index');
+  }
+
+  //----------  SEND  ----------//
+  public function send(Request $request): RedirectResponse
+  {
+    $find = $this->service->find_total($request->id);
+    $status = StatusEnum::from($find->status);
+
+    if ($find->u_id != auth()->user()->unit_id) // Cek Unit
+      return to_route('perencanaan.index')->with('error', 'Unit salah.');
+    if (!$status->isDraft() && !$status->isDitolak()) // Cek Status is_draft or is_ditolak
+      return to_route('perencanaan.index')->with('error', 'Terjadi kesalahan pada proses kirim.');
+    if ($find->total == 0) // cek total
+      return to_route('perencanaan.index')->with('error', 'Belum ada rencana perbelanjaan.');
+
+    if ($this->service->update_status($request->id, StatusEnum::DIKIRIM->value, 'Perencanaan dikirim.'))
+      return to_route('perencanaan.index')->with('success', 'Perencanaan berhasil dikirim.');
+
+    return to_route('perencanaan.index');
+  }
+
+  //----------  ACCEPT  ----------//
+  public function accept(Request $request): RedirectResponse
+  {
+    $find = $this->service->find_total($request->id);
+    $status = StatusEnum::from($find->status);
+
+    if (!auth()->user()->role_id->isPerencana()) // Cek Role is_perencana
+      return to_route('perencanaan.index')->with('error', 'Role salah.');
+    if (!$status->isDikirim()) // Cek Status is_dikirim
+      return to_route('perencanaan.index')->with('error', 'Terjadi kesalahan pada proses kirim.');
+
+    if ($this->service->update_status($request->id, StatusEnum::DISETUJUI->value, 'Perencanaan disetujui.'))
+      return to_route('perencanaan.index')->with('success', 'Perencanaan berhasil dikirim.');
+
+    return to_route('perencanaan.index');
+  }
+
+  //----------  REJECT  ----------//
+  public function reject(Request $request): RedirectResponse
+  {
+    $find = $this->service->find_total($request->id);
+    $status = StatusEnum::from($find->status);
+
+    if (!auth()->user()->role_id->isPerencana()) // Cek Role is_perencana
+      return to_route('perencanaan.index')->with('error', 'Role salah.');
+    if (!$status->isDikirim()) // Cek Status is_dikirim
+      return to_route('perencanaan.index')->with('error', 'Terjadi kesalahan pada proses kirim.');
+
+    if ($this->service->update_status($request->id, StatusEnum::DITOLAK->value, 'Perencanaan ditolak.'))
+      return to_route('perencanaan.index')->with('success', 'Perencanaan berhasil dikirim.');
+
+    return to_route('perencanaan.index');
   }
 }

@@ -12,15 +12,19 @@
 
     <div>
       @can('perencanaan delete')
-        <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
-          class="btn-sm btn-light-danger mr-2 btn-multdelete">
-          Hapus Terpilih</x-btn.weight-bold-svg>
+        @can('update', App\Models\Belanja::class)
+          <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
+            class="btn-sm btn-light-danger mr-2 btn-multdelete">
+            Hapus Terpilih</x-btn.weight-bold-svg>
+        @endcan
       @endcan
 
       @can('perencanaan update')
-        <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('detailbelanja.create') }}"
-          class="btn-sm btn-light-success btn-create">
-          Tambah Data</x-btn.a-weight-bold-svg>
+        @can('update', App\Models\Belanja::class)
+          <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('detailbelanja.create') }}"
+            class="btn-sm btn-light-success btn-create">
+            Tambah Data</x-btn.a-weight-bold-svg>
+        @endcan
       @endcan
     </div>
     <x-btn.a-weight-bold-svg href="{{ route('belanja.index') }}" svg="Navigation/Angle-left.svg"

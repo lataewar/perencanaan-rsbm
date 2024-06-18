@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BelanjaRequest;
+use App\Models\Belanja;
 use App\Services\BelanjaService;
 use App\Services\JenbelService;
 use App\Services\PerencanaanService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -35,6 +37,8 @@ class BelanjaController extends Controller
   //----------  CREATE  ----------//
   public function create(): View
   {
+    Gate::authorize('update', Belanja::class);
+
     return view('belanja.create', [
       'jenbels' => app(JenbelService::class)->getALlByLevel(3),
     ]);
@@ -43,6 +47,8 @@ class BelanjaController extends Controller
   //----------  STORE  ----------//
   public function store(BelanjaRequest $request): RedirectResponse
   {
+    Gate::authorize('update', Belanja::class);
+
     $query = $this->service->store($request);
     if ($query)
       return redirect()->route('belanja.index')->with('success', 'Data berhasil ditambahkan.');
@@ -53,6 +59,8 @@ class BelanjaController extends Controller
   //----------  EDIT  ----------//
   public function edit(string $id): View
   {
+    Gate::authorize('update', Belanja::class);
+
     return view('belanja.edit', [
       'data' => $this->service->find_edit($id),
     ]);
@@ -61,6 +69,8 @@ class BelanjaController extends Controller
   //----------  UPDATE  ----------//
   public function update(string $id, BelanjaRequest $request): RedirectResponse
   {
+    Gate::authorize('update', Belanja::class);
+
     $query = $this->service->update($id, $request);
     if ($query)
       return redirect()->route('belanja.index')->with('success', 'Data berhasil diubah.');
@@ -78,6 +88,8 @@ class BelanjaController extends Controller
   //----------  DESTROY  ----------//
   public function destroy(string $belanja): RedirectResponse
   {
+    Gate::authorize('update', Belanja::class);
+
     $query = $this->service->delete($belanja);
     if ($query)
       return redirect()->route('belanja.index')->with('success', 'Data berhasil dihapus.');

@@ -33,6 +33,7 @@ class PerencanaanRepository extends BaseRepository
           'statuses.created_at as st_created_at',
 
           'u.u_name',
+          'u.id as u_id',
 
           DB::raw('SUM(bb.jumlah * bb.harga) as total'),
         ]
@@ -45,7 +46,7 @@ class PerencanaanRepository extends BaseRepository
         $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
           ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
       }) // get last data from proses
-      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name',])
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name', 'u.id'])
       ->orderBy('perencanaans.created_at');
 
     return Pipeline::send($query)
@@ -72,6 +73,7 @@ class PerencanaanRepository extends BaseRepository
           'statuses.created_at as st_created_at',
 
           'u.u_name',
+          'u.id as u_id',
 
           DB::raw('SUM(bb.jumlah * bb.harga) as total'),
         ]
@@ -85,7 +87,7 @@ class PerencanaanRepository extends BaseRepository
           ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
       }) // get last data from proses
       ->where('perencanaans.id', $id)
-      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name',])
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name', 'u.id'])
       ->first();
   }
 
@@ -99,10 +101,27 @@ class PerencanaanRepository extends BaseRepository
     ]);
     $perencanaan->statuses()->create([
       'status' => StatusEnum::DRAFT->value,
-      'message' => 'Draft permohonan dibuat.',
+      'message' => 'Draft perencanaan dibuat.',
       'user_id' => auth()->user()->id,
     ]);
 
     return $perencanaan;
+  }
+
+  public function update_status(string $id, int $status, string $msg): bool
+  {
+    DB::beginTransaction();
+    try {
+      $this->find($id)->statuses()->create([
+        'status' => $status,
+        'message' => $msg,
+        'user_id' => auth()->user()->id,
+      ]);
+      DB::commit();
+      return true;
+    } catch (\Exception $e) {
+      DB::rollback();
+      return false;
+    }
   }
 }

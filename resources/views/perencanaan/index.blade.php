@@ -27,7 +27,16 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ route('perencanaan.destroy') }}">
+  @can('perencanaan delete')
+    <input type="hidden" id="urx" value="{{ route('perencanaan.destroy') }}">
+  @endcan
+  @can('perencanaan send')
+    <input type="hidden" id="urx_send" value="{{ route('perencanaan.send') }}">
+  @endcan
+  @can('perencanaan follow_up')
+    <input type="hidden" id="urx_accept" value="{{ route('perencanaan.accept') }}">
+    <input type="hidden" id="urx_reject" value="{{ route('perencanaan.reject') }}">
+  @endcan
   <div class="card card-custom gutter-b">
     <div class="card-body">
 
@@ -37,16 +46,18 @@
         <div class="row justify-content-center">
           <div class="col-lg-9 col-xl-8">
             <div class="row justify-content-center">
-              <div class="col-md-5 my-2 my-md-0">
-                <select class="form-control form-control-solid" name="units">
-                  <option value="">Semua Unit</option>
-                  @foreach ($units as $item)
-                    <option value="{{ $item->id }}" @if (session()->get('ptable.units') == $item->id) selected @endif>
-                      {{ $item->name }}
-                    </option>
-                  @endforeach
-                </select>
-              </div>
+              @unlessrole('unit')
+                <div class="col-md-5 my-2 my-md-0">
+                  <select class="form-control form-control-solid" name="units">
+                    <option value="">Semua Unit</option>
+                    @foreach ($units as $item)
+                      <option value="{{ $item->id }}" @if (session()->get('ptable.units') == $item->id) selected @endif>
+                        {{ $item->name }}
+                      </option>
+                    @endforeach
+                  </select>
+                </div>
+              @endunlessrole
               <div class="col-md-4 my-2 my-md-0">
                 <select class="form-control form-control-solid" name="status">
                   <option value="">Semua Status</option>
@@ -96,6 +107,9 @@
           </thead>
           <tbody>
             @foreach ($data as $item)
+              @php
+                $status = StatusEnum::from($item->status);
+              @endphp
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>
@@ -109,7 +123,7 @@
                   </div>
                 </td>
                 <td class="text-center">
-                  {!! StatusEnum::from($item->status)->getLabelHTML() !!}
+                  {!! $status->getLabelHTML() !!}
                 </td>
                 <td class="text-right">
                   {{ formatNomor($item->total) }}
@@ -117,22 +131,35 @@
                 <td class="text-center">
 
                   @php
+                    $action = $item->id . "', 'Perencanaan " . $item->u_name . ' Tahun ' . $item->p_tahun;
                     $route_belanja = route('perencanaan.belanja', ['perencanaan' => $item->id]);
                     $navItem = '';
+                    $navItem .=
+                        auth()->user()->can('perencanaan follow_up') && $status->isDikirim()
+                            ? DTS::naviItem(
+                                    'javascript:;',
+                                    'Terima',
+                                    'la la-check-circle-o',
+                                    "onclick=\"accept('$action')\"",
+                                ) .
+                                DTS::naviItem(
+                                    'javascript:;',
+                                    'Tolak',
+                                    'la la-times-circle-o',
+                                    "onclick=\"reject('$action')\"",
+                                )
+                            : '';
+                    $navItem .=
+                        auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak())
+                            ? DTS::naviItem('javascript:;', 'Kirim', 'la la-send', "onclick=\"send('$action')\"")
+                            : '';
                     $navItem .= DTS::navSeparator();
-                    $navItem .= DTS::naviItem($route_belanja, 'Detail Belanja', 'la la-money-check-alt');
-                    $navItem .= DTS::naviItem(
-                        'javascript:;',
-                        'Hapus',
-                        'la la-trash',
-                        "onclick=\"destroy('" .
-                            $item->id .
-                            "', 'Perencanaan " .
-                            $item->u_name .
-                            ' Tahun ' .
-                            $item->p_tahun .
-                            "')\"",
-                    );
+                    $navItem .= auth()->user()->can('perencanaan read')
+                        ? DTS::naviItem($route_belanja, 'Detail Belanja', 'la la-money-check-alt')
+                        : '';
+                    $navItem .= auth()->user()->can('perencanaan delete')
+                        ? DTS::naviItem('javascript:;', 'Hapus', 'la la-trash', "onclick=\"destroy('$action')\"")
+                        : '';
                   @endphp
 
                   {!! DTS::aksiDropdown($navItem) !!}

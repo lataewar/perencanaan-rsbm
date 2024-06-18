@@ -19,6 +19,8 @@ Route::get('/tes', function () {
   // }
   // return $var;
 
+  return auth()->user()->unit_id;
+
   return User::where('role_id', 5)->get();
 
 });

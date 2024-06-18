@@ -11,16 +11,13 @@
     @endslot
 
     <div class="default-btns">
-      @can('perencanaan delete')
-        <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
-          class="btn-sm btn-light-danger mr-2 btn-multdelete">
-          Hapus Terpilih</x-btn.weight-bold-svg>
-      @endcan
 
       @can('perencanaan update')
-        <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('belanja.create') }}"
-          class="btn-sm btn-light-success btn-create">
-          Tambah Rencana Belanja</x-btn.a-weight-bold-svg>
+        @can('update', App\Models\Belanja::class)
+          <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('belanja.create') }}"
+            class="btn-sm btn-light-success btn-create">
+            Tambah Rencana Belanja</x-btn.a-weight-bold-svg>
+        @endcan
       @endcan
     </div>
 
@@ -144,20 +141,24 @@
                       ) !!}
                     @endcan
                     @can('perencanaan update')
-                      {!! App\Services\Datatables\DatatableService::btn(
-                          'perencanaan/belanja/' . $jenbel3->belanja_id . '/edit',
-                          'Ubah Belanja',
-                          'Design/edit.svg',
-                      ) !!}
+                      @can('update', App\Models\Belanja::class)
+                        {!! App\Services\Datatables\DatatableService::btn(
+                            'perencanaan/belanja/' . $jenbel3->belanja_id . '/edit',
+                            'Ubah Belanja',
+                            'Design/edit.svg',
+                        ) !!}
+                      @endcan
                     @endcan
                     @can('perencanaan delete')
-                      <form action="{{ route('belanja.destroy', ['belanja' => $jenbel3->belanja_id]) }}"
-                        class="deleteBelanja" method="POST">
-                        @method('DELETE') @csrf
-                        <input type="hidden" name="jb_name" value="{{ $jenbel3->jb_name }}">
-                        <button type='submit' class='btn btn-sm btn-clean btn-icon mr-2' title='Hapus Data'><span
-                            class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
-                      </form>
+                      @can('update', App\Models\Belanja::class)
+                        <form action="{{ route('belanja.destroy', ['belanja' => $jenbel3->belanja_id]) }}"
+                          class="deleteBelanja" method="POST">
+                          @method('DELETE') @csrf
+                          <input type="hidden" name="jb_name" value="{{ $jenbel3->jb_name }}">
+                          <button type='submit' class='btn btn-sm btn-clean btn-icon mr-2' title='Hapus Data'><span
+                              class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
+                        </form>
+                      @endcan
                     @endcan
                   </td>
 

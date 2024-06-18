@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DetailBelanjaRequest;
+use App\Models\Belanja;
 use App\Services\BarangService;
 use App\Services\DetailBelanjaService;
 use App\Services\Datatables\DetailBelanjaTableService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -43,6 +45,8 @@ class DetailBelanjaController extends Controller
   //----------  CREATE  ----------//
   public function create(): View
   {
+    Gate::authorize('update', Belanja::class);
+
     return view('detailbelanja.create', [
       'barangs' => app(BarangService::class)->getByBelanja(Session::get('belanja_id')),
     ]);
@@ -51,6 +55,8 @@ class DetailBelanjaController extends Controller
   //----------  STORE  ----------//
   public function store(DetailBelanjaRequest $request): RedirectResponse
   {
+    Gate::authorize('update', Belanja::class);
+
     $query = $this->service->store(Session::get('belanja_id'), $request);
     if ($query)
       return redirect()->route('detailbelanja.index')->with('success', 'Data berhasil ditambahkan.');
@@ -61,6 +67,8 @@ class DetailBelanjaController extends Controller
   //----------  EDIT  ----------//
   public function edit($barang, $belanja): View
   {
+    Gate::authorize('update', Belanja::class);
+
     return view('detailbelanja.edit', [
       'data' => $this->service->find_pivot($barang, $belanja),
     ]);
@@ -69,6 +77,8 @@ class DetailBelanjaController extends Controller
   //----------  UPDATE  ----------//
   public function update($barang, $belanja, DetailBelanjaRequest $request): RedirectResponse
   {
+    Gate::authorize('update', Belanja::class);
+
     $query = $this->service->update($barang, $belanja, $request);
     if ($query)
       return redirect()->route('detailbelanja.index')->with('success', 'Data berhasil diubah.');
@@ -79,6 +89,8 @@ class DetailBelanjaController extends Controller
   //----------  DESTROY  ----------//
   public function destroy($barang): JsonResponse
   {
+    Gate::authorize('update', Belanja::class);
+
     $ids = explode("-x-", $barang);
     try {
       $this->service->delete_pivot($ids[0], $ids[1]);
@@ -91,6 +103,8 @@ class DetailBelanjaController extends Controller
   //----------  MULTDELETE  ----------//
   public function multdelete(Request $request): JsonResponse
   {
+    Gate::authorize('update', Belanja::class);
+
     try {
       $this->service->delete_pivot($request->post('ids'), Session::get('belanja_id'));
       return response()->json(['sukses' => count($request->post('ids')) . ' Data berhasil dihapus.']);

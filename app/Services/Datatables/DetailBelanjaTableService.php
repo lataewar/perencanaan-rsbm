@@ -2,6 +2,7 @@
 
 namespace App\Services\Datatables;
 
+use App\Models\Belanja;
 use App\Repositories\BelanjaRepository;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
@@ -17,9 +18,9 @@ class DetailBelanjaTableService extends DatatableService
   {
     return DataTables::of($this->repository->table_barangs($id))
       ->addColumn('aksi', function ($data) {
-        $strMenu = auth()->user()->can('perencanaan update') ?
+        $strMenu = auth()->user()->can('perencanaan update') && auth()->user()->can('update', Belanja::class) ?
           self::editBtnA(route('detailbelanja.edit', ['barang' => $data->barang_id, 'belanja' => $data->belanja_id])) : '';
-        $strMenu .= auth()->user()->can('perencanaan delete') ?
+        $strMenu .= auth()->user()->can('perencanaan delete') && auth()->user()->can('update', Belanja::class) ?
           self::deleteBtn($data->barang_id . '-x-' . $data->belanja_id, $data->br_name) : '';
 
         return $strMenu;

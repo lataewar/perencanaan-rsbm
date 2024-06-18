@@ -44,6 +44,11 @@ class PerencanaanService extends BaseService
     return $this->repository->find_total($id);
   }
 
+  public function update_status(string $id, int $status, string $msg): bool
+  {
+    return $this->repository->update_status($id, $status, $msg);
+  }
+
   public function getTahun(): array
   {
     $arrays = array();

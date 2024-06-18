@@ -90,6 +90,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/', [PerencanaanController::class, 'destroy'])->name('perencanaan.destroy');
     Route::post('/multdelete', [PerencanaanController::class, 'multdelete'])->name('perencanaan.multdelete');
     Route::get('/{perencanaan}/belanja', [PerencanaanController::class, 'belanja'])->name('perencanaan.belanja');
+    Route::post('/send', [PerencanaanController::class, 'send'])->name('perencanaan.send');
+    Route::post('/accept', [PerencanaanController::class, 'accept'])->name('perencanaan.accept');
+    Route::post('/reject', [PerencanaanController::class, 'reject'])->name('perencanaan.reject');
 
     Route::prefix('belanja')->group(function () {
       Route::get('/', [BelanjaController::class, 'index'])->name('belanja.index');
