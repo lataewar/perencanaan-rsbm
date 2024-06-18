@@ -17,8 +17,6 @@ class BelanjaPolicy
     $find = app(PerencanaanService::class)->find_total(Session::get('perencanaan_id'));
     $status = StatusEnum::from($find->status);
 
-    // dd(($status->isDraft() || $status->isDitolak()) && $user->role_id->isUnit());
-
     // if status == draft || ditolak && role_id == unit
     if (($status->isDraft() || $status->isDitolak()) && $user->role_id->isUnit())
       return true;

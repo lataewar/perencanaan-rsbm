@@ -21,6 +21,8 @@ class PerencanaanRepository extends BaseRepository
   public function table(): LengthAwarePaginator
   {
     $query = $this->model
+      ->unit_scope()
+      ->non_unit_scope()
       ->select(
         [
           'perencanaans.id',
@@ -61,6 +63,7 @@ class PerencanaanRepository extends BaseRepository
   public function find_total(string $id): ?Perencanaan
   {
     return $this->model
+      ->unit_scope()
       ->select(
         [
           'perencanaans.id',
