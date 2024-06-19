@@ -44,9 +44,11 @@
         </h3>
       </div>
       <div class="card-toolbar">
-        <a href="{{ route('belanja.cetak', $data->id) }}" class="btn btn-sm btn-warning font-weight-bold">
-          <i class="flaticon2-printer"></i> Cetak
-        </a>
+        @if ($data->total > 0)
+          <a href="{{ route('belanja.cetak', $data->id) }}" class="btn btn-sm btn-warning font-weight-bold">
+            <i class="flaticon2-printer"></i> Cetak
+          </a>
+        @endif
       </div>
     </div>
     <div class="card-body">

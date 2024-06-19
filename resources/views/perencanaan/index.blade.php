@@ -133,6 +133,7 @@
                   @php
                     $action = $item->id . "', 'Perencanaan " . $item->u_name . ' Tahun ' . $item->p_tahun;
                     $route_belanja = route('perencanaan.belanja', ['perencanaan' => $item->id]);
+                    $route_cetak = route('belanja.cetak', $item->id);
                     $navItem = '';
                     $navItem .=
                         auth()->user()->can('perencanaan follow_up') && $status->isDikirim()
@@ -154,6 +155,10 @@
                             ? DTS::naviItem('javascript:;', 'Kirim', 'la la-send', "onclick=\"send('$action')\"")
                             : '';
                     $navItem .= DTS::navSeparator();
+                    $navItem .=
+                        $item->total > 0
+                            ? DTS::naviItem($route_cetak, 'Cetak Excell', 'la la-print') . DTS::navSeparator()
+                            : '';
                     $navItem .= auth()->user()->can('perencanaan read')
                         ? DTS::naviItem($route_belanja, 'Detail Belanja', 'la la-money-check-alt')
                         : '';

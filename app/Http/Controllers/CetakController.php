@@ -11,9 +11,9 @@ class CetakController extends Controller
   ) {
   }
 
-  public function cetak_belanja(string $id)//: void
+  public function cetak_belanja(string $id): void
   {
-    return $this->service->cetak($id);
+    $this->service->cetak($id);
   }
 
 }
