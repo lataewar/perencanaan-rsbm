@@ -26,11 +26,11 @@ class BelanjaController extends Controller
   }
 
   //----------  INDEX  ----------//
-  public function index(): View
+  public function index(): View|RedirectResponse
   {
     return view('belanja.index', [
-      'belanjas' => $this->service->table(Session::get('perencanaan_id')),
-      'data' => app(PerencanaanService::class)->find_total(Session::get('perencanaan_id')),
+      'belanjas' => $this->service->table(Session::get('perencanaan_id') ?? 'x'),
+      'data' => app(PerencanaanService::class)->find_total(Session::get('perencanaan_id') ?? 'x'),
     ]);
   }
 

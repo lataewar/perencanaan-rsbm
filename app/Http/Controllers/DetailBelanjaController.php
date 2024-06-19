@@ -53,8 +53,9 @@ class DetailBelanjaController extends Controller
   }
 
   //----------  STORE  ----------//
-  public function store(DetailBelanjaRequest $request): RedirectResponse
+  public function store(DetailBelanjaRequest $request)//: RedirectResponse
   {
+    // return $request->all();
     Gate::authorize('update', Belanja::class);
 
     $query = $this->service->store(Session::get('belanja_id'), $request);

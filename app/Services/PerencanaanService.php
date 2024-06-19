@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\PerencanaanRequest;
 use App\Models\Perencanaan;
 use App\Repositories\PerencanaanRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Session;
@@ -59,5 +60,10 @@ class PerencanaanService extends BaseService
       ]);
     }
     return $arrays;
+  }
+
+  public function validate_isexist(string $barang_id, string $belanja_id): Collection
+  {
+    return $this->repository->validate_isexist($barang_id, $belanja_id);
   }
 }

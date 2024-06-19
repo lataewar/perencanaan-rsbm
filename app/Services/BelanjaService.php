@@ -20,7 +20,7 @@ class BelanjaService extends BaseService
 
   public function table(string $id): Collection
   {
-    $repos = $this->repository->table(Session::get('perencanaan_id'));
+    $repos = $this->repository->table($id);
 
     $jenbels = new Collection();
 

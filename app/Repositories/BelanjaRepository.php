@@ -113,6 +113,8 @@ class BelanjaRepository extends BaseRepository
           'jumlah' => $request->jumlah,
           'harga' => $request->harga,
           'desc' => $request->desc,
+          'is_exist' => $request->is_exist,
+          'message' => $request->message,
           'user_id' => auth()->user()->id,
         ]
       );

@@ -40,7 +40,7 @@ class Belanja extends Model
   public function barangs(): BelongsToMany
   {
     return $this->belongsToMany(Barang::class)
-      ->withPivot(['jumlah', 'harga', 'desc', 'user_id'])
+      ->withPivot(['jumlah', 'harga', 'desc', 'is_exist', 'message', 'user_id'])
       ->withTimestamps();
   }
 

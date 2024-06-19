@@ -6,6 +6,8 @@ use App\Enums\StatusEnum;
 use App\Models\Perencanaan;
 use App\QueryFilters\Perencanaan\ByStatus;
 use App\QueryFilters\Perencanaan\ByUnits;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
@@ -126,5 +128,26 @@ class PerencanaanRepository extends BaseRepository
       DB::rollback();
       return false;
     }
+  }
+
+  public function validate_isexist(string $barang_id, string $belanja_id): Collection
+  {
+    return $this->model
+      ->select(['perencanaans.p_tahun'])
+      ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id')
+      ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id')
+      ->leftJoin('statuses', function ($query) {
+        $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
+          ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
+      })
+      ->where('bb.barang_id', $barang_id)
+      ->where('perencanaans.unit_id', '=', function (Builder $query) use ($belanja_id) {
+        $query->select('perencanaans.unit_id')
+          ->from('perencanaans')
+          ->join('belanjas', 'belanjas.perencanaan_id', '=', 'perencanaans.id')
+          ->where('belanjas.id', $belanja_id);
+      })
+      ->where('statuses.status', StatusEnum::DISETUJUI->value)
+      ->get();
   }
 }
