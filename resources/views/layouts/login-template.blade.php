@@ -28,7 +28,7 @@
 <!--end::Head-->
 <!--begin::Body-->
 
-<body id="kt_body" style="background-image: url({{ asset('assets') }}/media/bg/bg-10.jpg)"
+<body id="kt_body"
   class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
   <!--begin::Main-->
   <div class="d-flex flex-column flex-root">
