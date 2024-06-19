@@ -33,17 +33,28 @@
   <!--begin::Card-->
   <input type="hidden" id="urx" value="{{ URL('perencanaan/belanja') }}">
   <div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="card-icon">
+          <i class="flaticon2-website text-primary"></i>
+        </span>
+        <h3 class="card-label">
+          Detail Perencanaan
+          <small>Belanja</small>
+        </h3>
+      </div>
+      <div class="card-toolbar">
+        <a href="{{ route('belanja.cetak', $data->id) }}" class="btn btn-sm btn-warning font-weight-bold">
+          <i class="flaticon2-printer"></i> Cetak
+        </a>
+      </div>
+    </div>
     <div class="card-body">
 
       <div class="row justify-content-center mb-4">
         <div class="col-lg-6">
           <div class="text-dark-50 line-height-lg">
             <div class="d-flex flex-column">
-
-              <div class="d-flex justify-content-between">
-                <span class="font-weight-bold mr-15 mb-5 text-dark">Detail Perencanaan:</span>
-                <div class="text-right"></div>
-              </div>
 
               <div class="d-flex justify-content-between">
                 <span class="font-weight-bold mr-15">Unit:</span>

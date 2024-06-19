@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BelanjaController;
+use App\Http\Controllers\CetakController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailBelanjaController;
 use App\Http\Controllers\JenbelController;
@@ -103,6 +104,8 @@ Route::middleware('auth')->group(function () {
       Route::put('/update/{id}', [BelanjaController::class, 'update'])->name('belanja.update');
       Route::get('/detail/{belanja}', [BelanjaController::class, 'detail'])->name('belanja.detail');
       Route::delete('/{belanja}', [BelanjaController::class, 'destroy'])->name('belanja.destroy');
+
+      Route::get('/{id}/cetak', [CetakController::class, 'cetak_belanja'])->name('belanja.cetak');
     });
 
     Route::prefix('detailbelanja')->group(function () {

@@ -31,4 +31,17 @@ class PhpSpreadsheetService
       'right' => ['borderStyle' => Border::BORDER_DOUBLE,],
     ],
   ];
+
+  protected array $lineNoVertical = [
+    'borders' => [
+      'vertical' => ['borderStyle' => Border::BORDER_NONE,],
+    ],
+  ];
+
+  protected array $lineTopBottom = [
+    'borders' => [
+      'top' => ['borderStyle' => Border::BORDER_THIN,],
+      'bottom' => ['borderStyle' => Border::BORDER_THIN,],
+    ],
+  ];
 }

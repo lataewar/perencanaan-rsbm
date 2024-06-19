@@ -54,7 +54,7 @@
                     <select class="form-control" name="b_sumber_anggaran">
                       <option value="" hidden>- Pilih Salah Satu -</option>
                       @foreach (\App\Enums\SumberAnggaranEnum::toArray() as $item)
-                        @if ($data->b_sumber_anggaran->value == $item['id'])
+                        @if ($data->b_sumber_anggaran && $data->b_sumber_anggaran->value == $item['id'])
                           <option value="{{ $item['id'] }}" selected>{{ $item['name'] }}
                           </option>
                         @else

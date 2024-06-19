@@ -22,7 +22,7 @@ class BelanjaController extends Controller
     $this->middleware('permission:perencanaan delete')->only(['destroy']);
 
     if (!Session::get('perencanaan_id'))
-      redirect()->route('perencanaan.index');
+      to_route('perencanaan.index');
   }
 
   //----------  INDEX  ----------//
@@ -51,9 +51,9 @@ class BelanjaController extends Controller
 
     $query = $this->service->store($request);
     if ($query)
-      return redirect()->route('belanja.index')->with('success', 'Data berhasil ditambahkan.');
+      return to_route('belanja.index')->with('success', 'Data berhasil ditambahkan.');
 
-    return redirect()->route('belanja.index');
+    return to_route('belanja.index');
   }
 
   //----------  EDIT  ----------//
@@ -73,16 +73,16 @@ class BelanjaController extends Controller
 
     $query = $this->service->update($id, $request);
     if ($query)
-      return redirect()->route('belanja.index')->with('success', 'Data berhasil diubah.');
+      return to_route('belanja.index')->with('success', 'Data berhasil diubah.');
 
-    return redirect()->route('belanja.index');
+    return to_route('belanja.index');
   }
 
   //----------  DETAIL  ----------//
   public function detail(string $belanja): RedirectResponse
   {
     Session::put('belanja_id', $belanja);
-    return redirect()->route('detailbelanja.index');
+    return to_route('detailbelanja.index');
   }
 
   //----------  DESTROY  ----------//
@@ -92,9 +92,9 @@ class BelanjaController extends Controller
 
     $query = $this->service->delete($belanja);
     if ($query)
-      return redirect()->route('belanja.index')->with('success', 'Data berhasil dihapus.');
+      return to_route('belanja.index')->with('success', 'Data berhasil dihapus.');
 
-    return redirect()->route('belanja.index')->with('error', 'Data gagal dihapus.');
+    return to_route('belanja.index')->with('error', 'Data gagal dihapus.');
   }
 
 }
