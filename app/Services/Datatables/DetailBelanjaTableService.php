@@ -38,6 +38,9 @@ class DetailBelanjaTableService extends DatatableService
         return self::checkBox($data->id);
       })
       ->rawColumns(['aksi', 'cb', 'harga', 'jumlah', 'total'])
+      ->setRowClass(function ($data) {
+        return $data->is_exist ? 'table-danger' : '';
+      })
       ->make();
   }
 }

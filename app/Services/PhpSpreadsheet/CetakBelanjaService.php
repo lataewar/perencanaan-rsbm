@@ -30,7 +30,7 @@ class CetakBelanjaService extends PhpSpreadsheetService
 
     $spreadsheet = new Spreadsheet();
 
-    $spreadsheet->getActiveSheet()->freezePane('A6');
+    $spreadsheet->getActiveSheet()->freezePane('A7');
     $spreadsheet->getActiveSheet()->mergeCells('A1:I1');
     $spreadsheet->getActiveSheet()->setCellValue('A1', 'USULAN KEBUTUHAN TAHUN ' . $rencana->p_tahun);
     $spreadsheet->getActiveSheet()->mergeCells('A2:I2');
@@ -79,7 +79,7 @@ class CetakBelanjaService extends PhpSpreadsheetService
     $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(10);
     $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
-    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(20);
+    $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(35);
     $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(25);
 
     $no = 7;
@@ -118,8 +118,11 @@ class CetakBelanjaService extends PhpSpreadsheetService
             $spreadsheet->getActiveSheet()->setCellValue('E' . $no, $barang->br_satuan);
             $spreadsheet->getActiveSheet()->setCellValue('F' . $no, $barang->pivot->harga);
             $spreadsheet->getActiveSheet()->setCellValue('G' . $no, $barang->pivot->desc);
-            // $spreadsheet->getActiveSheet()->setCellValue('H' . $no, $barang->is_exist);
+            $spreadsheet->getActiveSheet()->setCellValue('H' . $no, $barang->pivot->message);
             $spreadsheet->getActiveSheet()->setCellValue('I' . $no, $barang->pivot->jumlah * $barang->pivot->harga);
+
+            if ($barang->pivot->is_exist)
+              $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':I' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fccdd2');
 
             $tot_jumlah += $barang->pivot->jumlah;
             $no++;

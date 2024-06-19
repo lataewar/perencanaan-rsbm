@@ -127,8 +127,15 @@
                         <div class="col-sm-4 font-size-sm text-right">Total</div>
                       </div>
                       @foreach ($jenbel3->barangs as $barang)
-                        <div class="row border-bottom">
-                          <div class="col-sm-3 font-size-sm">{{ $barang->br_name }}</div>
+                        <div class="row border-bottom"
+                          @if ($barang->pivot->is_exist) style="background-color: #fccdd2;" @endif>
+                          <div class="col-sm-3 font-size-sm">
+                            @if ($barang->pivot->is_exist)
+                              <span class="label label-light-danger label-rounded font-weight-bold" data-toggle="tooltip"
+                                data-original-title="{{ $barang->pivot->message }}">i</span> &nbsp;
+                            @endif
+                            {{ $barang->br_name }}
+                          </div>
                           <div class="col-sm-3 font-size-sm text-right">{{ formatNomor($barang->pivot->harga) }}</div>
                           <div class="col-sm-2 font-size-sm text-right">{{ formatNomor($barang->pivot->jumlah) }}</div>
                           <div class="col-sm-4 font-size-sm text-right">
