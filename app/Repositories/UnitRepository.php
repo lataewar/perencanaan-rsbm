@@ -42,4 +42,9 @@ class UnitRepository extends BaseRepository
   {
     return $this->model->select(['id', 'u_name as name'])->get();
   }
+
+  public function get_count(): int
+  {
+    return $this->model->count();
+  }
 }

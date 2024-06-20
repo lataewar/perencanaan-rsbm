@@ -24,4 +24,9 @@ class UnitService extends BaseService
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);
   }
+
+  public function dashboard_get_count(): int
+  {
+    return $this->repository->get_count();
+  }
 }

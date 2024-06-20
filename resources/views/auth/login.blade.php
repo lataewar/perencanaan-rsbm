@@ -15,9 +15,10 @@
         <!--end: Aside header-->
         <!--begin: Aside content-->
         <div class="flex-column-fluid d-flex flex-column justify-content-center">
-          <h3 class="font-size-h1 mb-5 text-dark">Selamat datang di Aplikasi {{ config('app.name') }}.
+          <h3 class="font-size-h1 mb-5 text-dark">
+            Selamat datang di Aplikasi Sistem Monitoring Realisasi Anggaran.
           </h3>
-          <h3 class="font-weight-lighter text-dark opacity-80">aplikasi {{ config('app.name') }}</h3>
+          <h3 class="display-2 text-danger">SIMONREANGGAR</h3>
         </div>
         <!--end: Aside content-->
         <!--begin: Aside footer for desktop-->
@@ -39,7 +40,7 @@
         <!--begin::Signin-->
         <div class="login-form login-signin">
           <div class="text-center mb-10 mb-lg-20">
-            <h3 class="font-size-h1 text-white">Masuk ke aplikasi</h3>
+            <h3 class="font-size-h1 text-danger">Masuk ke aplikasi</h3>
             <p class="text-muted font-weight-bold">Masukkan email dan password anda</p>
           </div>
           <!--begin::Form-->
@@ -64,7 +65,7 @@
             <!--begin::Action-->
             <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
               <div></div>
-              <button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3">Masuk</button>
+              <button type="submit" class="btn btn-danger font-weight-bold px-9 py-4 my-3">Masuk</button>
             </div>
             <!--end::Action-->
           </form>

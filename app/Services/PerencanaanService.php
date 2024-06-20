@@ -66,4 +66,14 @@ class PerencanaanService extends BaseService
   {
     return $this->repository->validate_isexist($barang_id, $belanja_id);
   }
+
+  public function dashboard_get_count_by_year_and_status(int $year, int $status): int
+  {
+    return $this->repository->get_count_by_year_and_status($year, $status);
+  }
+
+  public function dashboard_get_count_by_unit_and_status(string $unit, int $status): int
+  {
+    return $this->repository->get_count_by_unit_and_status($unit, $status);
+  }
 }

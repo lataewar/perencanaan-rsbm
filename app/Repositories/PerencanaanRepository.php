@@ -150,4 +150,30 @@ class PerencanaanRepository extends BaseRepository
       ->where('statuses.status', StatusEnum::DISETUJUI->value)
       ->get();
   }
+
+  public function get_count_by_year_and_status(int $year, int $status): int
+  {
+    return $this->model
+      ->select(['perencanaans.id'])
+      ->join('statuses', function ($query) {
+        $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
+          ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
+      })
+      ->where('perencanaans.p_tahun', $year)
+      ->where('statuses.status', $status)
+      ->get()->count();
+  }
+
+  public function get_count_by_unit_and_status(string $unit, int $status): int
+  {
+    return $this->model
+      ->select(['perencanaans.id'])
+      ->join('statuses', function ($query) {
+        $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
+          ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
+      })
+      ->where('perencanaans.unit_id', $unit)
+      ->where('statuses.status', $status)
+      ->get()->count();
+  }
 }
