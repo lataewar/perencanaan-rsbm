@@ -21,13 +21,16 @@ class BelanjaController extends Controller
     $this->middleware('permission:perencanaan read')->only(['index', 'detail']);
     $this->middleware('permission:perencanaan delete')->only(['destroy']);
 
-    if (!Session::get('perencanaan_id'))
-      to_route('perencanaan.index');
+
+    to_route('perencanaan.index');
   }
 
   //----------  INDEX  ----------//
   public function index(): View|RedirectResponse
   {
+    if (!Session::get('perencanaan_id'))
+      return to_route('perencanaan.index');
+
     return view('belanja.index', [
       'belanjas' => $this->service->table(Session::get('perencanaan_id') ?? 'x'),
       'data' => app(PerencanaanService::class)->find_total(Session::get('perencanaan_id') ?? 'x'),

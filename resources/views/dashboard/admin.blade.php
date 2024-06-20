@@ -57,7 +57,7 @@
                 <div class="card-body d-flex align-items-center">
                   <div>
                     <h3 class="text-white font-weight-bolder line-height-lg mb-5">Atur Perencanaan</h3>
-                    <a href="{{ route('dashboard') }}" class="btn btn-primary font-weight-bold px-6 py-3">
+                    <a href="{{ route('perencanaan.index') }}" class="btn btn-primary font-weight-bold px-6 py-3">
                       Perencanaan
                     </a>
                   </div>

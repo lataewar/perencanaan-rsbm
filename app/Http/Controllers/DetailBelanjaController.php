@@ -23,14 +23,14 @@ class DetailBelanjaController extends Controller
     $this->middleware('permission:perencanaan read')->only(['index', 'datatable']);
     $this->middleware('permission:perencanaan delete')->only(['destroy']);
     $this->middleware('permission:perencanaan multidelete')->only(['multdelete']);
-
-    if (!Session::get('belanja_id'))
-      redirect()->route('belanja.index');
   }
 
   //----------  INDEX  ----------//
   public function index(): View|RedirectResponse
   {
+    if (!Session::get('belanja_id'))
+      return to_route('belanja.index');
+
     return view('detailbelanja.index', [
       'data' => $this->service->detail_belanja(Session::get('belanja_id')),
     ]);
