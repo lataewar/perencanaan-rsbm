@@ -60,7 +60,7 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ URL('jenbel/' . $parent_id) }}">
+  <input type="hidden" id="urx" value="{{ route('jenbel.index', $parent_id) }}">
   <div class="card card-custom gutter-b">
     <div class="card-body">
 

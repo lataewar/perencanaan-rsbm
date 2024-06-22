@@ -30,7 +30,7 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ URL('unit') }}">
+  <input type="hidden" id="urx" value="{{ route('unit.index') }}">
   <div class="card card-custom gutter-b">
     <div class="card-body">
       <form action="{{ route('unit.multdelete') }}" id="form-multdelete">

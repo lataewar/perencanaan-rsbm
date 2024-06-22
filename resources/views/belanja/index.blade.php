@@ -31,7 +31,7 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ URL('perencanaan/belanja') }}">
+  <input type="hidden" id="urx" value="{{ route('belanja.index') }}">
   <div class="card card-custom gutter-b">
     <div class="card-header">
       <div class="card-title">

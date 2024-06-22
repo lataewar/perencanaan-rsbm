@@ -30,7 +30,7 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ URL('barang/' . $id) }}">
+  <input type="hidden" id="urx" value="{{ route('barang.index', $id) }}">
   <div class="card card-custom gutter-b">
     <div class="card-body">
 

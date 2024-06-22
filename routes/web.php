@@ -17,7 +17,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
-require __DIR__ . '/tes.php';
+
+if (env('APP_DEBUG'))
+  require __DIR__ . '/tes.php';
 
 Route::get('/', function () {
   return redirect()->route('login');

@@ -30,7 +30,7 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  <input type="hidden" id="urx" value="{{ URL('menu') }}">
+  <input type="hidden" id="urx" value="{{ route('menu.index') }}">
   <div class="card card-custom gutter-b">
     <div class="card-body">
       <!--begin: Datatable-->
