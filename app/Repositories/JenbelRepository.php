@@ -17,7 +17,7 @@ class JenbelRepository extends BaseRepository
 
   public function table(?string $id): Builder|Model
   {
-    return $this->model->where('jenis_belanja_id', $id);
+    return $this->model->where('jenis_belanja_id', $id)->orderBy('created_at');
   }
 
   public function store(stdClass $request): JenisBelanja
@@ -43,6 +43,6 @@ class JenbelRepository extends BaseRepository
 
   public function getAllByLevel(int $lvl): Collection
   {
-    return $this->model->where('jb_level', $lvl)->get(['id', 'jb_name as name', 'jb_fullkode as fullkode', 'jb_kode as kode']);
+    return $this->model->where('jb_level', $lvl)->orderBy('created_at')->get(['id', 'jb_name as name', 'jb_fullkode as fullkode', 'jb_kode as kode']);
   }
 }

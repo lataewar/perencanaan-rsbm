@@ -12,7 +12,7 @@ return new class extends Migration {
   {
     Schema::create('jenis_belanjas', function (Blueprint $table) {
       $table->uuid('id')->primary();
-      $table->string('jb_name', 100);
+      $table->string('jb_name');
       $table->string('jb_kode', 20);
       $table->string('jb_fullkode', 50);
       $table->integer('jb_level')->nullable();
