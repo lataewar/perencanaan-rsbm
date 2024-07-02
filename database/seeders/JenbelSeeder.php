@@ -19,7 +19,9 @@ class JenbelSeeder extends Seeder
     $csv_file = File::get(base_path("database/data/koderek.csv"));
 
     // 1. Split by new line. Use the PHP_EOL constant for cross-platform compatibility.
-    $lines = explode(PHP_EOL, $csv_file);
+    // $lines = explode(PHP_EOL, $csv_file);
+    $lines = explode("\n", $csv_file);
+
     // 2. Extract the header and convert it into a Laravel collection.
     $header = collect(str_getcsv(array_shift($lines), ';'));
     // 3. Convert the rows into a Laravel collection.
