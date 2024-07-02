@@ -76,7 +76,7 @@ class DatatableService
     return "<span class='svg-icon svg-icon-lg svg-icon-$color'>$svg</span>";
   }
 
-  public static function naviItem($route, $name, $icon = "la la-trash", $onClick = ""): string
+  protected static function naviItem($route, $name, $icon = "la la-trash", $onClick = ""): string
   {
     return "<li class='navi-item'>
               <a href='$route' $onClick class='navi-link'>
@@ -86,12 +86,12 @@ class DatatableService
             </li>";
   }
 
-  public static function navSeparator($margin = 2): string
+  protected static function navSeparator($margin = 2): string
   {
     return "<li class='navi-separator my-$margin'></li>";
   }
 
-  public static function aksiDropdown($naviitems): string
+  protected static function aksiDropdown($naviitems): string
   {
 
     return "

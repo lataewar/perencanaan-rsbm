@@ -1,7 +1,6 @@
 @extends('layouts.template')
 
 @push('css')
-  <link href="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 @endpush
 
 @section('subheader')
@@ -20,7 +19,6 @@
   </x-subheader>
 @endsection
 
-@use('App\Services\DataTables\DataTableService', 'DTS')
 @use('App\Enums\StatusEnum', 'StatusEnum')
 
 @section('content')
@@ -130,44 +128,33 @@
                 </td>
                 <td class="text-center">
 
-                  @php
-                    $action = $item->id . "', 'Perencanaan " . $item->u_name . ' Tahun ' . $item->p_tahun;
-                    $route_belanja = route('perencanaan.belanja', ['perencanaan' => $item->id]);
-                    $route_cetak = route('belanja.cetak', $item->id);
-                    $navItem = '';
-                    $navItem .=
-                        auth()->user()->can('perencanaan follow_up') && $status->isDikirim()
-                            ? DTS::naviItem(
-                                    'javascript:;',
-                                    'Terima',
-                                    'la la-check-circle-o',
-                                    "onclick=\"accept('$action')\"",
-                                ) .
-                                DTS::naviItem(
-                                    'javascript:;',
-                                    'Tolak',
-                                    'la la-times-circle-o',
-                                    "onclick=\"reject('$action')\"",
-                                )
-                            : '';
-                    $navItem .=
-                        auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak())
-                            ? DTS::naviItem('javascript:;', 'Kirim', 'la la-send', "onclick=\"send('$action')\"")
-                            : '';
-                    $navItem .= DTS::navSeparator();
-                    $navItem .=
-                        $item->total > 0
-                            ? DTS::naviItem($route_cetak, 'Cetak Excell', 'la la-print') . DTS::navSeparator()
-                            : '';
-                    $navItem .= auth()->user()->can('perencanaan read')
-                        ? DTS::naviItem($route_belanja, 'Detail Belanja', 'la la-money-check-alt')
-                        : '';
-                    $navItem .= auth()->user()->can('perencanaan delete')
-                        ? DTS::naviItem('javascript:;', 'Hapus', 'la la-trash', "onclick=\"destroy('$action')\"")
-                        : '';
-                  @endphp
+                  <x-table.menu-dropdown>
 
-                  {!! DTS::aksiDropdown($navItem) !!}
+                    @if (auth()->user()->can('perencanaan follow_up') && $status->isDikirim())
+                      <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :$item />
+                      <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :$item />
+                    @endif
+
+                    @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()))
+                      <x-table.nav-item route="javascript:;" name="Kirim" icon="la la-send" :$item />
+                    @endif
+
+                    <x-table.nav-separator />
+
+                    @if ($item->total > 0)
+                      <x-table.nav-item :route="route('belanja.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
+                      <x-table.nav-separator />
+                    @endif
+
+                    @can('perencanaan read')
+                      <x-table.nav-item :route="route('perencanaan.belanja', ['perencanaan' => $item->id])" name="Detail Belanja" icon="la la-money-check-alt" />
+                    @endcan
+
+                    @can('perencanaan delete')
+                      <x-table.nav-item route="javascript:;" name="Hapus" icon="la la-trash" :$item />
+                    @endcan
+
+                  </x-table.menu-dropdown>
 
                 </td>
               </tr>
