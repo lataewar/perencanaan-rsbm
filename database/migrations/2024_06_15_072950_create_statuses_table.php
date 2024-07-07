@@ -11,7 +11,7 @@ return new class extends Migration {
   public function up(): void
   {
     Schema::create('statuses', function (Blueprint $table) {
-      $table->uuid('id')->primary();
+      $table->id();
       $table->foreignUuid('perencanaan_id')->constrained('perencanaans')->cascadeOnDelete();
       $table->foreignUuid('user_id');
       $table->tinyInteger('status');

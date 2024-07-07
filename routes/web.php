@@ -14,6 +14,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsulanController;
+use App\Http\Controllers\UsulController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
@@ -119,6 +121,24 @@ Route::middleware('auth')->group(function () {
       Route::put('/update/{barang}/{belanja}', [DetailBelanjaController::class, 'update'])->name('detailbelanja.update');
       Route::delete('/{barang}', [DetailBelanjaController::class, 'destroy'])->name('detailbelanja.destroy');
       Route::post('/multdelete', [DetailBelanjaController::class, 'multdelete'])->name('detailbelanja.multdelete');
+    });
+  });
+
+  Route::prefix('usulan')->group(function () {
+    Route::get('/', [UsulController::class, 'index'])->name('usul.index');
+    Route::get('/create', [UsulController::class, 'create'])->name('usul.create');
+    Route::post('/', [UsulController::class, 'store'])->name('usul.store');
+    Route::delete('/{usul}', [UsulController::class, 'destroy'])->name('usul.destroy');
+
+    Route::prefix('unit')->group(function () {
+      Route::get('/', [UsulanController::class, 'index'])->name('usulan.index');
+      Route::post('/datatable', [UsulanController::class, 'datatable'])->name('usulan.datatable');
+      Route::get('/create', [UsulanController::class, 'create'])->name('usulan.create');
+      Route::post('/store', [UsulanController::class, 'store'])->name('usulan.store');
+      Route::get('/{usulan}/edit', [UsulanController::class, 'edit'])->name('usulan.edit');
+      Route::put('/update/{usulan}', [UsulanController::class, 'update'])->name('usulan.update');
+      Route::delete('/{usulan}', [UsulanController::class, 'destroy'])->name('usulan.destroy');
+      Route::post('/multdelete', [UsulanController::class, 'multdelete'])->name('usulan.multdelete');
     });
   });
 });

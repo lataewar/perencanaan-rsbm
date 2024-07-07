@@ -32,6 +32,14 @@ class AppSeeder extends Seeder
     ]);
     Menu::create([
       'id' => 5,
+      'name' => 'Usulan',
+      'route' => 'usulan',
+      'icon' => 'Communication/Clipboard-list.svg',
+      'desc' => 'Menu Usulan Unit',
+      'has_submenu' => 0,
+    ]);
+    Menu::create([
+      'id' => 6,
       'name' => 'Perencanaan',
       'route' => 'perencanaan.index',
       'icon' => 'Communication/Clipboard-list.svg',
@@ -62,6 +70,7 @@ class AppSeeder extends Seeder
       ['menu_id' => 3, 'role_id' => 1],
       ['menu_id' => 4, 'role_id' => 1],
       ['menu_id' => 5, 'role_id' => 1],
+      ['menu_id' => 6, 'role_id' => 1],
     ]);
 
     // ---------------------------- SEEDING ROLE ---------------------------- //
@@ -71,25 +80,25 @@ class AppSeeder extends Seeder
       'name' => 'administrator',
       'guard_name' => 'web',
       'desc' => 'Administrator',
-    ])->menus()->attach([2, 3, 4, 5]);
+    ])->menus()->attach([2, 3, 4, 5, 6]);
     \App\Models\Role::create([
       'id' => 3,
       'name' => 'pimpinan',
       'guard_name' => 'web',
       'desc' => 'Pimpinan',
-    ])->menus()->attach([2, 5]);
+    ])->menus()->attach([2, 6]);
     \App\Models\Role::create([
       'id' => 4,
       'name' => 'perencana',
       'guard_name' => 'web',
       'desc' => 'Perencana',
-    ])->menus()->attach([3, 4, 5]);
+    ])->menus()->attach([3, 4, 6]);
     \App\Models\Role::create([
       'id' => 5,
       'name' => 'unit',
       'guard_name' => 'web',
       'desc' => 'Unit',
-    ])->menus()->attach([4, 5]);
+    ])->menus()->attach([4, 5, 6]);
 
 
     // ------------------------ SEEDING PERMISSION  ------------------------ //
