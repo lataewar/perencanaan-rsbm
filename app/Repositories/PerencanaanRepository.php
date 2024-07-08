@@ -39,7 +39,6 @@ class PerencanaanRepository extends BaseRepository
           'u.u_name',
           'u.id as u_id',
 
-          DB::raw('SUM(bb.jumlah * bb.harga) as total'),
         ]
       )
       ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
@@ -175,5 +174,71 @@ class PerencanaanRepository extends BaseRepository
       ->where('perencanaans.unit_id', $unit)
       ->where('statuses.status', $status)
       ->get()->count();
+  }
+
+  public function usul_table(): LengthAwarePaginator
+  {
+    $query = $this->model
+      ->unit_scope()
+      ->select(
+        [
+          'perencanaans.id',
+          'perencanaans.p_tahun',
+          'perencanaans.p_periode',
+          'perencanaans.created_at',
+
+          'statuses.status',
+          'statuses.message',
+          'statuses.created_at as st_created_at',
+
+          'u.u_name',
+          'u.id as u_id',
+        ]
+      )
+      ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
+      ->leftJoin('statuses', function ($query) {
+        $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
+          ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
+      }) // get last data from proses
+      ->withCount('usulans')
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name', 'u.id'])
+      ->orderBy('perencanaans.created_at');
+
+    return Pipeline::send($query)
+      ->through([
+        \App\QueryFilters\Usulan\ByStatus::class,
+      ])
+      ->thenReturn()
+      ->paginate(session()->get('utable.per_page') ?? 10);
+  }
+
+  public function find_usulan(string $id): ?Perencanaan
+  {
+    return $this->model
+      ->unit_scope()
+      ->select(
+        [
+          'perencanaans.id',
+          'perencanaans.p_tahun',
+          'perencanaans.p_periode',
+          'perencanaans.created_at',
+
+          'statuses.status',
+          'statuses.message',
+          'statuses.created_at as st_created_at',
+
+          'u.u_name',
+          'u.id as u_id',
+        ]
+      )
+      ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
+      ->leftJoin('statuses', function ($query) {
+        $query->on('statuses.perencanaan_id', '=', 'perencanaans.id')
+          ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
+      }) // get last data from proses
+      ->withCount('usulans')
+      ->where('perencanaans.id', $id)
+      ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name', 'u.id'])
+      ->first();
   }
 }

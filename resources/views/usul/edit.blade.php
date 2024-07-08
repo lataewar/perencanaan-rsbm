@@ -5,11 +5,11 @@
 @endpush
 
 @section('subheader')
-  <x-subheader title="Tambah Barang">
+  <x-subheader title="Ubah Barang">
     <x-slot name="breadcrumb">
       <x-bc.item route="{{ route('usul.index') }}">Data</x-bc.item>
       <x-bc.separator />
-      <x-bc.item route="#">Tambah Data</x-bc.item>
+      <x-bc.item route="#">Ubah Data</x-bc.item>
     </x-slot>
 
     <x-btn.a-weight-bold-svg href="{{ route('usul.index') }}" svg="Navigation/Angle-left.svg"
@@ -20,12 +20,12 @@
 
 @section('content')
   <!--begin::Card-->
-  <form action="{{ route('usul.store') }}" class="row" method="POST">
-    @csrf
+  <form action="{{ route('usul.update', ['usul' => $data->id]) }}" method="POST">
+    @csrf @method('PUT')
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
         <div class="card-header">
-          <h3 class="card-title">Tambah Barang</h3>
+          <h3 class="card-title">Ubah Barang</h3>
         </div>
         <div class="card-body">
           <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
@@ -37,17 +37,19 @@
                 <!--begin::Input-->
 
                 <x-validation.inline.txt type="text" name="ul_name" placeholder="Nama Barang"
-                  value="{{ old('ul_name') }}" :messages="$errors->get('ul_name')">Nama
+                  value="{{ old('ul_name') ?? $data->ul_name }}" :messages="$errors->get('ul_name')">Nama
                   Barang<x-redstar />
                 </x-validation.inline.txt>
 
                 <x-validation.inline.txt type="text" name="ul_qty" placeholder="Jumlah Barang"
-                  value="{{ old('ul_qty') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('ul_qty')">Jumlah
+                  value="{{ old('ul_qty') ?? formatNomor($data->ul_qty) }}" oninput="formatRupiah(this, '.')"
+                  :messages="$errors->get('ul_qty')">Jumlah
                   Barang<x-redstar />
                 </x-validation.inline.txt>
 
                 <x-validation.inline.txt type="text" name="ul_prise" placeholder="Harga Barang"
-                  value="{{ old('ul_prise') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('ul_prise')">Harga
+                  value="{{ old('ul_prise') ?? formatNomor($data->ul_prise) }}" oninput="formatRupiah(this, '.')"
+                  :messages="$errors->get('ul_prise')">Harga
                   Barang
                 </x-validation.inline.txt>
 
@@ -55,7 +57,7 @@
                   @slot('title')
                     Spesifikasi
                   @endslot
-                  {{ old('ul_desc') }}
+                  {{ old('ul_desc') ?? $data->ul_desc }}
                 </x-validation.inline.txtarea>
 
               </div>
@@ -75,6 +77,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </form>

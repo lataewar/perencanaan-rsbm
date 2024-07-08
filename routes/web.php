@@ -95,7 +95,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/', [PerencanaanController::class, 'destroy'])->name('perencanaan.destroy');
     Route::post('/multdelete', [PerencanaanController::class, 'multdelete'])->name('perencanaan.multdelete');
     Route::get('/{perencanaan}/belanja', [PerencanaanController::class, 'belanja'])->name('perencanaan.belanja');
-    Route::post('/send', [PerencanaanController::class, 'send'])->name('perencanaan.send');
     Route::post('/accept', [PerencanaanController::class, 'accept'])->name('perencanaan.accept');
     Route::post('/reject', [PerencanaanController::class, 'reject'])->name('perencanaan.reject');
 
@@ -125,20 +124,23 @@ Route::middleware('auth')->group(function () {
   });
 
   Route::prefix('usulan')->group(function () {
-    Route::get('/', [UsulController::class, 'index'])->name('usul.index');
-    Route::get('/create', [UsulController::class, 'create'])->name('usul.create');
-    Route::post('/', [UsulController::class, 'store'])->name('usul.store');
-    Route::delete('/{usul}', [UsulController::class, 'destroy'])->name('usul.destroy');
+    Route::get('/', [UsulanController::class, 'index'])->name('usulan.index');
+    Route::post('/setfilter', [UsulanController::class, 'setfilter'])->name('usulan.setfilter');
+    Route::get('/{usul}/usul', [UsulanController::class, 'usul'])->name('usulan.usul');
+    Route::get('/create', [UsulanController::class, 'create'])->name('usulan.create');
+    Route::post('/', [UsulanController::class, 'store'])->name('usulan.store');
+    Route::delete('/', [UsulanController::class, 'destroy'])->name('usulan.destroy');
+    Route::post('/send', [UsulanController::class, 'send'])->name('usulan.send');
 
     Route::prefix('unit')->group(function () {
-      Route::get('/', [UsulanController::class, 'index'])->name('usulan.index');
-      Route::post('/datatable', [UsulanController::class, 'datatable'])->name('usulan.datatable');
-      Route::get('/create', [UsulanController::class, 'create'])->name('usulan.create');
-      Route::post('/store', [UsulanController::class, 'store'])->name('usulan.store');
-      Route::get('/{usulan}/edit', [UsulanController::class, 'edit'])->name('usulan.edit');
-      Route::put('/update/{usulan}', [UsulanController::class, 'update'])->name('usulan.update');
-      Route::delete('/{usulan}', [UsulanController::class, 'destroy'])->name('usulan.destroy');
-      Route::post('/multdelete', [UsulanController::class, 'multdelete'])->name('usulan.multdelete');
+      Route::get('/', [UsulController::class, 'index'])->name('usul.index');
+      Route::post('/datatable', [UsulController::class, 'datatable'])->name('usul.datatable');
+      Route::get('/create', [UsulController::class, 'create'])->name('usul.create');
+      Route::post('/store', [UsulController::class, 'store'])->name('usul.store');
+      Route::get('/{usul}/edit', [UsulController::class, 'edit'])->name('usul.edit');
+      Route::put('/update/{usul}', [UsulController::class, 'update'])->name('usul.update');
+      Route::delete('/{usul}', [UsulController::class, 'destroy'])->name('usul.destroy');
+      Route::post('/multdelete', [UsulController::class, 'multdelete'])->name('usul.multdelete');
     });
   });
 });

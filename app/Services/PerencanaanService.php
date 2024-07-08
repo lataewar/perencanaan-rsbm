@@ -76,4 +76,14 @@ class PerencanaanService extends BaseService
   {
     return $this->repository->get_count_by_unit_and_status($unit, $status);
   }
+
+  public function usul_table(): LengthAwarePaginator
+  {
+    return $this->repository->usul_table();
+  }
+
+  public function find_usulan(string $id): ?Perencanaan
+  {
+    return $this->repository->find_usulan($id);
+  }
 }

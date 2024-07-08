@@ -80,25 +80,6 @@ class PerencanaanController extends Controller
     return to_route('perencanaan.index');
   }
 
-  //----------  SEND  ----------//
-  public function send(Request $request): RedirectResponse
-  {
-    $find = $this->service->find_total($request->id);
-    $status = StatusEnum::from($find->status);
-
-    if ($find->u_id != auth()->user()->unit_id) // Cek Unit
-      return to_route('perencanaan.index')->with('error', 'Unit salah.');
-    if (!$status->isDraft() && !$status->isDitolak()) // Cek Status is_draft or is_ditolak
-      return to_route('perencanaan.index')->with('error', 'Terjadi kesalahan pada proses kirim.');
-    if ($find->total == 0) // cek total
-      return to_route('perencanaan.index')->with('error', 'Belum ada rencana perbelanjaan.');
-
-    if ($this->service->update_status($request->id, StatusEnum::DIKIRIM->value, 'Perencanaan dikirim.'))
-      return to_route('perencanaan.index')->with('success', 'Perencanaan berhasil dikirim.');
-
-    return to_route('perencanaan.index');
-  }
-
   //----------  ACCEPT  ----------//
   public function accept(Request $request): RedirectResponse
   {

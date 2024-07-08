@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsulanRequest;
+use App\Models\Usulan;
+use App\Services\Datatables\UsulTableService;
 use App\Services\PerencanaanService;
+use App\Services\UsulanService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class UsulController extends Controller
 {
   public function __construct(
-    protected PerencanaanService $service
+    protected UsulanService $service
   ) {
     // $this->middleware('permission:perencanaan create')->only(['create', 'store']);
     // $this->middleware('permission:perencanaan send')->only(['send']);
@@ -20,23 +27,87 @@ class UsulController extends Controller
   }
 
   //----------  INDEX  ----------//
-  public function index(): View
+  public function index(): View|RedirectResponse
   {
+    if (!Session::get('usulan'))
+      return to_route('usulan.index');
+
     return view('usul.index', [
-      'data' => $this->service->table(),
+      'data' => app(PerencanaanService::class)->find_usulan(Session::get('usulan') ?? 'x'),
     ]);
   }
 
-  //----------  SET FILTER  ----------//
-  public function setfilter(Request $request): RedirectResponse
+  //----------  DATATABLE  ----------//
+  public function datatable(): JsonResponse
   {
-    $this->service->setfilter($request);
-    return to_route('usul.index');
+    return app(UsulTableService::class)->table(Session::get('usulan'));
   }
 
   //----------  CREATE  ----------//
   public function create(): View
   {
-    return view('usul.create', ['tahuns' => $this->service->getTahun()]);
+    Gate::authorize('update', Usulan::class);
+
+    return view('usul.create');
+  }
+
+  //----------  STORE  ----------//
+  public function store(UsulanRequest $request): RedirectResponse
+  {
+    Gate::authorize('update', Usulan::class);
+    $usulan = $this->service->store($request);
+
+    if ($usulan)
+      return to_route('usul.index')->with('success', 'Usulan baru berhasil ditambahkan.');
+
+    return to_route('usul.index')->with('error', 'Usulan baru gagal ditambahkan.');
+  }
+
+  //----------  EDIT  ----------//
+  public function edit($usul): View
+  {
+    Gate::authorize('update', Usulan::class);
+
+    return view('usul.edit', [
+      'data' => $this->service->find($usul),
+    ]);
+  }
+
+  //----------  UPDATE  ----------//
+  public function update($usul, UsulanRequest $request): RedirectResponse
+  {
+    Gate::authorize('update', Usulan::class);
+
+    $query = $this->service->update($usul, $request);
+    if ($query)
+      return redirect()->route('usul.index')->with('success', 'Data berhasil diubah.');
+
+    return redirect()->route('usul.index')->with('error', 'Data gagal diubah.');
+  }
+
+  //----------  DESTROY  ----------//
+  public function destroy($usul): JsonResponse
+  {
+    Gate::authorize('update', Usulan::class);
+
+    try {
+      $this->service->delete($usul);
+      return response()->json(['sukses' => 'Data berhasil dihapus.']);
+    } catch (\Throwable $th) {
+      return response()->json(['gagal' => (string) $th]);
+    }
+  }
+
+  //----------  MULTDELETE  ----------//
+  public function multdelete(Request $request): JsonResponse
+  {
+    Gate::authorize('update', Usulan::class);
+
+    try {
+      $this->service->multipleDelete($request->post('ids'));
+      return response()->json(['sukses' => count($request->post('ids')) . ' Data berhasil dihapus.']);
+    } catch (\Throwable $th) {
+      return response()->json(['gagal' => (string) $th]);
+    }
   }
 }

@@ -54,4 +54,9 @@ class Perencanaan extends Model
   {
     return $this->hasMany(Status::class);
   }
+
+  public function usulans(): HasMany
+  {
+    return $this->hasMany(Usulan::class);
+  }
 }

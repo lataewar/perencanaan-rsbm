@@ -4,17 +4,17 @@
 @endpush
 
 @section('subheader')
-  <x-subheader title="Perencanaan">
+  <x-subheader title="Usulan">
     @slot('breadcrumb')
       <x-bc.item route="#">Data</x-bc.item>
     @endslot
 
     <div class="default-btns">
-      @can('perencanaan create')
-        <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('perencanaan.create') }}"
-          class="btn-sm btn-light-success btn-create">
-          Tambah Data</x-btn.a-weight-bold-svg>
-      @endcan
+      {{-- @can('perencanaan create') --}}
+      <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('usulan.create') }}"
+        class="btn-sm btn-light-success btn-create">
+        Tambah Data</x-btn.a-weight-bold-svg>
+      {{-- @endcan --}}
     </div>
   </x-subheader>
 @endsection
@@ -25,15 +25,17 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  @can('perencanaan follow_up')
-    <input type="hidden" id="urx_accept" value="{{ route('perencanaan.accept') }}">
-    <input type="hidden" id="urx_reject" value="{{ route('perencanaan.reject') }}">
+  @can('perencanaan delete')
+    <input type="hidden" id="urx" value="{{ route('usulan.destroy') }}">
+  @endcan
+  @can('perencanaan send')
+    <input type="hidden" id="urx_send" value="{{ route('usulan.send') }}">
   @endcan
   <div class="card card-custom gutter-b">
     <div class="card-body">
 
       <!--begin: Search Form-->
-      <form action="{{ route('perencanaan.setfilter', request()->query()) }}" method="POST"> @csrf
+      <form action="{{ route('usulan.setfilter', request()->query()) }}" method="POST"> @csrf
 
         <div class="row justify-content-center">
           <div class="col-lg-9 col-xl-8">
@@ -43,7 +45,7 @@
                   <select class="form-control form-control-solid" name="units">
                     <option value="">Semua Unit</option>
                     @foreach ($units as $item)
-                      <option value="{{ $item->id }}" @if (session()->get('ptable.units') == $item->id) selected @endif>
+                      <option value="{{ $item->id }}" @if (session()->get('utable.units') == $item->id) selected @endif>
                         {{ $item->name }}
                       </option>
                     @endforeach
@@ -54,7 +56,7 @@
                 <select class="form-control form-control-solid" name="status">
                   <option value="">Semua Status</option>
                   @foreach (StatusEnum::toArray() as $item)
-                    <option value="{{ $item['id'] }}" @if (session()->get('ptable.status') == $item['id']) selected @endif>
+                    <option value="{{ $item['id'] }}" @if (session()->get('utable.status') == $item['id']) selected @endif>
                       {{ $item['name'] }}
                     </option>
                   @endforeach
@@ -93,7 +95,7 @@
               <th>Unit / Tahun</th>
               <th class="text-center">Waktu</th>
               <th class="text-center">Status</th>
-              <th class="text-right">Total Anggaran</th>
+              <th class="text-right">Jumlah Barang</th>
               <th class="text-center">Aksi</th>
             </tr>
           </thead>
@@ -118,26 +120,30 @@
                   {!! $status->getLabelHTML() !!}
                 </td>
                 <td class="text-right">
-                  {{ formatNomor($item->total) }}
+                  {{ formatNomor($item->usulans_count) }}
                 </td>
                 <td class="text-center">
 
                   <x-table.menu-dropdown>
 
-                    @can('perencanaan read')
-                      <x-table.nav-item :route="route('perencanaan.belanja', ['perencanaan' => $item->id])" name="Detail Belanja" icon="la la-money-check-alt" />
-                    @endcan
-
-                    @if (auth()->user()->can('perencanaan follow_up') && $status->isDikirim())
-                      <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :$item />
-                      <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :$item />
-                      <x-table.nav-separator />
+                    @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()))
+                      <x-table.nav-item route="javascript:;" name="Kirim" icon="la la-send" :$item />
                     @endif
 
-                    @if ($item->total > 0)
+                    <x-table.nav-separator />
+
+                    @if ($item->usulans_count > 0)
                       <x-table.nav-item :route="route('belanja.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
                       <x-table.nav-separator />
                     @endif
+
+                    @can('perencanaan read')
+                      <x-table.nav-item :route="route('usulan.usul', ['usul' => $item->id])" name="Detail Usulan" icon="la la-money-check-alt" />
+                    @endcan
+
+                    @can('perencanaan delete')
+                      <x-table.nav-item route="javascript:;" name="Hapus" icon="la la-trash" :$item />
+                    @endcan
 
                   </x-table.menu-dropdown>
 
@@ -157,11 +163,11 @@
         </div>
 
         <div class="d-flex align-items-center py-3">
-          <form action="{{ route('perencanaan.setfilter', request()->query()) }}" method="post">@csrf
+          <form action="{{ route('usulan.setfilter', request()->query()) }}" method="post">@csrf
             <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary"
               style="width: 75px;" name="per_page" onchange="setPerPage(this)">
               @foreach ([10, 25, 50, 100] as $item)
-                <option value="{{ $item }}" @if (session()->get('ptable.per_page') == $item) selected @endif>
+                <option value="{{ $item }}" @if (session()->get('utable.per_page') == $item) selected @endif>
                   {{ $item }}
                 </option>
               @endforeach

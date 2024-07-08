@@ -1,18 +1,17 @@
 @extends('layouts.template')
 
 @push('css')
-  <link href="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 @endpush
 
 @section('subheader')
-  <x-subheader title="Tambah Barang">
+  <x-subheader title="Buat Usulan">
     <x-slot name="breadcrumb">
-      <x-bc.item route="{{ route('usul.index') }}">Data</x-bc.item>
+      <x-bc.item route="{{ route('usulan.index') }}">Data</x-bc.item>
       <x-bc.separator />
       <x-bc.item route="#">Tambah Data</x-bc.item>
     </x-slot>
 
-    <x-btn.a-weight-bold-svg href="{{ route('usul.index') }}" svg="Navigation/Angle-left.svg"
+    <x-btn.a-weight-bold-svg href="{{ route('usulan.index') }}" svg="Navigation/Angle-left.svg"
       class="btn-sm btn-light-primary ml-2">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
@@ -20,12 +19,12 @@
 
 @section('content')
   <!--begin::Card-->
-  <form action="{{ route('usul.store') }}" class="row" method="POST">
+  <form action="{{ route('usulan.store') }}" class="row" method="POST">
     @csrf
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
         <div class="card-header">
-          <h3 class="card-title">Tambah Barang</h3>
+          <h3 class="card-title">Tambah Usulan</h3>
         </div>
         <div class="card-body">
           <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
@@ -36,28 +35,11 @@
                 <h3 class="mb-10 font-weight-bold text-dark">Isi Data</h3>
                 <!--begin::Input-->
 
-                <x-validation.inline.txt type="text" name="ul_name" placeholder="Nama Barang"
-                  value="{{ old('ul_name') }}" :messages="$errors->get('ul_name')">Nama
-                  Barang<x-redstar />
-                </x-validation.inline.txt>
-
-                <x-validation.inline.txt type="text" name="ul_qty" placeholder="Jumlah Barang"
-                  value="{{ old('ul_qty') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('ul_qty')">Jumlah
-                  Barang<x-redstar />
-                </x-validation.inline.txt>
-
-                <x-validation.inline.txt type="text" name="ul_prise" placeholder="Harga Barang"
-                  value="{{ old('ul_prise') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('ul_prise')">Harga
-                  Barang
-                </x-validation.inline.txt>
-
-                <x-validation.inline.txtarea name="ul_desc" placeholder="Spesifikasi/Keterangan" :messages="$errors->get('ul_desc')">
-                  @slot('title')
-                    Spesifikasi
-                  @endslot
-                  {{ old('ul_desc') }}
-                </x-validation.inline.txtarea>
-
+                <x-validation.inline.select-static name="p_tahun" :messages="$errors->get('p_tahun')">
+                  Jenis Layanan<x-redstar />
+                  @slot('items', $tahuns)
+                </x-validation.inline.select-static>
+                <!--end::Group-->
               </div>
               <!--end::Wizard Data-->
 
@@ -65,7 +47,7 @@
               <div class="d-flex justify-content-between border-top mt-5 pt-10">
                 <div class="mr-2"> </div>
                 <div>
-                  <a href="{{ route('usul.index') }}"
+                  <a href="{{ route('usulan.index') }}"
                     class="btn btn-danger font-weight-bolder text-uppercase px-9 py-4">Batal</a>
                   <button type="submit"
                     class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4">Simpan</button>

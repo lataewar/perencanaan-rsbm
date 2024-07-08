@@ -3,26 +3,37 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Session;
 
 class UsulanRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
+  public function rules(): array
+  {
+    return [
+      'perencanaan_id' => ['required'],
+      'ul_name' => ['required'],
+      'ul_qty' => ['required', 'integer'],
+      'ul_prise' => ['nullable', 'integer'],
+      'ul_desc' => [],
+    ];
+  }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            //
-        ];
-    }
+  protected function prepareForValidation(): void
+  {
+    $this->merge([
+      'perencanaan_id' => Session::get('usulan'),
+      'ul_prise' => !$this->ul_prise ? null : str_replace(".", "", $this->ul_prise),
+      'ul_qty' => str_replace(".", "", $this->ul_qty),
+    ]);
+  }
+
+  public function messages(): array
+  {
+    return [
+      'ul_name.required' => 'Nama Barang harus diisi.',
+      'ul_qty.required' => 'Jumlah Barang harus diisi.',
+      'ul_name.integer' => 'Jumlah Barang harus berupa angka.',
+      'ul_prise.integer' => 'Harga Barang harus berupa angka.',
+    ];
+  }
 }

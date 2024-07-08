@@ -15,7 +15,7 @@ return new class extends Migration {
       $table->foreignUuid('unit_id')->constrained('units');
       $table->foreignUuid('perencanaan_id')->constrained('perencanaans');
       $table->string('ul_name', 100);
-      $table->bigInteger('ul_prise');
+      $table->bigInteger('ul_prise')->nullable();
       $table->integer('ul_qty');
       $table->text('ul_desc')->nullable();
       $table->boolean('is_accommodated')->default(false);

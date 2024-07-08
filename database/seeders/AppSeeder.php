@@ -33,8 +33,8 @@ class AppSeeder extends Seeder
     Menu::create([
       'id' => 5,
       'name' => 'Usulan',
-      'route' => 'usulan',
-      'icon' => 'Communication/Clipboard-list.svg',
+      'route' => 'usulan.index',
+      'icon' => 'Tools/Pantone.svg',
       'desc' => 'Menu Usulan Unit',
       'has_submenu' => 0,
     ]);
