@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
       UnitSeeder::class,
       UserSeeder::class,
       JenbelSeeder::class,
+      AlkesFormatSeeder::class,
       // SubJenbelSeeder::class,
     ]);
   }
