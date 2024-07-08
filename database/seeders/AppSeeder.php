@@ -24,6 +24,14 @@ class AppSeeder extends Seeder
     ]);
     Menu::create([
       'id' => 4,
+      'name' => 'Alat Kesehatan',
+      'route' => 'alkes.index',
+      'icon' => 'Devices/Diagnostics.svg',
+      'desc' => 'Menu Alat Kesehatan',
+      'has_submenu' => 0,
+    ]);
+    Menu::create([
+      'id' => 5,
       'name' => 'Barang',
       'route' => 'barang.index',
       'icon' => 'Shopping/Box3.svg',
@@ -31,7 +39,7 @@ class AppSeeder extends Seeder
       'has_submenu' => 0,
     ]);
     Menu::create([
-      'id' => 5,
+      'id' => 6,
       'name' => 'Usulan',
       'route' => 'usulan.index',
       'icon' => 'Tools/Pantone.svg',
@@ -39,7 +47,7 @@ class AppSeeder extends Seeder
       'has_submenu' => 0,
     ]);
     Menu::create([
-      'id' => 6,
+      'id' => 7,
       'name' => 'Perencanaan',
       'route' => 'perencanaan.index',
       'icon' => 'Communication/Clipboard-list.svg',
@@ -71,6 +79,7 @@ class AppSeeder extends Seeder
       ['menu_id' => 4, 'role_id' => 1],
       ['menu_id' => 5, 'role_id' => 1],
       ['menu_id' => 6, 'role_id' => 1],
+      ['menu_id' => 7, 'role_id' => 1],
     ]);
 
     // ---------------------------- SEEDING ROLE ---------------------------- //
@@ -80,25 +89,25 @@ class AppSeeder extends Seeder
       'name' => 'administrator',
       'guard_name' => 'web',
       'desc' => 'Administrator',
-    ])->menus()->attach([2, 3, 4, 5, 6]);
+    ])->menus()->attach([2, 3, 4, 5, 6, 7]);
     \App\Models\Role::create([
       'id' => 3,
       'name' => 'pimpinan',
       'guard_name' => 'web',
       'desc' => 'Pimpinan',
-    ])->menus()->attach([2, 6]);
+    ])->menus()->attach([2, 4, 7]);
     \App\Models\Role::create([
       'id' => 4,
       'name' => 'perencana',
       'guard_name' => 'web',
       'desc' => 'Perencana',
-    ])->menus()->attach([3, 4, 6]);
+    ])->menus()->attach([3, 4, 5, 7]);
     \App\Models\Role::create([
       'id' => 5,
       'name' => 'unit',
       'guard_name' => 'web',
       'desc' => 'Unit',
-    ])->menus()->attach([4, 5, 6]);
+    ])->menus()->attach([4, 5, 6, 7]);
 
 
     // ------------------------ SEEDING PERMISSION  ------------------------ //

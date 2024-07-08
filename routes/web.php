@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlkesFormatController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BelanjaController;
 use App\Http\Controllers\CetakController;
@@ -85,6 +86,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/update/{barang}', [BarangController::class, 'update'])->name('barang.update');
     Route::delete('/{barang}', [BarangController::class, 'destroy'])->name('barang.destroy');
     Route::post('/multdelete', [BarangController::class, 'multdelete'])->name('barang.multdelete');
+  });
+
+  Route::prefix('alkes')->group(function () {
+    Route::get('/', [AlkesFormatController::class, 'index'])->name('alkes.index');
+    Route::post('/datatable', [AlkesFormatController::class, 'datatable'])->name('alkes.datatable');
   });
 
   Route::prefix('perencanaan')->group(function () {

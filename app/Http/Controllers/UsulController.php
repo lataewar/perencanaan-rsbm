@@ -19,11 +19,8 @@ class UsulController extends Controller
   public function __construct(
     protected UsulanService $service
   ) {
-    // $this->middleware('permission:perencanaan create')->only(['create', 'store']);
-    // $this->middleware('permission:perencanaan send')->only(['send']);
-    // $this->middleware('permission:perencanaan follow_up')->only(['accept', 'reject']);
-    // $this->middleware('permission:perencanaan read')->only(['index', 'setfilter', 'belanja']);
-    // $this->middleware('permission:perencanaan delete')->only(['destroy']);
+    $this->middleware('permission:perencanaan create')->only(['create', 'store', 'destroy', 'multdelete', 'edit', 'update']);
+    $this->middleware('permission:perencanaan read')->only(['index', 'datatable', 'belanja']);
   }
 
   //----------  INDEX  ----------//
