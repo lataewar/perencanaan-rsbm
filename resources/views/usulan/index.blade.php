@@ -126,7 +126,7 @@
 
                   <x-table.menu-dropdown>
 
-                    @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()))
+                    @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()) && $item->usulans_count > 0)
                       <x-table.nav-item route="javascript:;" name="Kirim" icon="la la-send" :$item />
                     @endif
 
@@ -138,7 +138,7 @@
                     @endif
 
                     @can('perencanaan read')
-                      <x-table.nav-item :route="route('usulan.usul', ['usul' => $item->id])" name="Detail Usulan" icon="la la-money-check-alt" />
+                      <x-table.nav-item :route="route('usulan.usul', ['usul' => $item->id])" name="Detail Usulan" icon="la la-boxes" />
                     @endcan
 
                     @can('perencanaan delete')

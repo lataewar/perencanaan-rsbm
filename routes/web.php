@@ -96,8 +96,6 @@ Route::middleware('auth')->group(function () {
   Route::prefix('perencanaan')->group(function () {
     Route::get('/', [PerencanaanController::class, 'index'])->name('perencanaan.index');
     Route::post('/setfilter', [PerencanaanController::class, 'setfilter'])->name('perencanaan.setfilter');
-    Route::get('/create', [PerencanaanController::class, 'create'])->name('perencanaan.create');
-    Route::post('/store', [PerencanaanController::class, 'store'])->name('perencanaan.store');
     Route::delete('/', [PerencanaanController::class, 'destroy'])->name('perencanaan.destroy');
     Route::post('/multdelete', [PerencanaanController::class, 'multdelete'])->name('perencanaan.multdelete');
     Route::get('/{perencanaan}/belanja', [PerencanaanController::class, 'belanja'])->name('perencanaan.belanja');

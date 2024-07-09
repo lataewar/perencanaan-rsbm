@@ -10,11 +10,6 @@
     @endslot
 
     <div class="default-btns">
-      @can('perencanaan create')
-        <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('perencanaan.create') }}"
-          class="btn-sm btn-light-success btn-create">
-          Tambah Data</x-btn.a-weight-bold-svg>
-      @endcan
     </div>
   </x-subheader>
 @endsection

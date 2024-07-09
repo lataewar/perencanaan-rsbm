@@ -17,7 +17,6 @@ class PerencanaanController extends Controller
   public function __construct(
     protected PerencanaanService $service
   ) {
-    $this->middleware('permission:perencanaan create')->only(['create', 'store']);
     $this->middleware('permission:perencanaan follow_up')->only(['accept', 'reject']);
     $this->middleware('permission:perencanaan read')->only(['index', 'setfilter', 'belanja']);
     $this->middleware('permission:perencanaan delete')->only(['destroy']);
@@ -37,29 +36,6 @@ class PerencanaanController extends Controller
   {
     $this->service->setfilter($request);
     return to_route('perencanaan.index');
-  }
-
-  //----------  CREATE  ----------//
-  public function create(): View
-  {
-    return view('perencanaan.create', ['tahuns' => $this->service->getTahun()]);
-  }
-
-  //----------  STORE  ----------//
-  public function store(PerencanaanRequest $request): RedirectResponse
-  {
-    try {
-      $this->service->store($request);
-      return to_route('perencanaan.index')->with('success', 'Perencenaan baru berhasil ditambahkan.');
-
-    } catch (QueryException $e) {
-      $errorCode = $e->errorInfo[1];
-      if ($errorCode == 1062) {
-        // we have a duplicate entry problem
-        return to_route('perencanaan.index')->with('error', 'Tahun perencanaan sudah ada sebelumnya.');
-      }
-      return to_route('perencanaan.index')->with('error', 'Perencenaan baru gagal ditambahkan.');
-    }
   }
 
   //----------  BELANJA  ----------//
