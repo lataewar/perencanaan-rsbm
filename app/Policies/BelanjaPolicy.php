@@ -14,7 +14,7 @@ class BelanjaPolicy
     if (!Session::has('perencanaan_id'))
       return false;
 
-    $find = app(PerencanaanService::class)->find_total(Session::get('perencanaan_id'));
+    $find = app(PerencanaanService::class)->find_usulan(Session::get('perencanaan_id'));
     $status = StatusEnum::from($find->status);
 
     // if status == dikirim && role_id == perencana

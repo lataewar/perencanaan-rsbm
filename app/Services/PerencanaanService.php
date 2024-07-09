@@ -62,9 +62,9 @@ class PerencanaanService extends BaseService
     return $arrays;
   }
 
-  public function validate_isexist(string $barang_id, string $belanja_id): Collection
+  public function validate_isexist(string $barang_id, string $perencanaan_id): Collection
   {
-    return $this->repository->validate_isexist($barang_id, $belanja_id);
+    return $this->repository->validate_isexist($barang_id, $perencanaan_id);
   }
 
   public function dashboard_get_count_by_year_and_status(int $year, int $status): int

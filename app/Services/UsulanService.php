@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\UsulanRequest;
 use App\Models\Usulan;
 use App\Repositories\UsulanRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -14,6 +15,11 @@ class UsulanService extends BaseService
     protected UsulanRepository $repository
   ) {
     parent::__construct($repository);
+  }
+
+  public function table(string $id): Collection
+  {
+    return $this->repository->table($id)->get();
   }
 
   public function setfilter(Request $request): void

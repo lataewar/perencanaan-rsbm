@@ -4,6 +4,12 @@
   <link href="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 @endpush
 
+@php
+  $isCanUpdateBelanja = auth()
+      ->user()
+      ->can('update', App\Models\Belanja::class);
+@endphp
+
 @section('subheader')
   <x-subheader title="Belanja">
     @slot('breadcrumb')
@@ -13,11 +19,11 @@
     <div class="default-btns">
 
       @can('perencanaan update')
-        @can('update', App\Models\Belanja::class)
+        @if ($isCanUpdateBelanja)
           <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('belanja.create') }}"
             class="btn-sm btn-light-success btn-create">
             Tambah Rencana Belanja</x-btn.a-weight-bold-svg>
-        @endcan
+        @endif
       @endcan
     </div>
 
@@ -85,110 +91,156 @@
       </div>
       <x-separator margin="5" />
 
-      <!--begin: Table-->
-      <table class="table table-hover">
-        <thead>
-          <tr class="text-light" style="background-color: #434343;">
-            {{-- <th>No</th> --}}
-            <th width="10%">Kode</th>
-            <th width="20%">Jenis Belanja</th>
-            <th width="65%">Detail</th>
-            <th width="5%" class="text-center">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($belanjas as $jenbel1)
-            <tr class="font-weight-boldest" style="background-color: #dddddd;">
-              <td>{{ $jenbel1->jb_fullkode }}</td>
-              <td colspan="2">{{ $jenbel1->jb_name }}</td>
-              <td class="text-center"></td>
-            </tr>
+      <div class="row">
 
-            @foreach ($jenbel1->jenis_belanjas as $jenbel2)
-              <tr style="background-color: #efefef;">
-                {{-- <td></td> --}}
-                <td>{{ $jenbel2->jb_fullkode }}</td>
-                <td colspan="2">{{ $jenbel2->jb_name }}</td>
-                <td class="text-center"></td>
+        <div class="col-md-5 px-1">
+
+          <!--begin: Table Usulan-->
+          <table class="table table-hover">
+            <thead>
+              <tr class="text-light" style="background-color: #434343;">
+                <th width="8%">No</th>
+                <th width="82%">Detail</th>
+                <th width="10%" class="text-center">Aksi</th>
               </tr>
-
-              @foreach ($jenbel2->jenis_belanjas as $jenbel3)
-                <tr class="font-weight-lighter">
-                  {{-- <td></td> --}}
-                  <td>{{ $jenbel3->jb_fullkode }}</td>
-                  <td>{{ $jenbel3->jb_name }}</td>
-
+            </thead>
+            <tbody>
+              @foreach ($usulans as $usulan)
+                <tr @if ($usulan->is_accommodated) class="table-success" @endif>
+                  <td>{{ $loop->iteration }}</td>
                   <td>
-                    <div class="col-md-11 mt-1 mb-2">
-                      <div class="row border-bottom" style="background-color: #f5f5f5;">
-                        <div class="col-sm-3 font-size-sm">Nama Barang</div>
-                        <div class="col-sm-3 font-size-sm text-right">Harga</div>
-                        <div class="col-sm-2 font-size-sm text-right">Jumlah</div>
-                        <div class="col-sm-4 font-size-sm text-right">Total</div>
-                      </div>
-                      @foreach ($jenbel3->barangs as $barang)
-                        <div class="row border-bottom"
-                          @if ($barang->pivot->is_exist) style="background-color: #fccdd2;" @endif>
-                          <div class="col-sm-3 font-size-sm">
-                            @if ($barang->pivot->is_exist)
-                              <span class="label label-light-danger label-rounded font-weight-bold" data-toggle="tooltip"
-                                data-original-title="{{ $barang->pivot->message }}">i</span> &nbsp;
-                            @endif
-                            {{ $barang->br_name }}
-                          </div>
-                          <div class="col-sm-3 font-size-sm text-right">{{ formatNomor($barang->pivot->harga) }}</div>
-                          <div class="col-sm-2 font-size-sm text-right">{{ formatNomor($barang->pivot->jumlah) }}</div>
-                          <div class="col-sm-4 font-size-sm text-right">
-                            {{ formatNomor($barang->pivot->harga * $barang->pivot->jumlah) }}</div>
-                        </div>
-                      @endforeach
-                      <div class="row border-bottom" style="background-color: #d7ecff;">
-                        <div class="col-sm-3 font-size-sm">Total Belanja</div>
-                        <div class="col-sm-9 font-size-sm text-right">{{ formatNomor($jenbel3->total_harga) }}</div>
-                      </div>
+                    <div class="font-weight-bold font-size-md text-success pb-2">{{ $usulan->ul_name }}</div>
+                    <div class="row border-bottom" style="background-color: #f5f5f5;">
+                      <div class="col-sm-2 font-size-sm text-right">jml</div>
+                      <div class="col-sm-4 font-size-sm text-right">harga</div>
+                      <div class="col-sm-6 font-size-sm text-right">total</div>
                     </div>
-                    <div class="mt-2 font-size-m font-weight-bold">Sumber Anggaran :
-                      {{ $jenbel3->sumber_anggaran ? $jenbel3->sumber_anggaran->getName() : '' }}
+                    <div class="row border-bottom font-weight-bold">
+                      <div class="col-sm-2 font-size-sm text-right">{{ $usulan->ul_qty }}</div>
+                      <div class="col-sm-4 font-size-sm text-right">{{ formatNomor($usulan->ul_prise) }}</div>
+                      <div class="col-sm-6 font-size-sm text-right">
+                        {{ formatNomor($usulan->ul_qty * $usulan->ul_prise) }}
+                      </div>
                     </div>
                   </td>
-
                   <td class="text-center">
-                    @can('perencanaan read')
-                      {!! App\Services\Datatables\DatatableService::btn(
-                          'perencanaan/belanja/detail/' . $jenbel3->belanja_id,
-                          'Dateil Belanja',
-                          'Shopping/Box3.svg',
-                      ) !!}
-                    @endcan
                     @can('perencanaan update')
-                      @can('update', App\Models\Belanja::class)
-                        {!! App\Services\Datatables\DatatableService::btn(
-                            'perencanaan/belanja/' . $jenbel3->belanja_id . '/edit',
-                            'Ubah Belanja',
-                            'Design/edit.svg',
-                        ) !!}
-                      @endcan
-                    @endcan
-                    @can('perencanaan delete')
-                      @can('update', App\Models\Belanja::class)
-                        <form action="{{ route('belanja.destroy', ['belanja' => $jenbel3->belanja_id]) }}"
-                          class="deleteBelanja" method="POST">
-                          @method('DELETE') @csrf
-                          <input type="hidden" name="jb_name" value="{{ $jenbel3->jb_name }}">
-                          <button type='submit' class='btn btn-sm btn-clean btn-icon mr-2' title='Hapus Data'><span
-                              class='svg-icon svg-icon-md'>{!! file_get_contents('assets/media/svg/icons/General/Trash.svg') !!}</span></button>
-                        </form>
-                      @endcan
+                      @if ($isCanUpdateBelanja && !$usulan->is_accommodated)
+                        <x-table.a :route="route('belanja.create.usulan', $usulan->id)" hint="Akomodir ke perencanaan" icon="Code/Plus.svg" />
+                      @endif
                     @endcan
                   </td>
-
                 </tr>
               @endforeach
-            @endforeach
-          @endforeach
-        </tbody>
-      </table>
-      <!--end: Table-->
+            </tbody>
+          </table>
+          <!--end: Table Usulan-->
+
+        </div>
+
+        <div class="col-md-7 px-1">
+
+          <!--begin: Table Perencanaan-->
+          <table class="table table-hover">
+            <thead>
+              <tr class="text-light" style="background-color: #434343;">
+                <th width="10%">Kode</th>
+                <th width="85%">Detail</th>
+                <th width="5%" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($belanjas as $jenbel1)
+                <tr class="font-weight-boldest py-0" style="background-color: #dddddd;">
+                  <td class="py-0">{{ $jenbel1->jb_fullkode }}</td>
+                  <td class="py-0">{{ $jenbel1->jb_name }}</td>
+                  <td class="text-center py-0"></td>
+                </tr>
+
+                @foreach ($jenbel1->jenis_belanjas as $jenbel2)
+                  <tr class="py-0" style="background-color: #efefef;">
+                    <td class="py-0">{{ $jenbel2->jb_fullkode }}</td>
+                    <td class="py-0">{{ $jenbel2->jb_name }}</td>
+                    <td class="text-center py-0"></td>
+                  </tr>
+
+                  @foreach ($jenbel2->jenis_belanjas as $jenbel3)
+                    <tr class="font-weight-lighter py-0" style="background-color: #f5f5f5;">
+                      <td class="py-0">{{ $jenbel3->jb_fullkode }}</td>
+                      <td class="py-0"> {{ $jenbel3->jb_name }}</td>
+                      <td class="text-center py-0"></td>
+
+                    </tr>
+
+                    <tr class="font-weight-lighter py-0">
+                      <td class="py-0" colspan="3">
+                        <div class="col-md-12 mt-1 mb-2">
+                          <div class="row border-bottom font-weight-bold" style="background-color: #f5f5f5;">
+                            <div class="col-sm-3 font-size-sm">nama brg</div>
+                            <div class="col-sm-1 font-size-sm text-right">jml</div>
+                            <div class="col-sm-2 font-size-sm text-right">harga</div>
+                            <div class="col-sm-3 font-size-sm text-right">total</div>
+                            <div class="col-sm-2 font-size-sm text-right">ket.</div>
+                            <div class="col-sm-1 font-size-sm text-right"></div>
+                          </div>
+
+                          @foreach ($jenbel3->barangs as $barang)
+                            <div class="row border-bottom"
+                              @if ($barang->pivot->is_exist) style="background-color: #fccdd2;" @endif>
+                              <div class="col-sm-3 font-size-sm pt-2">
+                                @if ($barang->pivot->is_exist)
+                                  <span class="label label-light-danger label-rounded font-weight-bold"
+                                    data-toggle="tooltip" data-original-title="{{ $barang->pivot->message }}">i</span>
+                                  &nbsp;
+                                @endif
+                                {{ $barang->br_name }}
+                              </div>
+                              <div class="col-sm-1 font-size-sm text-right pt-2">
+                                {{ formatNomor($barang->pivot->jumlah) }}
+                              </div>
+                              <div class="col-sm-2 font-size-sm text-right pt-2">
+                                {{ formatNomor($barang->pivot->harga) }}
+                              </div>
+                              <div class="col-sm-3 font-size-sm text-right pt-2">
+                                {{ formatNomor($barang->pivot->harga * $barang->pivot->jumlah) }}</div>
+                              <div class="col-sm-2 font-size-sm text-right pt-2">
+                                {!! $barang->pivot->sumber_anggaran
+                                    ? App\Enums\SumberAnggaranEnum::from($barang->pivot->sumber_anggaran)->getName()
+                                    : '' !!}
+                              </div>
+                              <div class="col-sm-1 font-size-sm text-right">
+                                <x-table.menu-dropdown>
+
+                                  @can('perencanaan update')
+                                    @if ($isCanUpdateBelanja)
+                                      <x-table.nav-item route="javascript:;" name="Hapus" icon="la la-trash"
+                                        :belanja="$barang->pivot->belanja_id" :barang="$barang->pivot->barang_id" :namabarang="$barang->br_name" :usulan="$barang->pivot->usulan_id" />
+                                    @endif
+                                  @endcan
+
+                                </x-table.menu-dropdown>
+                              </div>
+                            </div>
+                          @endforeach
+
+                          <div class="row border-bottom" style="background-color: #d7ecff;">
+                            <div class="col-sm-6 font-size-sm">Total Belanja</div>
+                            <div class="col-sm-3 font-size-sm text-right">{{ formatNomor($jenbel3->total_harga) }}</div>
+                          </div>
+
+                        </div>
+                      </td>
+                    </tr>
+                  @endforeach
+                @endforeach
+              @endforeach
+            </tbody>
+          </table>
+          <!--end: Table Perencanaan-->
+
+        </div>
+
+      </div>
     </div>
   </div>
   <!--end::Card-->
@@ -196,7 +248,12 @@
 
 @push('js')
   <!--begin::Page Vendors(used by this page)-->
-
+  <script>
+    $(document).ready(function() {
+      const element = document.getElementById("kt_body");
+      element.classList.add("aside-minimize");
+    });
+  </script>
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
   <script src="{{ asset('js') }}/app.js"></script>

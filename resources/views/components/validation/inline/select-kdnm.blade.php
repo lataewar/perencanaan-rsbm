@@ -11,10 +11,11 @@
     <select {{ $attributes->merge(['class' => 'form-control form-control-lg ' . $is_invalid]) }}>
       <option value="" hidden>- Pilih Salah Satu -</option>
       @foreach ($options as $item)
-        @if ($current == $item['id'])
-          <option value="{{ $item['id'] }}" selected>{{ $item['name'] }}</option>
+        @if ($current == $item->id)
+          <option value="{{ $item->id }}" selected>{{ $item->fullkode . ' - ' . $item->name }}
+          </option>
         @else
-          <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+          <option value="{{ $item->id }}">{{ $item->fullkode . ' - ' . $item->name }}</option>
         @endif
       @endforeach
     </select>

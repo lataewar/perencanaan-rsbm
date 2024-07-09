@@ -5,7 +5,7 @@
 @endpush
 
 @section('subheader')
-  <x-subheader title="Buat Perencanaan Belanja">
+  <x-subheader title="Buat Perbelanjaan dari Usulan">
     <x-slot name="breadcrumb">
       <x-bc.item route="{{ route('belanja.index') }}">Data</x-bc.item>
       <x-bc.separator />
@@ -22,18 +22,23 @@
   <!--begin::Card-->
   <input type="hidden" id="jenbel_url" value="{{ route('selector.jenbel') }}">
   <input type="hidden" id="barang_url" value="{{ route('selector.barang') }}">
-  <form action="{{ route('belanja.store') }}" class="row" method="POST">
+  <form action="{{ route('belanja.store.usulan') }}" class="row" method="POST">
     @csrf
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
         <div class="card-header">
-          <h3 class="card-title">Tambah Perencanaan Belanja</h3>
+          <h3 class="card-title">Tambah Belanja Berdasarkan Usulan</h3>
         </div>
         <div class="card-body">
           <div class="row justify-content-center my-5 px-10">
             <div class="col-xl-12 col-xxl-9">
 
               <h3 class="mb-10 font-weight-bold text-dark">Isi Data</h3>
+
+              <input type="hidden" name="usulan_id" value="{{ $usulan->id }}">
+
+              <x-validation.inline.txt type="text" value="{{ $usulan->ul_name }}" disabled>Nama Usulan Barang
+              </x-validation.inline.txt>
 
               <x-validation.inline.select-kdnm name="jenbel_1" id="selector1" :messages="$errors->get('jenbel_1')" :options="$jenbels"
                 :current="old('jenbel_1')">
@@ -53,12 +58,14 @@
               </x-validation.inline.select-kdnm>
 
               <x-validation.inline.txt type="text" name="jumlah" placeholder="Jumlah Barang"
-                value="{{ old('jumlah') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('jumlah')">Jumlah
+                value="{{ old('jumlah') ?? formatNomor($usulan->ul_qty) }}" oninput="formatRupiah(this, '.')"
+                :messages="$errors->get('jumlah')">Jumlah
                 Barang<x-redstar />
               </x-validation.inline.txt>
 
               <x-validation.inline.txt type="text" name="harga" placeholder="Harga Barang"
-                value="{{ old('harga') }}" oninput="formatRupiah(this, '.')" :messages="$errors->get('harga')">Harga
+                value="{{ old('harga') ?? formatNomor($usulan->ul_prise) }}" oninput="formatRupiah(this, '.')"
+                :messages="$errors->get('harga')">Harga
                 Barang
               </x-validation.inline.txt>
 
@@ -66,7 +73,7 @@
                 @slot('title')
                   Keterangan
                 @endslot
-                {{ old('desc') }}
+                {{ old('desc') ?? $usulan->ul_desc }}
               </x-validation.inline.txtarea>
 
               <x-validation.inline.select-static name="sumber_anggaran" :current="old('sumber_anggaran')" :options="\App\Enums\SumberAnggaranEnum::toArray()">

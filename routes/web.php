@@ -12,6 +12,7 @@ use App\Http\Controllers\PerencanaanController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SelectorController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -30,6 +31,9 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+  Route::post('/getjenbel', [SelectorController::class, 'getJenbel'])->name('selector.jenbel');
+  Route::post('/getbarang', [SelectorController::class, 'getBarang'])->name('selector.barang');
 
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -105,26 +109,28 @@ Route::middleware('auth')->group(function () {
     Route::prefix('belanja')->group(function () {
       Route::get('/', [BelanjaController::class, 'index'])->name('belanja.index');
       Route::post('/datatable', [BelanjaController::class, 'datatable'])->name('belanja.datatable');
+      Route::get('/cbu/{usulan}', [BelanjaController::class, 'createByUsulan'])->name('belanja.create.usulan');
+      Route::post('/cbu', [BelanjaController::class, 'storeByUsulan'])->name('belanja.store.usulan');
       Route::get('/create', [BelanjaController::class, 'create'])->name('belanja.create');
       Route::post('/store', [BelanjaController::class, 'store'])->name('belanja.store');
-      Route::get('/{id}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
-      Route::put('/update/{id}', [BelanjaController::class, 'update'])->name('belanja.update');
-      Route::get('/detail/{belanja}', [BelanjaController::class, 'detail'])->name('belanja.detail');
-      Route::delete('/{belanja}', [BelanjaController::class, 'destroy'])->name('belanja.destroy');
+      Route::delete('/', [BelanjaController::class, 'destroy'])->name('belanja.destroy');
+      // Route::get('/{id}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
+      // Route::put('/update/{id}', [BelanjaController::class, 'update'])->name('belanja.update');
+      // Route::get('/detail/{belanja}', [BelanjaController::class, 'detail'])->name('belanja.detail');
 
       Route::get('/{id}/cetak', [CetakController::class, 'cetak_belanja'])->name('belanja.cetak');
     });
 
-    Route::prefix('detailbelanja')->group(function () {
-      Route::get('/', [DetailBelanjaController::class, 'index'])->name('detailbelanja.index');
-      Route::post('/datatable', [DetailBelanjaController::class, 'datatable'])->name('detailbelanja.datatable');
-      Route::get('/create', [DetailBelanjaController::class, 'create'])->name('detailbelanja.create');
-      Route::post('/store', [DetailBelanjaController::class, 'store'])->name('detailbelanja.store');
-      Route::get('/{barang}/{belanja}/edit', [DetailBelanjaController::class, 'edit'])->name('detailbelanja.edit');
-      Route::put('/update/{barang}/{belanja}', [DetailBelanjaController::class, 'update'])->name('detailbelanja.update');
-      Route::delete('/{barang}', [DetailBelanjaController::class, 'destroy'])->name('detailbelanja.destroy');
-      Route::post('/multdelete', [DetailBelanjaController::class, 'multdelete'])->name('detailbelanja.multdelete');
-    });
+    // Route::prefix('detailbelanja')->group(function () {
+    //   Route::get('/', [DetailBelanjaController::class, 'index'])->name('detailbelanja.index');
+    //   Route::post('/datatable', [DetailBelanjaController::class, 'datatable'])->name('detailbelanja.datatable');
+    //   Route::get('/create', [DetailBelanjaController::class, 'create'])->name('detailbelanja.create');
+    //   Route::post('/store', [DetailBelanjaController::class, 'store'])->name('detailbelanja.store');
+    //   Route::get('/{barang}/{belanja}/edit', [DetailBelanjaController::class, 'edit'])->name('detailbelanja.edit');
+    //   Route::put('/update/{barang}/{belanja}', [DetailBelanjaController::class, 'update'])->name('detailbelanja.update');
+    //   Route::delete('/{barang}', [DetailBelanjaController::class, 'destroy'])->name('detailbelanja.destroy');
+    //   Route::post('/multdelete', [DetailBelanjaController::class, 'multdelete'])->name('detailbelanja.multdelete');
+    // });
   });
 
   Route::prefix('usulan')->group(function () {

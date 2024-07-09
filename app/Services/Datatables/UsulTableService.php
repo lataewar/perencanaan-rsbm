@@ -16,11 +16,13 @@ class UsulTableService extends DatatableService
 
   public function table(string $id): JsonResponse
   {
+    $gate = auth()->user()->can('perencanaan update') && auth()->user()->can('update', Usulan::class);
+
     return DataTables::of($this->repository->table($id))
-      ->addColumn('aksi', function ($data) {
-        $strMenu = auth()->user()->can('perencanaan update') && auth()->user()->can('update', Usulan::class) ?
+      ->addColumn('aksi', function ($data) use ($gate) {
+        $strMenu = $gate ?
           self::editBtnA(route('usul.edit', ['usul' => $data->id])) : '';
-        $strMenu .= auth()->user()->can('perencanaan update') && auth()->user()->can('update', Usulan::class) ?
+        $strMenu .= $gate ?
           self::deleteBtn($data->id, $data->ul_name) : '';
 
         return $strMenu;

@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
-use App\Http\Requests\PerencanaanRequest;
 use App\Services\PerencanaanService;
 use App\Services\UnitService;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -43,16 +41,6 @@ class PerencanaanController extends Controller
   {
     Session::put('perencanaan_id', $id);
     return to_route('belanja.index');
-  }
-
-  //----------  DESTROY  ----------//
-  public function destroy(Request $request): RedirectResponse
-  {
-    if (!$this->service->delete($request->destroy))
-      Session::flash('error', 'Terjadi kesalahan pada proses hapus perencanaan.');
-
-    Session::flash('success', 'Perencanaan terhapus.');
-    return to_route('perencanaan.index');
   }
 
   //----------  ACCEPT  ----------//

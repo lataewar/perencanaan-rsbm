@@ -39,6 +39,8 @@ class PerencanaanRepository extends BaseRepository
           'u.u_name',
           'u.id as u_id',
 
+          DB::raw('SUM(bb.jumlah * bb.harga) as total'),
+
         ]
       )
       ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
@@ -129,7 +131,7 @@ class PerencanaanRepository extends BaseRepository
     }
   }
 
-  public function validate_isexist(string $barang_id, string $belanja_id): Collection
+  public function validate_isexist(string $barang_id, string $perencanaan_id): Collection
   {
     return $this->model
       ->select(['perencanaans.p_tahun'])
@@ -140,11 +142,10 @@ class PerencanaanRepository extends BaseRepository
           ->whereRaw('statuses.created_at IN (select MAX(statuses.created_at) from statuses join perencanaans on perencanaans.id = statuses.perencanaan_id group by perencanaans.id)');
       })
       ->where('bb.barang_id', $barang_id)
-      ->where('perencanaans.unit_id', '=', function (Builder $query) use ($belanja_id) {
-        $query->select('perencanaans.unit_id')
+      ->where('perencanaans.unit_id', '=', function (Builder $query) use ($perencanaan_id) {
+        $query->select('unit_id')
           ->from('perencanaans')
-          ->join('belanjas', 'belanjas.perencanaan_id', '=', 'perencanaans.id')
-          ->where('belanjas.id', $belanja_id);
+          ->where('id', $perencanaan_id);
       })
       ->where('statuses.status', StatusEnum::DISETUJUI->value)
       ->get();

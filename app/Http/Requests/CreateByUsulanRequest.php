@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Services\JenbelService;
 use App\Services\PerencanaanService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
-class BelanjaRequest extends FormRequest
+class CreateByUsulanRequest extends FormRequest
 {
   public function rules(): array
   {
     return [
+      'usulan_id' => ['required'],
       'perencanaan_id' => ['required'],
       'jenbel_1' => ['required'],
       'jenbel_2' => ['required'],

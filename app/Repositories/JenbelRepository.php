@@ -45,4 +45,9 @@ class JenbelRepository extends BaseRepository
   {
     return $this->model->where('jb_level', $lvl)->orderBy('created_at')->get(['id', 'jb_name as name', 'jb_fullkode as fullkode', 'jb_kode as kode']);
   }
+
+  public function getBySelf(string $id, string|int $lvl): Collection
+  {
+    return $this->model->where(['jenis_belanja_id' => $id, 'jb_level' => $lvl])->orderBy('created_at')->get(['id', 'jb_name as name', 'jb_fullkode as fullkode', 'jb_kode as kode']);
+  }
 }

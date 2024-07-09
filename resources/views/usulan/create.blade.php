@@ -35,9 +35,8 @@
                 <h3 class="mb-10 font-weight-bold text-dark">Isi Data</h3>
                 <!--begin::Input-->
 
-                <x-validation.inline.select-static name="p_tahun" :messages="$errors->get('p_tahun')">
-                  Jenis Layanan<x-redstar />
-                  @slot('items', $tahuns)
+                <x-validation.inline.select-static name="p_tahun" :messages="$errors->get('p_tahun')" :options="$tahuns">
+                  Tahun<x-redstar />
                 </x-validation.inline.select-static>
                 <!--end::Group-->
               </div>

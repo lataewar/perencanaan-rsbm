@@ -13,11 +13,13 @@ return new class extends Migration {
     Schema::create('barang_belanja', function (Blueprint $table) {
       $table->foreignUuid('barang_id')->constrained('barangs');
       $table->foreignUuid('belanja_id')->constrained('belanjas');
+      $table->foreignUuid('usulan_id')->nullable();
       $table->integer('jumlah');
       $table->bigInteger('harga');
       $table->text('desc')->nullable();
       $table->boolean('is_exist')->default(false);
       $table->string('message')->nullable();
+      $table->tinyInteger('sumber_anggaran')->nullable();
       $table->foreignUuid('user_id')->constrained('users');
       $table->timestamps();
 

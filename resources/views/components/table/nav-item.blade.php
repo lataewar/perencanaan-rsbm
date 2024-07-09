@@ -3,6 +3,10 @@
     'item' => null,
     'route',
     'name',
+    'belanja' => null,
+    'barang' => null,
+    'namabarang' => null,
+    'usulan' => null,
 ])
 
 @php
@@ -15,6 +19,8 @@
           'Kirim' => "send('$action')",
           'Hapus' => "destroy('$action')",
       };
+  } elseif ($belanja && $barang) {
+      $onclick = "destroy('$belanja','$barang','$namabarang','$usulan')";
   }
 @endphp
 

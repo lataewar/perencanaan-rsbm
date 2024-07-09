@@ -123,15 +123,14 @@
                       <x-table.nav-item :route="route('perencanaan.belanja', ['perencanaan' => $item->id])" name="Detail Belanja" icon="la la-money-check-alt" />
                     @endcan
 
-                    @if (auth()->user()->can('perencanaan follow_up') && $status->isDikirim())
+                    @if (auth()->user()->can('perencanaan follow_up') && $status->isDikirim() && $item->total > 0)
                       <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :$item />
                       <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :$item />
-                      <x-table.nav-separator />
                     @endif
 
                     @if ($item->total > 0)
-                      <x-table.nav-item :route="route('belanja.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
                       <x-table.nav-separator />
+                      <x-table.nav-item :route="route('belanja.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
                     @endif
 
                   </x-table.menu-dropdown>

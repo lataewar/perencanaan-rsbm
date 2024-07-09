@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Belanja;
+use App\Models\Usulan;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -50,15 +51,91 @@ class BelanjaRepository extends BaseRepository
       ->get();
   }
 
-  public function store(stdClass $request): Belanja
+  public function store(stdClass $request): bool
   {
-    return $this->model->create([
-      'perencanaan_id' => $request->perencanaan_id,
-      'jenis_belanja_id' => $request->jenis_belanja_id,
-      'b_sumber_anggaran' => $request->b_sumber_anggaran,
-      'b_desc' => $request->b_desc,
-      'user_id' => auth()->user()->id,
-    ]);
+    DB::beginTransaction();
+
+    try {
+      $belanja = $this->model->where('perencanaan_id', $request->perencanaan_id)->where('jenis_belanja_id', $request->jenis_belanja_id)->firstOrCreate([
+        'perencanaan_id' => $request->perencanaan_id,
+        'jenis_belanja_id' => $request->jenis_belanja_id,
+        'user_id' => auth()->user()->id,
+      ]);
+      $belanja->barangs()->attach(
+        $request->barang_id,
+        [
+          'jumlah' => $request->jumlah,
+          'harga' => $request->harga,
+          'desc' => $request->desc,
+          'is_exist' => $request->is_exist,
+          'message' => $request->message,
+          'sumber_anggaran' => $request->sumber_anggaran,
+          'user_id' => auth()->user()->id,
+        ]
+      );
+
+      DB::commit();
+      return true;
+    } catch (\Exception $e) {
+      DB::rollback();
+      return false;
+    }
+  }
+
+  public function storeByUsulan(stdClass $request): bool
+  {
+    DB::beginTransaction();
+
+    try {
+      $belanja = $this->model->where('perencanaan_id', $request->perencanaan_id)->where('jenis_belanja_id', $request->jenis_belanja_id)->firstOrCreate([
+        'perencanaan_id' => $request->perencanaan_id,
+        'jenis_belanja_id' => $request->jenis_belanja_id,
+        'user_id' => auth()->user()->id,
+      ]);
+      $belanja->barangs()->attach(
+        $request->barang_id,
+        [
+          'jumlah' => $request->jumlah,
+          'harga' => $request->harga,
+          'desc' => $request->desc,
+          'is_exist' => $request->is_exist,
+          'message' => $request->message,
+          'sumber_anggaran' => $request->sumber_anggaran,
+          'usulan_id' => $request->usulan_id,
+          'user_id' => auth()->user()->id,
+        ]
+      );
+
+      Usulan::find($request->usulan_id)->update(['is_accommodated' => true]);
+
+      DB::commit();
+      return true;
+    } catch (\Exception $e) {
+      DB::rollback();
+      return false;
+    }
+  }
+
+  public function delete_pivot(string|array $barang, string $belanja, ?string $usulan): bool
+  {
+    DB::beginTransaction();
+
+    try {
+      $belanja = $this->find($belanja);
+      $belanja->barangs()->detach($barang);
+
+      if ($usulan)
+        Usulan::find($usulan)->update(['is_accommodated' => false]);
+
+      if ($belanja->barangs()->count() == 0)
+        $belanja->delete();
+
+      DB::commit();
+      return true;
+    } catch (\Exception $e) {
+      DB::rollback();
+      return false;
+    }
   }
 
   public function find_edit(string $id): ?Model
@@ -146,21 +223,6 @@ class BelanjaRepository extends BaseRepository
           'user_id' => auth()->user()->id,
         ]
       );
-      DB::commit();
-      return true;
-    } catch (\Exception $e) {
-      DB::rollback();
-      return false;
-    }
-  }
-
-  public function delete_pivot(string|array $barang, string $belanja): bool
-  {
-    DB::beginTransaction();
-
-    try {
-      $belanja = $this->find($belanja);
-      $belanja->barangs()->detach($barang);
       DB::commit();
       return true;
     } catch (\Exception $e) {

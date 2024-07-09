@@ -26,8 +26,8 @@ class BarangService extends BaseService
     return $this->repository->update($id, $validated);
   }
 
-  public function getByBelanja(string $id): Collection
+  public function getByJenbel(string $id): Collection
   {
-    return $this->repository->getByBelanja($id);
+    return $this->repository->getByJenbel($id);
   }
 }

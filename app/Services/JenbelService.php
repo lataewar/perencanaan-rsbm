@@ -39,4 +39,9 @@ class JenbelService extends BaseService
   {
     return $this->repository->getAllByLevel($lvl);
   }
+
+  public function getBySelf(string $id, string|int $lvl): Collection
+  {
+    return $this->repository->getBySelf($id, $lvl);
+  }
 }

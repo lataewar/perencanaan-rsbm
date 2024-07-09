@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\BelanjaRequest;
+use App\Http\Requests\CreateByUsulanRequest;
 use App\Models\Belanja;
 use App\Repositories\BelanjaRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -111,10 +112,23 @@ class BelanjaService extends BaseService
     }
   }
 
-  public function store(BelanjaRequest $request): Belanja
+
+  public function store(BelanjaRequest $request): bool
   {
     return $this->repository->store((object) $request->validated());
   }
+
+  public function storeByUsulan(CreateByUsulanRequest $request): bool
+  {
+    return $this->repository->storeByUsulan((object) $request->validated());
+  }
+
+  public function delete_pivot(string|array $barang, string $belanja, ?string $usulan): bool
+  {
+    return $this->repository->delete_pivot($barang, $belanja, $usulan);
+  }
+
+  //----------------------------------------------------------------//
 
   public function find_edit(string $id): ?Model
   {

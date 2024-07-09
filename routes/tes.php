@@ -17,5 +17,5 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/tes', function () {
-
+  return JenisBelanja::where('jb_level', 3)->count();
 });
