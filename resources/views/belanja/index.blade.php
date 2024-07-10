@@ -213,6 +213,10 @@
 
                                   @can('perencanaan update')
                                     @if ($isCanUpdateBelanja)
+                                      <x-table.nav-item :route="route('belanja.edit', [
+                                          'barang' => $barang->pivot->barang_id,
+                                          'belanja' => $barang->pivot->belanja_id,
+                                      ])" name="Ubah" icon="la la-pencil" />
                                       <x-table.nav-item route="javascript:;" name="Hapus" icon="la la-trash"
                                         :belanja="$barang->pivot->belanja_id" :barang="$barang->pivot->barang_id" :namabarang="$barang->br_name" :usulan="$barang->pivot->usulan_id" />
                                     @endif

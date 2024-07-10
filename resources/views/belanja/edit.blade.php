@@ -20,7 +20,9 @@
 
 @section('content')
   <!--begin::Card-->
-  <form action="{{ route('belanja.update', $data->id) }}" class="row" method="POST">@method('PUT')
+  <form
+    action="{{ route('belanja.update', ['barang' => $data->pivot->barang_id, 'belanja' => $data->pivot->belanja_id]) }}"
+    class="row" method="POST">@method('PUT')
     @csrf
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
@@ -36,60 +38,39 @@
                 <h3 class="mb-10 font-weight-bold text-dark">Isi Data</h3>
                 <!--begin::Input-->
 
-                <div class="form-group row">
-                  <label class="col-xl-3 col-lg-3 col-form-label">
-                    Jenis Belanja<x-redstar />
-                  </label>
-                  <div class="col-lg-9 col-xl-9">
-                    <input type="text" class="form-control"
-                      value="{{ $data->jenis_belanja->jb_fullkode . ' - ' . $data->jenis_belanja->jb_name }}" disabled>
-                  </div>
-                </div>
+                <x-validation.inline.txt type="text" value="{{ $data->br_name }}" disabled>Nama Usulan Barang
+                </x-validation.inline.txt>
 
-                <div class="form-group row">
-                  <label class="col-xl-3 col-lg-3 col-form-label">
-                    Sumber Anggaran
-                  </label>
-                  <div class="col-lg-9 col-xl-9">
-                    <select class="form-control" name="b_sumber_anggaran">
-                      <option value="" hidden>- Pilih Salah Satu -</option>
-                      @foreach (\App\Enums\SumberAnggaranEnum::toArray() as $item)
-                        @if ($data->b_sumber_anggaran && $data->b_sumber_anggaran->value == $item['id'])
-                          <option value="{{ $item['id'] }}" selected>{{ $item['name'] }}
-                          </option>
-                        @else
-                          <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                        @endif
-                      @endforeach
-                    </select>
-                  </div>
-                </div>
+                <x-validation.inline.txt type="text" name="jumlah" placeholder="Jumlah Barang"
+                  value="{{ old('jumlah') ?? formatNomor($data->pivot->jumlah) }}" oninput="formatRupiah(this, '.')"
+                  :messages="$errors->get('jumlah')">Jumlah
+                  Barang<x-redstar />
+                </x-validation.inline.txt>
 
-                <x-validation.inline.txtarea name="b_desc" placeholder="Keterangan" :messages="$errors->get('b_desc')">
+                <x-validation.inline.txt type="text" name="harga" placeholder="Harga Barang"
+                  value="{{ old('harga') ?? formatNomor($data->pivot->harga) }}" oninput="formatRupiah(this, '.')"
+                  :messages="$errors->get('harga')">Harga
+                  Barang
+                </x-validation.inline.txt>
+
+                <x-validation.inline.txtarea name="desc" placeholder="Spesifikasi/Keterangan">
                   @slot('title')
                     Keterangan
                   @endslot
-                  {{ $data->b_desc }}
+                  {{ old('desc') ?? $data->pivot->desc }}
                 </x-validation.inline.txtarea>
-              </div>
-              <!--end::Wizard Data-->
 
-              <!--begin::Wizard Actions-->
-              <div class="d-flex justify-content-between border-top mt-5 pt-10">
-                <div class="mr-2"> </div>
-                <div>
-                  <a href="{{ route('belanja.index') }}"
-                    class="btn btn-danger font-weight-bolder text-uppercase px-9 py-4">Batal</a>
-                  <button type="submit"
-                    class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4">Simpan</button>
-                </div>
+                <x-validation.inline.select-static name="sumber_anggaran" :current="old('sumber_anggaran') ?? $data->pivot->sumber_anggaran" :options="\App\Enums\SumberAnggaranEnum::toArray()">
+                  Sumber Anggaran
+                </x-validation.inline.select-static>
+
+                <x-validation.inline.submit :route="route('belanja.index')" />
+
               </div>
-              <!--end::Wizard Actions-->
             </div>
           </div>
         </div>
       </div>
-    </div>
   </form>
   <!--end::Card-->
 @endsection

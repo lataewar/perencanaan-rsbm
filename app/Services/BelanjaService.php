@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\BelanjaRequest;
+use App\Http\Requests\BelanjaUpdateRequest;
 use App\Http\Requests\CreateByUsulanRequest;
 use App\Models\Belanja;
 use App\Repositories\BelanjaRepository;
@@ -128,16 +129,15 @@ class BelanjaService extends BaseService
     return $this->repository->delete_pivot($barang, $belanja, $usulan);
   }
 
-  //----------------------------------------------------------------//
-
-  public function find_edit(string $id): ?Model
+  public function find_pivot(string $barang, string $belanja): ?Model
   {
-    return $this->repo->find_edit($id);
+    return $this->repository->find_pivot($barang, $belanja);
   }
 
-  public function update(string $id, BelanjaRequest $request): Belanja
+  public function update(string $barang, string $belanja, BelanjaUpdateRequest $request): bool
   {
-    return $this->repository->update($id, (object) $request->validated());
+    $validated = (object) $request->validated();
+    return $this->repository->update_pivot($barang, $belanja, $validated);
   }
 
 }

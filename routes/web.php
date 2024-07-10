@@ -114,23 +114,11 @@ Route::middleware('auth')->group(function () {
       Route::get('/create', [BelanjaController::class, 'create'])->name('belanja.create');
       Route::post('/store', [BelanjaController::class, 'store'])->name('belanja.store');
       Route::delete('/', [BelanjaController::class, 'destroy'])->name('belanja.destroy');
-      // Route::get('/{id}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
-      // Route::put('/update/{id}', [BelanjaController::class, 'update'])->name('belanja.update');
-      // Route::get('/detail/{belanja}', [BelanjaController::class, 'detail'])->name('belanja.detail');
+      Route::get('/{barang}/{belanja}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
+      Route::put('/update/{barang}/{belanja}', [BelanjaController::class, 'update'])->name('belanja.update');
 
       Route::get('/{id}/cetak', [CetakController::class, 'cetak_belanja'])->name('belanja.cetak');
     });
-
-    // Route::prefix('detailbelanja')->group(function () {
-    //   Route::get('/', [DetailBelanjaController::class, 'index'])->name('detailbelanja.index');
-    //   Route::post('/datatable', [DetailBelanjaController::class, 'datatable'])->name('detailbelanja.datatable');
-    //   Route::get('/create', [DetailBelanjaController::class, 'create'])->name('detailbelanja.create');
-    //   Route::post('/store', [DetailBelanjaController::class, 'store'])->name('detailbelanja.store');
-    //   Route::get('/{barang}/{belanja}/edit', [DetailBelanjaController::class, 'edit'])->name('detailbelanja.edit');
-    //   Route::put('/update/{barang}/{belanja}', [DetailBelanjaController::class, 'update'])->name('detailbelanja.update');
-    //   Route::delete('/{barang}', [DetailBelanjaController::class, 'destroy'])->name('detailbelanja.destroy');
-    //   Route::post('/multdelete', [DetailBelanjaController::class, 'multdelete'])->name('detailbelanja.multdelete');
-    // });
   });
 
   Route::prefix('usulan')->group(function () {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BelanjaRequest;
+use App\Http\Requests\BelanjaUpdateRequest;
 use App\Http\Requests\CreateByUsulanRequest;
 use App\Models\Belanja;
 use App\Services\BelanjaService;
@@ -103,34 +104,26 @@ class BelanjaController extends Controller
   }
 
   //----------  EDIT  ----------//
-  // public function edit(string $id): View
-  // {
-  //   Gate::authorize('update', Belanja::class);
+  public function edit(string $barang, string $belanja)//: View
+  {
+    // return $this->service->find_pivot($barang, $belanja);
+    Gate::authorize('update', Belanja::class);
 
-  //   return view('belanja.edit', [
-  //     'data' => $this->service->find_edit($id),
-  //   ]);
-  // }
+    return view('belanja.edit', [
+      'data' => $this->service->find_pivot($barang, $belanja),
+    ]);
+  }
 
   //----------  UPDATE  ----------//
-  // public function update(string $id, BelanjaRequest $request): RedirectResponse
-  // {
-  //   Gate::authorize('update', Belanja::class);
+  public function update($barang, $belanja, BelanjaUpdateRequest $request): RedirectResponse
+  {
+    Gate::authorize('update', Belanja::class);
 
-  //   $query = $this->service->update($id, $request);
-  //   if ($query)
-  //     return to_route('belanja.index')->with('success', 'Data berhasil diubah.');
+    $query = $this->service->update($barang, $belanja, $request);
+    if ($query)
+      return to_route('belanja.index')->with('success', 'Data berhasil diubah.');
 
-  //   return to_route('belanja.index');
-  // }
-
-  //----------  DETAIL  ----------//
-  // public function detail(string $belanja): RedirectResponse
-  // {
-  //   Session::put('belanja_id', $belanja);
-  //   return to_route('detailbelanja.index');
-  // }
-
-
+    return to_route('belanja.index');
+  }
 
 }

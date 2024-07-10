@@ -6,9 +6,7 @@ use App\Models\Belanja;
 use App\Models\Usulan;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use stdClass;
 
 class BelanjaRepository extends BaseRepository
@@ -138,71 +136,6 @@ class BelanjaRepository extends BaseRepository
     }
   }
 
-  public function find_edit(string $id): ?Model
-  {
-    return $this->model->with(['jenis_belanja'])->where('id', $id)->first();
-  }
-
-  public function update(string $id, stdClass $request): Belanja
-  {
-    return tap($this->find($id))->update([
-      'b_sumber_anggaran' => $request->b_sumber_anggaran,
-      'b_desc' => $request->b_desc,
-    ]);
-  }
-
-  public function detail_belanja(string $id): Model
-  {
-    $id = Session::get('belanja_id');
-    // dd($id);
-    return $this->model
-      ->select([
-        'belanjas.*',
-        'jb3.jb_name as jb3_name',
-        'jb3.jb_fullkode as jb3_fullkode',
-        'jb2.jb_name as jb2_name',
-        'jb2.jb_fullkode as jb2_fullkode',
-        'jb1.jb_name as jb1_name',
-        'jb1.jb_fullkode as jb1_fullkode',
-      ])
-      ->join('jenis_belanjas as jb3', 'jb3.id', '=', 'belanjas.jenis_belanja_id', 'left')
-      ->join('jenis_belanjas as jb2', 'jb2.id', '=', 'jb3.jenis_belanja_id', 'left')
-      ->join('jenis_belanjas as jb1', 'jb1.id', '=', 'jb2.jenis_belanja_id', 'left')
-      ->with(['barangs'])
-      ->where('belanjas.id', $id)
-      ->first();
-  }
-
-  public function table_barangs(string $id): BelongsToMany
-  {
-    return $this->find($id)->barangs();
-  }
-
-  public function store_pivot(string $id, stdClass $request): bool
-  {
-    DB::beginTransaction();
-
-    try {
-      $belanja = $this->find($id);
-      $belanja->barangs()->attach(
-        $request->barang_id,
-        [
-          'jumlah' => $request->jumlah,
-          'harga' => $request->harga,
-          'desc' => $request->desc,
-          'is_exist' => $request->is_exist,
-          'message' => $request->message,
-          'user_id' => auth()->user()->id,
-        ]
-      );
-      DB::commit();
-      return true;
-    } catch (\Exception $e) {
-      DB::rollback();
-      return false;
-    }
-  }
-
   public function find_pivot(string $barang, string $belanja): ?Model
   {
     return $this->find($belanja)->barangs()->find($barang);
@@ -220,7 +153,7 @@ class BelanjaRepository extends BaseRepository
           'jumlah' => $request->jumlah,
           'harga' => $request->harga,
           'desc' => $request->desc,
-          'user_id' => auth()->user()->id,
+          'sumber_anggaran' => $request->sumber_anggaran,
         ]
       );
       DB::commit();
