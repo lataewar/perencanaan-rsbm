@@ -68,6 +68,7 @@ class BelanjaRepository extends BaseRepository
           'is_exist' => $request->is_exist,
           'message' => $request->message,
           'sumber_anggaran' => $request->sumber_anggaran,
+          'skala_prioritas' => $request->skala_prioritas,
           'user_id' => auth()->user()->id,
         ]
       );
@@ -99,6 +100,7 @@ class BelanjaRepository extends BaseRepository
           'is_exist' => $request->is_exist,
           'message' => $request->message,
           'sumber_anggaran' => $request->sumber_anggaran,
+          'skala_prioritas' => $request->skala_prioritas,
           'usulan_id' => $request->usulan_id,
           'user_id' => auth()->user()->id,
         ]
@@ -154,6 +156,7 @@ class BelanjaRepository extends BaseRepository
           'harga' => $request->harga,
           'desc' => $request->desc,
           'sumber_anggaran' => $request->sumber_anggaran,
+          'skala_prioritas' => $request->skala_prioritas,
         ]
       );
       DB::commit();

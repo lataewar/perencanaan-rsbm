@@ -13,6 +13,7 @@ class BelanjaUpdateRequest extends FormRequest
       'harga' => ['required', 'integer'],
       'desc' => [],
       'sumber_anggaran' => [],
+      'skala_prioritas' => [],
     ];
   }
 

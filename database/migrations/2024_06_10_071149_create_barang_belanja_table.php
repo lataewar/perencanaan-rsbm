@@ -20,6 +20,7 @@ return new class extends Migration {
       $table->boolean('is_exist')->default(false);
       $table->string('message')->nullable();
       $table->tinyInteger('sumber_anggaran')->nullable();
+      $table->enum('skala_prioritas', ['ya', 'tidak'])->nullable();
       $table->foreignUuid('user_id')->constrained('users');
       $table->timestamps();
 

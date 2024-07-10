@@ -64,6 +64,10 @@
                   Sumber Anggaran
                 </x-validation.inline.select-static>
 
+                <x-validation.inline.select-static name="skala_prioritas" :current="old('skala_prioritas') ?? $data->pivot->skala_prioritas" :options="\App\Enums\PrioritasEnum::toArray()">
+                  Prioritas
+                </x-validation.inline.select-static>
+
                 <x-validation.inline.submit :route="route('belanja.index')" />
 
               </div>

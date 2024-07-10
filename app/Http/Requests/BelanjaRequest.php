@@ -22,6 +22,7 @@ class BelanjaRequest extends FormRequest
       'is_exist' => [],
       'message' => [],
       'sumber_anggaran' => [],
+      'skala_prioritas' => [],
     ];
   }
 
