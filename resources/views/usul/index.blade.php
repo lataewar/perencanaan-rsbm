@@ -7,7 +7,7 @@
 @php
   $isCanUpdateBelanja = auth()
       ->user()
-      ->can('update', App\Models\Belanja::class);
+      ->can('update', App\Models\Usulan::class);
   $status = App\Enums\StatusEnum::from($data->status);
 @endphp
 
