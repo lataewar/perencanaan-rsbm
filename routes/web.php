@@ -5,7 +5,6 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BelanjaController;
 use App\Http\Controllers\CetakController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DetailBelanjaController;
 use App\Http\Controllers\JenbelController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PerencanaanController;

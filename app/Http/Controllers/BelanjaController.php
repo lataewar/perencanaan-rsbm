@@ -27,9 +27,8 @@ class BelanjaController extends Controller
   }
 
   //----------  INDEX  ----------//
-  public function index()//: View|RedirectResponse
+  public function index(): View|RedirectResponse
   {
-    // return $this->service->table(Session::get('perencanaan_id') ?? 'x');
     if (!Session::get('perencanaan_id'))
       return to_route('perencanaan.index');
 
@@ -68,11 +67,9 @@ class BelanjaController extends Controller
   }
 
   //----------  DESTROY  ----------//
-  public function destroy(Request $request)//: RedirectResponse
+  public function destroy(Request $request): RedirectResponse
   {
     Gate::authorize('update', Belanja::class);
-
-    // return $request->all();
 
     $query = $this->service->delete_pivot($request->barang_id, $request->belanja_id, $request->usulan_id);
     if ($query)
@@ -104,9 +101,8 @@ class BelanjaController extends Controller
   }
 
   //----------  EDIT  ----------//
-  public function edit(string $barang, string $belanja)//: View
+  public function edit(string $barang, string $belanja): View
   {
-    // return $this->service->find_pivot($barang, $belanja);
     Gate::authorize('update', Belanja::class);
 
     return view('belanja.edit', [
