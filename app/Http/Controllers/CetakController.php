@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PhpSpreadsheet\CetakBelanjaService;
+use App\Services\PhpSpreadsheet\CetakPerencanaanService;
+use App\Services\PhpSpreadsheet\CetakUsulanService;
 
 class CetakController extends Controller
 {
   public function __construct(
-    protected CetakBelanjaService $service
+    protected CetakPerencanaanService $cetakPerencanaanService,
+    protected CetakUsulanService $cetakUsulanService,
   ) {
   }
 
-  public function cetak_belanja(string $id): void
+  public function cetak_perencanaan(string $id): void
   {
-    $this->service->cetak($id);
+    $this->cetakPerencanaanService->cetak($id);
+  }
+
+  public function cetak_usulan(string $id): void
+  {
+    $this->cetakUsulanService->cetak($id);
   }
 
 }

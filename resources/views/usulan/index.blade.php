@@ -128,13 +128,13 @@
 
                     @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()) && $item->usulans_count > 0)
                       <x-table.nav-item route="javascript:;" name="Kirim" icon="la la-send" :$item />
+                      <x-table.nav-separator />
                     @endif
 
-                    <x-table.nav-separator />
 
                     @if ($item->usulans_count > 0)
-                      {{-- <x-table.nav-item :route="route('belanja.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
-                      <x-table.nav-separator /> --}}
+                      <x-table.nav-item :route="route('usulan.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
+                      <x-table.nav-separator />
                     @endif
 
                     @can('perencanaan read')

@@ -130,7 +130,7 @@
 
                     @if ($item->total > 0)
                       <x-table.nav-separator />
-                      <x-table.nav-item :route="route('belanja.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
+                      <x-table.nav-item :route="route('perencanaan.cetak', $item->id)" name="Cetak Excell" icon="la la-print" />
                     @endif
 
                   </x-table.menu-dropdown>

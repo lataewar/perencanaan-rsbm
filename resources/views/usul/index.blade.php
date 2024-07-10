@@ -4,6 +4,13 @@
   <link href="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 @endpush
 
+@php
+  $isCanUpdateBelanja = auth()
+      ->user()
+      ->can('update', App\Models\Belanja::class);
+  $status = App\Enums\StatusEnum::from($data->status);
+@endphp
+
 @section('subheader')
   <x-subheader title="Detail Usulan">
     @slot('breadcrumb')
@@ -12,19 +19,19 @@
 
     <div>
       @can('perencanaan delete')
-        @can('update', App\Models\Usulan::class)
+        @if ($isCanUpdateBelanja)
           <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
             class="btn-sm btn-light-danger mr-2 btn-multdelete">
             Hapus Terpilih</x-btn.weight-bold-svg>
-        @endcan
+        @endif
       @endcan
 
       @can('perencanaan update')
-        @can('update', App\Models\Usulan::class)
+        @if ($isCanUpdateBelanja)
           <x-btn.a-weight-bold-svg svg="Design/Flatten.svg" href="{{ route('usul.create') }}"
             class="btn-sm btn-light-success btn-create">
             Tambah Data</x-btn.a-weight-bold-svg>
-        @endcan
+        @endif
       @endcan
     </div>
     <x-btn.a-weight-bold-svg href="{{ route('usulan.index') }}" svg="Navigation/Angle-left.svg"
@@ -37,8 +44,37 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
+  @can('perencanaan send')
+    <input type="hidden" id="urx_send" value="{{ route('usulan.send') }}">
+  @endcan
   <input type="hidden" id="urx" value="{{ route('usul.index') }}">
   <div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="card-icon">
+          <i class="flaticon2-website text-primary"></i>
+        </span>
+        <h3 class="card-label">
+          Detail Usulan
+        </h3>
+      </div>
+      <div class="card-toolbar">
+        <div>
+          <x-table.menu-dropdown>
+
+            @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()) && $data->usulans_count > 0)
+              <x-table.nav-item route="javascript:;" name="Kirim" icon="la la-send" :item="$data" />
+              <x-table.nav-separator />
+            @endif
+
+            @if ($data->usulans_count > 0)
+              <x-table.nav-item :route="route('usulan.cetak', $data->id)" name="Cetak Excell" icon="la la-print" />
+            @endif
+
+          </x-table.menu-dropdown>
+        </div>
+      </div>
+    </div>
     <div class="card-body">
 
       <div class="row justify-content-center mb-4">
@@ -58,7 +94,7 @@
               <x-separator margin="1" />
               <div class="d-flex justify-content-between">
                 <span class="font-weight-bold mr-15">Status Usulan:</span>
-                <span class="text-right font-weight-light">{!! App\Enums\StatusEnum::from($data->status)->getLabelHTML() !!}</span>
+                <span class="text-right font-weight-light">{!! $status->getLabelHTML() !!}</span>
               </div>
               <x-separator margin="2" />
 
@@ -107,6 +143,7 @@
   <!--begin::Page Scripts(used by this page)-->
   <script src="{{ asset('js') }}/datatable/usul.js"></script>
   <script src="{{ asset('js') }}/app.js"></script>
+  <script src="{{ asset('js') }}/table/table.js"></script>
   <script src="{{ asset('js') }}/datatable/dt.js"></script>
   <!--end::Page Scripts-->
 @endpush

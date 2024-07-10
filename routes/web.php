@@ -117,7 +117,7 @@ Route::middleware('auth')->group(function () {
       Route::get('/{barang}/{belanja}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
       Route::put('/update/{barang}/{belanja}', [BelanjaController::class, 'update'])->name('belanja.update');
 
-      Route::get('/{id}/cetak', [CetakController::class, 'cetak_belanja'])->name('belanja.cetak');
+      Route::get('/{id}/cetak', [CetakController::class, 'cetak_perencanaan'])->name('perencanaan.cetak');
     });
   });
 
@@ -129,6 +129,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/', [UsulanController::class, 'store'])->name('usulan.store');
     Route::delete('/', [UsulanController::class, 'destroy'])->name('usulan.destroy');
     Route::post('/send', [UsulanController::class, 'send'])->name('usulan.send');
+
+    Route::get('/{id}/cetak', [CetakController::class, 'cetak_usulan'])->name('usulan.cetak');
 
     Route::prefix('unit')->group(function () {
       Route::get('/', [UsulController::class, 'index'])->name('usul.index');

@@ -17,10 +17,10 @@
           'Terima' => "accept('$action')",
           'Tolak' => "reject('$action')",
           'Kirim' => "send('$action')",
-          'Hapus' => "destroy('$action')",
+          'Hapus' => "destroy_item('$action')",
       };
   } elseif ($belanja && $barang) {
-      $onclick = "destroy('$belanja','$barang','$namabarang','$usulan')";
+      $onclick = "destroy_pivot('$belanja','$barang','$namabarang','$usulan')";
   }
 @endphp
 

@@ -8,6 +8,7 @@
   $isCanUpdateBelanja = auth()
       ->user()
       ->can('update', App\Models\Belanja::class);
+  $status = App\Enums\StatusEnum::from($data->status);
 @endphp
 
 @section('subheader')
@@ -37,6 +38,10 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
+  @can('perencanaan follow_up')
+    <input type="hidden" id="urx_accept" value="{{ route('perencanaan.accept') }}">
+    <input type="hidden" id="urx_reject" value="{{ route('perencanaan.reject') }}">
+  @endcan
   <input type="hidden" id="urx" value="{{ route('belanja.index') }}">
   <div class="card card-custom gutter-b">
     <div class="card-header">
@@ -50,11 +55,21 @@
         </h3>
       </div>
       <div class="card-toolbar">
-        @if ($data->total > 0)
-          <a href="{{ route('belanja.cetak', $data->id) }}" class="btn btn-sm btn-warning font-weight-bold">
-            <i class="flaticon2-printer"></i> Cetak
-          </a>
-        @endif
+        <div>
+          <x-table.menu-dropdown>
+
+            @if (auth()->user()->can('perencanaan follow_up') && $status->isDikirim() && $data->total > 0)
+              <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :item="$data" />
+              <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :item="$data" />
+              <x-table.nav-separator />
+            @endif
+
+            @if ($data->total > 0)
+              <x-table.nav-item :route="route('perencanaan.cetak', $data->id)" name="Cetak Excell" icon="la la-print" />
+            @endif
+
+          </x-table.menu-dropdown>
+        </div>
       </div>
     </div>
     <div class="card-body">
@@ -76,7 +91,7 @@
               <x-separator margin="1" />
               <div class="d-flex justify-content-between">
                 <span class="font-weight-bold mr-15">Status Pengajuan:</span>
-                <span class="text-right font-weight-light">{!! App\Enums\StatusEnum::from($data->status)->getLabelHTML() !!}</span>
+                <span class="text-right font-weight-light">{!! $status->getLabelHTML() !!}</span>
               </div>
               <x-separator margin="2" />
               <div class="d-flex justify-content-between text-primary">
@@ -261,6 +276,6 @@
   <!--end::Page Vendors-->
   <!--begin::Page Scripts(used by this page)-->
   <script src="{{ asset('js') }}/app.js"></script>
-  <script src="{{ asset('js') }}/belanja.js"></script>
+  <script src="{{ asset('js') }}/table/table.js"></script>
   <!--end::Page Scripts-->
 @endpush

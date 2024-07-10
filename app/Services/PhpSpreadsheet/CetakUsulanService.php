@@ -5,6 +5,7 @@ namespace App\Services\PhpSpreadsheet;
 use App\Enums\StatusEnum;
 use App\Services\BelanjaService;
 use App\Services\PerencanaanService;
+use App\Services\UsulanService;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -12,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class CetakBelanjaService extends PhpSpreadsheetService
+class CetakUsulanService extends PhpSpreadsheetService
 {
   public function __construct(
   ) {
@@ -20,13 +21,13 @@ class CetakBelanjaService extends PhpSpreadsheetService
 
   public function cetak(string $id): void
   {
-    $rencana = app(PerencanaanService::class)->find_total($id);
+    $rencana = app(PerencanaanService::class)->find_usulan($id);
 
     $filename = 'usulan_' . Str::slug($rencana->u_name, '-') . '_tahun_' . $rencana->p_tahun;
     $unit = Str::upper($rencana->u_name);
     $status = 'Status Usulan : ' . StatusEnum::from($rencana->status)->getLabelText();
 
-    $belanjas = app(BelanjaService::class)->table($id);
+    $usulans = app(UsulanService::class)->table($id);
 
     $spreadsheet = new Spreadsheet();
 
@@ -85,7 +86,7 @@ class CetakBelanjaService extends PhpSpreadsheetService
     $no = 7;
     $tot_jumlah = 0;
     $line_no_vertical = [];
-    foreach ($belanjas as $data) {
+    foreach ($usulans as $data) {
       $spreadsheet->getActiveSheet()->setCellValue('A' . $no, $data->jb_fullkode);
       $spreadsheet->getActiveSheet()->mergeCells('B' . $no . ':C' . $no);
       $spreadsheet->getActiveSheet()->setCellValue('B' . $no, Str::upper($data->jb_name));
