@@ -109,7 +109,7 @@
       <div class="row">
 
         <div class="col-md-5 px-1">
-
+          <h5 class="mb-4 text-center font-weight-light">Tabel Usulan</h5>
           <!--begin: Table Usulan-->
           <table class="table table-hover">
             <thead>
@@ -154,7 +154,7 @@
         </div>
 
         <div class="col-md-7 px-1">
-
+          <h5 class="mb-4 text-center font-weight-light">Tabel Perencanaan</h5>
           <!--begin: Table Perencanaan-->
           <table class="table table-hover">
             <thead>
