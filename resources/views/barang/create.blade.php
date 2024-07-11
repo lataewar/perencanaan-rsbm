@@ -12,7 +12,7 @@
       <x-bc.item route="#">Tambah Data</x-bc.item>
     </x-slot>
 
-    <x-btn.a-weight-bold-svg href="{{ route('barang.index', ['id' => $id]) }}" svg="Navigation/Angle-left.svg"
+    <x-btn.a-weight-bold-svg href="{{ route('barang.index') }}" svg="Navigation/Angle-left.svg"
       class="btn-sm btn-light-primary ml-2">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
@@ -20,7 +20,7 @@
 
 @section('content')
   <!--begin::Card-->
-  <form action="{{ route('barang.store', ['id' => $id]) }}" class="row" method="POST">
+  <form action="{{ route('barang.store') }}" class="row" method="POST">
     @csrf
     <div class="col-md-12">
       <div class="card card-custom card-stretch gutter-b">
@@ -34,8 +34,6 @@
             </div>
             <div class="col-md-6">
               @include('layouts.validation-error')
-
-              <input type="hidden" name="jenis_belanja_id" value="{{ $id }}">
 
               <x-validation.txt-stack type="text" id="br_kode" name="br_kode" placeholder="Kode Barang"
                 value="{{ old('br_kode') }}" :messages="$errors->get('br_kode')">Kode Barang

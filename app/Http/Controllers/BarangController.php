@@ -9,6 +9,7 @@ use App\Services\JenbelService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class BarangController extends Controller
@@ -23,58 +24,83 @@ class BarangController extends Controller
     $this->middleware('permission:barang multidelete')->only(['multdelete']);
   }
 
-  //----------  INDEX  ----------//
-  public function index($id = 0): View
+  //----------  SET BELANJA  ----------//
+  public function setbelanja(Request $request): View|RedirectResponse
   {
+    if ($request->method() == "POST") {
+      $request->validate([
+        'jenisbelanjaid1' => ['required'],
+        'jenisbelanjaid2' => ['required'],
+        'jenisbelanjaid3' => ['required'],
+      ]);
+      Session::put('jenis_belanja_id', $request->jenisbelanjaid3);
+      return to_route('barang.index');
+    }
+
+    return view('barang.getbelanja', [
+      'jenbels' => app(JenbelService::class)->getALlByLevel(1),
+    ]);
+  }
+
+  //----------  INDEX  ----------//
+  public function index(): View|RedirectResponse
+  {
+    if (!Session::get('jenis_belanja_id'))
+      return to_route('barang.getbelanja');
+
     return view('barang.index', [
-      'id' => $id,
-      'jenbel' => app(JenbelService::class)->getALlByLevel(3),
+      'jenbel' => app(JenbelService::class)->find(Session::get('jenis_belanja_id')),
     ]);
   }
 
   //----------  DATATABLE  ----------//
-  public function datatable($id = 0): JsonResponse
+  public function datatable(): JsonResponse
   {
-    return app(BarangTableService::class)->table($id);
+    return app(BarangTableService::class)->table(Session::get('jenis_belanja_id'));
   }
 
   //----------  CREATE  ----------//
-  public function create($id): View
+  public function create(): View|RedirectResponse
   {
-    return view('barang.create', compact('id'));
+    if (!Session::get('jenis_belanja_id'))
+      return to_route('barang.getbelanja');
+
+    return view('barang.create');
   }
 
   //----------  STORE  ----------//
-  public function store($id, BarangRequest $request): RedirectResponse
+  public function store(BarangRequest $request): RedirectResponse
   {
     $query = $this->service->store($request);
     if ($query)
-      return redirect()->route('barang.index', ['id' => $id])->with('success', '<b>' . $query->br_name . '</b> berhasil ditambahkan.');
+      return redirect()->route('barang.index')->with('success', '<b>' . $query->br_name . '</b> berhasil ditambahkan.');
 
-    return redirect()->route('barang.index', ['id' => $id]);
+    return redirect()->route('barang.index');
   }
 
   //----------  EDIT  ----------//
-  public function edit($id, $barang): View
+  public function edit($barang): View|RedirectResponse
   {
+    if (!Session::get('jenis_belanja_id'))
+      return to_route('barang.getbelanja');
+
     return view('barang.edit', [
-      'id' => $id,
       'data' => $this->service->find($barang),
     ]);
   }
 
   //----------  UPDATE  ----------//
-  public function update($id, $barang, BarangRequest $request): RedirectResponse
+  public function update($barang, BarangRequest $request): RedirectResponse
   {
     $query = $this->service->update($barang, $request);
     if ($query)
-      return redirect()->route('barang.index', ['id' => $id])->with('success', '<b>' . $query->br_name . '</b> berhasil diubah.');
+      return redirect()->route('barang.index')->with('success', '<b>' . $query->br_name . '</b> berhasil diubah.');
 
-    return redirect()->route('barang.index', ['id' => $id]);
+    return redirect()->route('barang.index');
   }
 
   //----------  DESTROY  ----------//
-  public function destroy($id, $barang): JsonResponse
+  public function destroy($barang): JsonResponse
   {
     try {
       $this->service->delete($barang);
@@ -85,7 +111,7 @@ class BarangController extends Controller
   }
 
   //----------  MULTDELETE  ----------//
-  public function multdelete($id, Request $request): JsonResponse
+  public function multdelete(Request $request): JsonResponse
   {
     try {
       $this->service->multipleDelete($request->post('ids'));

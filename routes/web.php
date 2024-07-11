@@ -80,7 +80,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/multdelete', [JenbelController::class, 'multdelete'])->name('jenbel.multdelete');
   });
 
-  Route::prefix('barang/{id?}')->group(function () {
+  Route::prefix('barang')->group(function () {
+    Route::get('/choose_belanja', [BarangController::class, 'setbelanja'])->name('barang.getbelanja');
+    Route::post('/choose_belanja', [BarangController::class, 'setbelanja'])->name('barang.setbelanja');
     Route::get('/', [BarangController::class, 'index'])->name('barang.index');
     Route::post('/datatable', [BarangController::class, 'datatable'])->name('barang.datatable');
     Route::get('/create', [BarangController::class, 'create'])->name('barang.create');

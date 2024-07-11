@@ -12,7 +12,7 @@
       <x-bc.item route="#">Ubah Data</x-bc.item>
     </x-slot>
 
-    <x-btn.a-weight-bold-svg href="{{ route('barang.index', ['id' => $id]) }}" svg="Navigation/Angle-left.svg"
+    <x-btn.a-weight-bold-svg href="{{ route('barang.index') }}" svg="Navigation/Angle-left.svg"
       class="btn-sm btn-light-primary ml-2">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
@@ -20,7 +20,7 @@
 
 @section('content')
   <!--begin::Card-->
-  <form action="{{ route('barang.update', ['barang' => $data->id, 'id' => $id]) }}" class="row" method="POST">
+  <form action="{{ route('barang.update', $data->id) }}" class="row" method="POST">
     @csrf
     @method('PUT')
     <div class="col-md-12">
@@ -35,8 +35,6 @@
             </div>
             <div class="col-md-6">
               @include('layouts.validation-error')
-
-              <input type="hidden" name="id" value="{{ $data->id }}">
 
               <x-validation.txt-stack type="text" id="br_kode" name="br_kode" placeholder="Kode Barang"
                 value="{{ old('br_kode') ?? $data->br_kode }}" :messages="$errors->get('br_kode')">Kode Barang
@@ -61,7 +59,7 @@
           </div>
         </div>
 
-        <x-form.submit-group-card route="{{ route('barang.index', ['id' => $id]) }}" />
+        <x-form.submit-group-card route="{{ route('barang.index') }}" />
 
       </div>
     </div>
