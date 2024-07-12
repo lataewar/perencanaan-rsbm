@@ -95,7 +95,7 @@ class UsulanController extends Controller
     if ($find->usulans_count == 0) // cek jumlah barang usulan
       return to_route('usulan.index')->with('error', 'Belum ada barang usulan.');
 
-    if (app(PerencanaanService::class)->update_status($request->id, StatusEnum::DIKIRIM->value, 'Perencanaan dikirim.'))
+    if (app(PerencanaanService::class)->update_status($request->id, StatusEnum::DIKIRIM->value, 'Usulan dikirim.'))
       return to_route('usulan.index')->with('success', 'Perencanaan berhasil dikirim.');
 
     return to_route('usulan.index');

@@ -86,4 +86,9 @@ class PerencanaanService extends BaseService
   {
     return $this->repository->find_usulan($id);
   }
+
+  public function find_usulan_with_status(string $id): ?Perencanaan
+  {
+    return $this->repository->find_usulan_with_status($id);
+  }
 }

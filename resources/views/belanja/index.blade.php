@@ -91,7 +91,16 @@
               <x-separator margin="1" />
               <div class="d-flex justify-content-between">
                 <span class="font-weight-bold mr-15">Status Pengajuan:</span>
-                <span class="text-right font-weight-light">{!! $status->getLabelHTML() !!}</span>
+                <button type="button" style="margin: 0; padding: 0; border: 0; background-color: transparent;"
+                  class="btn btn-primary" data-toggle="popover" data-trigger="click" data-placement="bottom"
+                  title="Riwayat Status" data-html="true"
+                  data-content="
+                    @foreach ($statuses->reverse() as $item)
+                    <x-status-list
+                    :data="$item" /> @endforeach
+                  ">
+                  {!! $status->getLabelHTML() !!}
+                </button>
               </div>
               <x-separator margin="2" />
               <div class="d-flex justify-content-between text-primary">

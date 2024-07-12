@@ -30,7 +30,7 @@ class UsulController extends Controller
       return to_route('usulan.index');
 
     return view('usul.index', [
-      'data' => app(PerencanaanService::class)->find_usulan(Session::get('usulan') ?? 'x'),
+      'data' => app(PerencanaanService::class)->find_usulan_with_status(Session::get('usulan') ?? 'x'),
     ]);
   }
 

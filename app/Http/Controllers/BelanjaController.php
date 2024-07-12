@@ -32,10 +32,13 @@ class BelanjaController extends Controller
     if (!Session::get('perencanaan_id'))
       return to_route('perencanaan.index');
 
+    $data = app(PerencanaanService::class)->find_total(Session::get('perencanaan_id') ?? 'x');
+
     return view('belanja.index', [
+      'data' => $data,
+      'statuses' => $data->statuses,
       'usulans' => app(UsulanService::class)->table(Session::get('perencanaan_id') ?? 'x'),
       'belanjas' => $this->service->table(Session::get('perencanaan_id') ?? 'x'),
-      'data' => app(PerencanaanService::class)->find_total(Session::get('perencanaan_id') ?? 'x'),
     ]);
   }
 

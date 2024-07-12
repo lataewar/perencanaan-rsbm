@@ -58,7 +58,7 @@ enum StatusEnum: int
     };
   }
 
-  private function getLabelColor(): string
+  public function getLabelColor(): string
   {
     return match ($this) {
       self::DRAFT => "dark",
@@ -71,7 +71,7 @@ enum StatusEnum: int
   public function getLabelHTML(): string
   {
     return sprintf(
-      '<span class="label label-light-%s font-weight-bold label-inline">%s</span>',
+      "<span class='label label-light-%s font-weight-bold label-inline'>%s</span>",
       $this->getLabelColor(),
       $this->getLabelText()
     );

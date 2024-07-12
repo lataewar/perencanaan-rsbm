@@ -107,7 +107,7 @@ class PerencanaanRepository extends BaseRepository
     ]);
     $perencanaan->statuses()->create([
       'status' => StatusEnum::DRAFT->value,
-      'message' => 'Draft perencanaan dibuat.',
+      'message' => 'Draft usulan dibuat.',
       'user_id' => auth()->user()->id,
     ]);
 
@@ -240,6 +240,14 @@ class PerencanaanRepository extends BaseRepository
       ->withCount('usulans')
       ->where('perencanaans.id', $id)
       ->groupBy(['perencanaans.id', 'perencanaans.p_tahun', 'perencanaans.p_periode', 'perencanaans.created_at', 'statuses.status', 'statuses.message', 'statuses.created_at', 'u.u_name', 'u.id'])
+      ->first();
+  }
+
+  public function find_usulan_with_status(string $id): ?Perencanaan
+  {
+    return $this->model
+      ->with(['statuses', 'unit'])
+      ->where('perencanaans.id', $id)
       ->first();
   }
 }
