@@ -247,6 +247,7 @@ class PerencanaanRepository extends BaseRepository
   {
     return $this->model
       ->with(['statuses', 'unit'])
+      ->withCount('usulans')
       ->where('perencanaans.id', $id)
       ->first();
   }
