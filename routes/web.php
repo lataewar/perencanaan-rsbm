@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlkesFormatController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BelanjaController;
+use App\Http\Controllers\BidangController;
 use App\Http\Controllers\CetakController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenbelController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsulanController;
 use App\Http\Controllers\UsulController;
+use App\Http\Controllers\ValidasiController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
@@ -68,6 +70,11 @@ Route::middleware('auth')->group(function () {
   Route::post('unit/datatable', [UnitController::class, 'datatable'])->name('unit.datatable');
   Route::post('unit/multdelete', [UnitController::class, 'multdelete'])->name('unit.multdelete');
   Route::resource('unit', UnitController::class)->except('show');
+
+  Route::post('bidang/datatable', [BidangController::class, 'datatable'])->name('bidang.datatable');
+  Route::get('bidang/{bidang}/unit', [BidangController::class, 'createUnits'])->name('bidang.unit');
+  Route::post('bidang/{bidang}/unit', [BidangController::class, 'syncUnits'])->name('bidang.sync');
+  Route::resource('bidang', BidangController::class)->except('show');
 
   Route::prefix('jenbel/{parent?}')->group(function () {
     Route::get('/', [JenbelController::class, 'index'])->name('jenbel.index');
@@ -143,5 +150,15 @@ Route::middleware('auth')->group(function () {
       Route::delete('/{usul}', [UsulController::class, 'destroy'])->name('usul.destroy');
       Route::post('/multdelete', [UsulController::class, 'multdelete'])->name('usul.multdelete');
     });
+  });
+
+  Route::prefix('validasi')->group(function () {
+    Route::get('/', [ValidasiController::class, 'index'])->name('validasi.index');
+    Route::post('/setfilter', [ValidasiController::class, 'setfilter'])->name('validasi.setfilter');
+    Route::delete('/', [ValidasiController::class, 'destroy'])->name('validasi.destroy');
+    Route::post('/multdelete', [ValidasiController::class, 'multdelete'])->name('validasi.multdelete');
+    Route::get('/{perencanaan}/belanja', [ValidasiController::class, 'belanja'])->name('validasi.belanja');
+    Route::post('/accept', [ValidasiController::class, 'accept'])->name('validasi.accept');
+    Route::post('/reject', [ValidasiController::class, 'reject'])->name('validasi.reject');
   });
 });

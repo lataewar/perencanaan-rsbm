@@ -24,7 +24,7 @@ return new class extends Migration {
       $table->foreignUuid('user_id')->constrained('users');
       $table->timestamps();
 
-      $table->primary(['barang_id', 'belanja_id']);
+      // $table->primary(['barang_id', 'belanja_id']);
     });
   }
 

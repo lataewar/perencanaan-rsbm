@@ -54,6 +54,14 @@ class AppSeeder extends Seeder
       'desc' => 'Menu Perencanaan',
       'has_submenu' => 0,
     ]);
+    Menu::create([
+      'id' => 8,
+      'name' => 'Validasi',
+      'route' => 'validasi.index',
+      'icon' => 'Navigation/Double-check.svg',
+      'desc' => 'Menu Validasi Perencanaan',
+      'has_submenu' => 0,
+    ]);
 
     SubMenu::insert([
       [
@@ -66,6 +74,14 @@ class AppSeeder extends Seeder
       ],
       [
         'id' => 5,
+        'menu_id' => 3,
+        'name' => 'Bidang',
+        'route' => 'bidang.index',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
+      [
+        'id' => 6,
         'menu_id' => 3,
         'name' => 'Jenis Belanja',
         'route' => 'jenbel.index',
@@ -80,6 +96,7 @@ class AppSeeder extends Seeder
       ['menu_id' => 5, 'role_id' => 1],
       ['menu_id' => 6, 'role_id' => 1],
       ['menu_id' => 7, 'role_id' => 1],
+      ['menu_id' => 8, 'role_id' => 1],
     ]);
 
     // ---------------------------- SEEDING ROLE ---------------------------- //
@@ -108,23 +125,31 @@ class AppSeeder extends Seeder
       'guard_name' => 'web',
       'desc' => 'Unit',
     ])->menus()->attach([4, 5, 6, 7]);
+    \App\Models\Role::create([
+      'id' => 6,
+      'name' => 'bidang',
+      'guard_name' => 'web',
+      'desc' => 'Bidang',
+    ])->menus()->attach([8]);
 
 
     // ------------------------ SEEDING PERMISSION  ------------------------ //
 
     $p_users = ['user create', 'user read', 'user update', 'user delete', 'user multidelete'];
     $p_units = ['unit_kerja create', 'unit_kerja read', 'unit_kerja update', 'unit_kerja delete', 'unit_kerja multidelete'];
+    $p_bidangs = ['bidang create', 'bidang read', 'bidang update', 'bidang delete', 'bidang unit'];
     $p_jenbels = ['jenis_belanja create', 'jenis_belanja read', 'jenis_belanja update', 'jenis_belanja delete', 'jenis_belanja multidelete'];
     $p_barangs = ['barang create', 'barang read', 'barang update', 'barang delete', 'barang multidelete'];
     $p_perencanaans = ['perencanaan create', 'perencanaan read', 'perencanaan update', 'perencanaan delete', 'perencanaan send', 'perencanaan follow_up'];
 
-    foreach ([...$p_units, ...$p_jenbels, ...$p_barangs, ...$p_perencanaans] as $item) {
+    foreach ([...$p_units, ...$p_bidangs, ...$p_jenbels, ...$p_barangs, ...$p_perencanaans] as $item) {
       Permission::create(['name' => $item]);
     }
 
     $super_admin = Role::findByName('super admin');
     $super_admin->givePermissionTo([
       ...$p_units,
+      ...$p_bidangs,
       ...$p_jenbels,
       ...$p_barangs,
       ...['perencanaan read']
@@ -134,6 +159,7 @@ class AppSeeder extends Seeder
     $administrator->givePermissionTo([
       ...$p_users,
       ...$p_units,
+      ...$p_bidangs,
       ...$p_jenbels,
       ...$p_barangs,
       ...['perencanaan read']
@@ -155,6 +181,11 @@ class AppSeeder extends Seeder
       ...$p_barangs,
       ...['perencanaan create', 'perencanaan read', 'perencanaan update', 'perencanaan delete', 'perencanaan send']
     ]);
+
+    // $bidang = Role::findByName('bidang');
+    // $bidang->givePermissionTo([
+    //   ...['perencanaan create', 'perencanaan read', 'perencanaan update', 'perencanaan delete', 'perencanaan send']
+    // ]);
 
   }
 }

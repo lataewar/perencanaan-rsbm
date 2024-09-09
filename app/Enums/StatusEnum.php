@@ -6,8 +6,9 @@ enum StatusEnum: int
 {
   case DRAFT = 1;
   case DIKIRIM = 2;
-  case DISETUJUI = 3;
-  case DITOLAK = 4;
+  case DIVALIDASI = 3;
+  case DISETUJUI = 4;
+  case DITOLAK = 5;
 
   public static function toArray(): array
   {
@@ -28,6 +29,11 @@ enum StatusEnum: int
     return $this === self::DIKIRIM;
   }
 
+  public function isDivalidasi(): bool
+  {
+    return $this === self::DIVALIDASI;
+  }
+
   public function isDisetujui(): bool
   {
     return $this === self::DISETUJUI;
@@ -43,6 +49,7 @@ enum StatusEnum: int
     return match ($this) {
       self::DRAFT => "draft",
       self::DIKIRIM => "dikirim",
+      self::DIVALIDASI => "divalidasi",
       self::DISETUJUI => "disetujui",
       self::DITOLAK => "ditolak",
     };
@@ -53,6 +60,7 @@ enum StatusEnum: int
     return match ($this) {
       self::DRAFT => "Draft",
       self::DIKIRIM => "Dikirim",
+      self::DIVALIDASI => "Divalidasi",
       self::DISETUJUI => "Disetujui",
       self::DITOLAK => "Ditolak",
     };
@@ -63,6 +71,7 @@ enum StatusEnum: int
     return match ($this) {
       self::DRAFT => "dark",
       self::DIKIRIM => "primary",
+      self::DIVALIDASI => "info",
       self::DISETUJUI => "success",
       self::DITOLAK => "danger",
     };
