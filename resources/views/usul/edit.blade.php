@@ -13,7 +13,7 @@
     </x-slot>
 
     <x-btn.a-weight-bold-svg href="{{ route('usul.index') }}" svg="Navigation/Angle-left.svg"
-      class="btn-sm btn-light-primary ml-2">
+      class="ml-2 btn-sm btn-light-primary">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
 @endsection
@@ -28,7 +28,7 @@
           <h3 class="card-title">Ubah Barang</h3>
         </div>
         <div class="card-body">
-          <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
+          <div class="px-8 my-10 row justify-content-center my-lg-15 px-lg-10">
             <div class="col-xl-12 col-xxl-9">
               <!--begin::Wizard Data-->
               <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
@@ -60,17 +60,25 @@
                   {{ old('ul_desc') ?? $data->ul_desc }}
                 </x-validation.inline.txtarea>
 
+                @if (count($ruangans) > 0)
+                  <x-validation.inline.select-static name="ruangan_id" :current="old('ruangan_id') ?? $data->ruangan_id" :options="$ruangans"
+                    :messages="$errors->get('ruangan_id')">
+                    Ruangan
+                    <x-redstar />
+                  </x-validation.inline.select-static>
+                @endif
+
               </div>
               <!--end::Wizard Data-->
 
               <!--begin::Wizard Actions-->
-              <div class="d-flex justify-content-between border-top mt-5 pt-10">
+              <div class="pt-10 mt-5 d-flex justify-content-between border-top">
                 <div class="mr-2"> </div>
                 <div>
                   <a href="{{ route('usul.index') }}"
-                    class="btn btn-danger font-weight-bolder text-uppercase px-9 py-4">Batal</a>
+                    class="py-4 btn btn-danger font-weight-bolder text-uppercase px-9">Batal</a>
                   <button type="submit"
-                    class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4">Simpan</button>
+                    class="py-4 btn btn-primary font-weight-bolder text-uppercase px-9">Simpan</button>
                 </div>
               </div>
               <!--end::Wizard Actions-->

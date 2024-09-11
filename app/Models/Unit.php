@@ -14,6 +14,13 @@ class Unit extends Model
 
   protected $fillable = ['u_name', 'u_kode', 'u_desc'];
 
+  protected function casts(): array
+  {
+    return [
+      'is_has_ruang' => 'boolean',
+    ];
+  }
+
   public function users(): HasMany
   {
     return $this->hasMany(User::class);
@@ -22,5 +29,10 @@ class Unit extends Model
   public function bidangs(): BelongsToMany
   {
     return $this->belongsToMany(Bidang::class);
+  }
+
+  public function ruangans(): HasMany
+  {
+    return $this->hasMany(Ruangan::class);
   }
 }

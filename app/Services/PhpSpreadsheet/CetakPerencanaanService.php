@@ -6,6 +6,7 @@ use App\Enums\PrioritasEnum;
 use App\Enums\SumberAnggaranEnum;
 use App\Services\BelanjaService;
 use App\Services\PerencanaanService;
+use App\Services\RuanganService;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -22,6 +23,8 @@ class CetakPerencanaanService extends PhpSpreadsheetService
   {
     $rencana = app(PerencanaanService::class)->find_total($id);
 
+    $ruangans = app(RuanganService::class)->getAll();
+
     $filename = 'perencanaan_' . Str::slug($rencana->u_name, '-') . '_tahun_' . $rencana->p_tahun;
     $unit = Str::upper($rencana->u_name);
 
@@ -30,10 +33,10 @@ class CetakPerencanaanService extends PhpSpreadsheetService
     $spreadsheet = new Spreadsheet();
 
     $spreadsheet->getActiveSheet()->freezePane('A7');
-    $spreadsheet->getActiveSheet()->mergeCells('A1:K1');
+    $spreadsheet->getActiveSheet()->mergeCells('A1:L1');
     $spreadsheet->getActiveSheet()->setCellValue('A1', 'PERENCANAAN TAHUN ' . $rencana->p_tahun);
-    $spreadsheet->getActiveSheet()->mergeCells('A2:K2');
-    $spreadsheet->getActiveSheet()->mergeCells('A3:K3');
+    $spreadsheet->getActiveSheet()->mergeCells('A2:L2');
+    $spreadsheet->getActiveSheet()->mergeCells('A3:L3');
     $spreadsheet->getActiveSheet()->setCellValue('A2', $unit);
     $spreadsheet->getActiveSheet()->setCellValue('A3', "");
     $spreadsheet->getActiveSheet()->getStyle('A1:A3')->getFont()->setSize(11);
@@ -50,7 +53,8 @@ class CetakPerencanaanService extends PhpSpreadsheetService
     $spreadsheet->getActiveSheet()->setCellValue('H5', 'Prioritas');
     $spreadsheet->getActiveSheet()->setCellValue('I5', 'Sumber Anggaran');
     $spreadsheet->getActiveSheet()->setCellValue('J5', 'Keterangan');
-    $spreadsheet->getActiveSheet()->setCellValue('K5', 'Total');
+    $spreadsheet->getActiveSheet()->setCellValue('K5', 'Ruangan');
+    $spreadsheet->getActiveSheet()->setCellValue('L5', 'Total');
 
     $spreadsheet->getActiveSheet()->setCellValue('A6', '1');
     $spreadsheet->getActiveSheet()->mergeCells('B6:C6');
@@ -62,17 +66,18 @@ class CetakPerencanaanService extends PhpSpreadsheetService
     $spreadsheet->getActiveSheet()->setCellValue('H6', '7');
     $spreadsheet->getActiveSheet()->setCellValue('I6', '8');
     $spreadsheet->getActiveSheet()->setCellValue('J6', '9');
-    $spreadsheet->getActiveSheet()->setCellValue('K6', '10 (3x5)');
-    $spreadsheet->getActiveSheet()->getStyle('A5:K5')->getAlignment()->setWrapText(true);
-    $spreadsheet->getActiveSheet()->getStyle('A5:K6')->applyFromArray($this->lineTitle);
-    $spreadsheet->getActiveSheet()->getStyle('A5:K5')->getFont()->setSize(10);
-    $spreadsheet->getActiveSheet()->getStyle('A5:K5')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('a8a8a8');
-    $spreadsheet->getActiveSheet()->getStyle('A6:K6')->getFont()->setSize(8);
+    $spreadsheet->getActiveSheet()->setCellValue('K6', '10');
+    $spreadsheet->getActiveSheet()->setCellValue('L6', '11 (3x5)');
+    $spreadsheet->getActiveSheet()->getStyle('A5:L5')->getAlignment()->setWrapText(true);
+    $spreadsheet->getActiveSheet()->getStyle('A5:L6')->applyFromArray($this->lineTitle);
+    $spreadsheet->getActiveSheet()->getStyle('A5:L5')->getFont()->setSize(10);
+    $spreadsheet->getActiveSheet()->getStyle('A5:L5')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('a8a8a8');
+    $spreadsheet->getActiveSheet()->getStyle('A6:L6')->getFont()->setSize(8);
 
-    $spreadsheet->getActiveSheet()->getStyle('A5:K6')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-    $spreadsheet->getActiveSheet()->getStyle('A5:K6')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-    $spreadsheet->getActiveSheet()->getStyle('A5:K5')->getFont()->setBold(true);
-    $spreadsheet->getActiveSheet()->getStyle('A5:K6')->getFont()->setItalic(true);
+    $spreadsheet->getActiveSheet()->getStyle('A5:L6')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    $spreadsheet->getActiveSheet()->getStyle('A5:L6')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+    $spreadsheet->getActiveSheet()->getStyle('A5:L5')->getFont()->setBold(true);
+    $spreadsheet->getActiveSheet()->getStyle('A5:L6')->getFont()->setItalic(true);
 
     $spreadsheet->getActiveSheet()->getRowDimension('5')->setRowHeight(30, 'pt');
     $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(12);
@@ -86,6 +91,7 @@ class CetakPerencanaanService extends PhpSpreadsheetService
     $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(15);
     $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(35);
     $spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(25);
+    $spreadsheet->getActiveSheet()->getColumnDimension('L')->setWidth(25);
 
     $no = 7;
     $tot_jumlah = 0;
@@ -96,7 +102,7 @@ class CetakPerencanaanService extends PhpSpreadsheetService
       $spreadsheet->getActiveSheet()->setCellValue('B' . $no, Str::upper($data->jb_name));
       $spreadsheet->getActiveSheet()->getStyle('B' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
       $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':B' . $no)->getFont()->setBold(true);
-      $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('dddddd');
+      $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('dddddd');
       $no++;
       foreach ($data->jenis_belanjas as $data2) {
         $spreadsheet->getActiveSheet()->setCellValue('A' . $no, $data2->jb_fullkode);
@@ -104,7 +110,7 @@ class CetakPerencanaanService extends PhpSpreadsheetService
         $spreadsheet->getActiveSheet()->setCellValue('B' . $no, Str::upper($data2->jb_name));
         $spreadsheet->getActiveSheet()->getStyle('B' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
         $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':B' . $no)->getFont()->setBold(true);
-        $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('efefef');
+        $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('efefef');
         $no++;
         foreach ($data2->jenis_belanjas as $data3) {
           $spreadsheet->getActiveSheet()->setCellValue('A' . $no, $data3->jb_fullkode);
@@ -128,10 +134,11 @@ class CetakPerencanaanService extends PhpSpreadsheetService
             $spreadsheet->getActiveSheet()->setCellValue('H' . $no, $sp);
             $spreadsheet->getActiveSheet()->setCellValue('I' . $no, $sa);
             $spreadsheet->getActiveSheet()->setCellValue('J' . $no, $barang->pivot->message);
-            $spreadsheet->getActiveSheet()->setCellValue('K' . $no, $barang->pivot->jumlah * $barang->pivot->harga);
+            $spreadsheet->getActiveSheet()->setCellValue('K' . $no, $ruangans->find($barang->pivot->ruangan_id)->r_name ?? '');
+            $spreadsheet->getActiveSheet()->setCellValue('L' . $no, $barang->pivot->jumlah * $barang->pivot->harga);
 
             if ($barang->pivot->is_exist)
-              $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fccdd2');
+              $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fccdd2');
 
             $tot_jumlah += $barang->pivot->jumlah;
             $no++;
@@ -141,33 +148,33 @@ class CetakPerencanaanService extends PhpSpreadsheetService
       }
     }
 
-    $spreadsheet->getActiveSheet()->getStyle('A7:K' . ($no - 1))->applyFromArray($this->lineIsiTabel);
+    $spreadsheet->getActiveSheet()->getStyle('A7:L' . ($no - 1))->applyFromArray($this->lineIsiTabel);
     foreach ($line_no_vertical as $arr) {
       $spreadsheet->getActiveSheet()->getStyle($arr)->applyFromArray($this->lineNoVertical);
     }
-    $spreadsheet->getActiveSheet()->getStyle('A7:K' . ($no - 1))->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
+    $spreadsheet->getActiveSheet()->getStyle('A7:L' . ($no - 1))->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
     $spreadsheet->getActiveSheet()->getStyle('A7:A' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-    $spreadsheet->getActiveSheet()->getStyle('A7:K' . ($no - 1))->getAlignment()->setWrapText(true);
+    $spreadsheet->getActiveSheet()->getStyle('A7:L' . ($no - 1))->getAlignment()->setWrapText(true);
 
     $spreadsheet->getActiveSheet()->getStyle('D7:D' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $spreadsheet->getActiveSheet()->getStyle('D7:D' . $no)->getNumberFormat()->setFormatCode('#,##0');
     $spreadsheet->getActiveSheet()->getStyle('F7:F' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
     $spreadsheet->getActiveSheet()->getStyle('F7:F' . $no)->getNumberFormat()->setFormatCode('#,##0');
-    $spreadsheet->getActiveSheet()->getStyle('K7:K' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
-    $spreadsheet->getActiveSheet()->getStyle('K7:K' . $no)->getNumberFormat()->setFormatCode('#,##0');
+    $spreadsheet->getActiveSheet()->getStyle('L7:L' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+    $spreadsheet->getActiveSheet()->getStyle('L7:L' . $no)->getNumberFormat()->setFormatCode('#,##0');
     $spreadsheet->getActiveSheet()->getStyle('G7:G' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
     $spreadsheet->getActiveSheet()->getStyle('H7:I' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $spreadsheet->getActiveSheet()->getStyle('J7:J' . $no)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-    $spreadsheet->getActiveSheet()->getStyle('K7:K' . $no)->getFont()->setBold(true);
+    $spreadsheet->getActiveSheet()->getStyle('L7:L' . $no)->getFont()->setBold(true);
 
     $spreadsheet->getActiveSheet()->setCellValue('D' . $no, $tot_jumlah);
-    $spreadsheet->getActiveSheet()->setCellValue('K' . $no, $rencana->total);
+    $spreadsheet->getActiveSheet()->setCellValue('L' . $no, $rencana->total);
 
-    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('a8a8a8');
-    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->getFont()->setBold(true);
-    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->getFont()->setItalic(true);
-    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->applyFromArray($this->lineJumlah);
-    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':K' . $no)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('a8a8a8');
+    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->getFont()->setBold(true);
+    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->getFont()->setItalic(true);
+    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->applyFromArray($this->lineJumlah);
+    $spreadsheet->getActiveSheet()->getStyle('A' . $no . ':L' . $no)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
     $spreadsheet->getActiveSheet()->getStyle('B' . $no . ':C' . $no)->applyFromArray($this->lineNoVertical);
 
     // ob_end_clean();

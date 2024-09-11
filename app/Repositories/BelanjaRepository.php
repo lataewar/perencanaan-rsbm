@@ -102,6 +102,7 @@ class BelanjaRepository extends BaseRepository
           'sumber_anggaran' => $request->sumber_anggaran,
           'skala_prioritas' => $request->skala_prioritas,
           'usulan_id' => $request->usulan_id,
+          'ruangan_id' => $request->ruangan_id ?? null,
           'user_id' => auth()->user()->id,
         ]
       );
@@ -116,13 +117,14 @@ class BelanjaRepository extends BaseRepository
     }
   }
 
-  public function delete_pivot(string|array $barang, string $belanja, ?string $usulan): bool
+  public function delete_pivot(string|int $pivot_id, string $belanja, ?string $usulan): bool
   {
     DB::beginTransaction();
 
     try {
       $belanja = $this->find($belanja);
-      $belanja->barangs()->detach($barang);
+
+      DB::table('barang_belanja')->where('id', $pivot_id)->delete();
 
       if ($usulan)
         Usulan::find($usulan)->update(['is_accommodated' => false]);
@@ -138,27 +140,30 @@ class BelanjaRepository extends BaseRepository
     }
   }
 
-  public function find_pivot(string $barang, string $belanja): ?Model
+  public function find_pivot(string|int $pivot): ?stdClass
   {
-    return $this->find($belanja)->barangs()->find($barang);
+    return DB::table('barang_belanja')
+      ->select([
+        'barang_belanja.*',
+        'barangs.br_name',
+      ])
+      ->join('barangs', 'barangs.id', '=', 'barang_belanja.barang_id')
+      ->where('barang_belanja.id', $pivot)->first();
   }
 
-  public function update_pivot(string $barang, string $belanja, stdClass $request): bool
+  public function update_pivot(string|int $pivot, stdClass $request): bool
   {
     DB::beginTransaction();
 
     try {
-      $belanja = $this->find($belanja);
-      $belanja->barangs()->updateExistingPivot(
-        $barang,
-        [
-          'jumlah' => $request->jumlah,
-          'harga' => $request->harga,
-          'desc' => $request->desc,
-          'sumber_anggaran' => $request->sumber_anggaran,
-          'skala_prioritas' => $request->skala_prioritas,
-        ]
-      );
+      DB::table('barang_belanja')->where('id', $pivot)->update([
+        'jumlah' => $request->jumlah,
+        'harga' => $request->harga,
+        'desc' => $request->desc,
+        'sumber_anggaran' => $request->sumber_anggaran,
+        'skala_prioritas' => $request->skala_prioritas,
+      ]);
+
       DB::commit();
       return true;
     } catch (\Exception $e) {

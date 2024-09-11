@@ -15,6 +15,7 @@ class UsulanRequest extends FormRequest
       'ul_qty' => ['required', 'integer'],
       'ul_prise' => ['nullable', 'integer'],
       'ul_desc' => [],
+      'ruangan_id' => ['sometimes', 'required'],
     ];
   }
 
@@ -34,6 +35,7 @@ class UsulanRequest extends FormRequest
       'ul_qty.required' => 'Jumlah Barang harus diisi.',
       'ul_name.integer' => 'Jumlah Barang harus berupa angka.',
       'ul_prise.integer' => 'Harga Barang harus berupa angka.',
+      'ruangan_id.required' => 'Ruangan harus dipilih.',
     ];
   }
 }

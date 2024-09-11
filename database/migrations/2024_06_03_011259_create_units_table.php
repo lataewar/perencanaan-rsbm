@@ -15,6 +15,7 @@ return new class extends Migration {
       $table->string('u_name', 100);
       $table->string('u_kode', 50)->nullable();
       $table->text('u_desc')->nullable();
+      $table->boolean('is_has_ruang')->default(false);
       $table->timestamps();
     });
   }

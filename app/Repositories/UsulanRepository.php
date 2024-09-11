@@ -16,7 +16,7 @@ class UsulanRepository extends BaseRepository
 
   public function table(string $id): Builder|Model
   {
-    return $this->model->where('perencanaan_id', $id);
+    return $this->model->with('ruangan')->where('perencanaan_id', $id);
   }
 
   public function store(stdClass $request): Usulan
@@ -28,6 +28,7 @@ class UsulanRepository extends BaseRepository
       'ul_prise' => $request->ul_prise,
       'ul_qty' => $request->ul_qty,
       'ul_desc' => $request->ul_desc,
+      'ruangan_id' => $request->ruangan_id ?? null,
     ]);
   }
 
@@ -39,6 +40,7 @@ class UsulanRepository extends BaseRepository
       'ul_prise' => $request->ul_prise,
       'ul_qty' => $request->ul_qty,
       'ul_desc' => $request->ul_desc,
+      'ruangan_id' => $request->ruangan_id ?? null,
     ]);
   }
 }

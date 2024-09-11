@@ -24,6 +24,7 @@ class CreateByUsulanRequest extends FormRequest
       'message' => [],
       'sumber_anggaran' => [],
       'skala_prioritas' => [],
+      'ruangan_id' => [],
     ];
   }
 

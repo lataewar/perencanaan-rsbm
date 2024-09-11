@@ -18,7 +18,6 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsulanController;
 use App\Http\Controllers\UsulController;
-use App\Http\Controllers\ValidasiController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
@@ -112,6 +111,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/multdelete', [PerencanaanController::class, 'multdelete'])->name('perencanaan.multdelete');
     Route::get('/{perencanaan}/belanja', [PerencanaanController::class, 'belanja'])->name('perencanaan.belanja');
     Route::post('/accept', [PerencanaanController::class, 'accept'])->name('perencanaan.accept');
+    Route::post('/validate', [PerencanaanController::class, 'validasi'])->name('perencanaan.validate');
     Route::post('/reject', [PerencanaanController::class, 'reject'])->name('perencanaan.reject');
 
     Route::prefix('belanja')->group(function () {
@@ -122,8 +122,8 @@ Route::middleware('auth')->group(function () {
       Route::get('/create', [BelanjaController::class, 'create'])->name('belanja.create');
       Route::post('/store', [BelanjaController::class, 'store'])->name('belanja.store');
       Route::delete('/', [BelanjaController::class, 'destroy'])->name('belanja.destroy');
-      Route::get('/{barang}/{belanja}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
-      Route::put('/update/{barang}/{belanja}', [BelanjaController::class, 'update'])->name('belanja.update');
+      Route::get('/{pivot}/edit', [BelanjaController::class, 'edit'])->name('belanja.edit');
+      Route::put('/update/{pivot}', [BelanjaController::class, 'update'])->name('belanja.update');
 
       Route::get('/{id}/cetak', [CetakController::class, 'cetak_perencanaan'])->name('perencanaan.cetak');
     });
@@ -150,15 +150,5 @@ Route::middleware('auth')->group(function () {
       Route::delete('/{usul}', [UsulController::class, 'destroy'])->name('usul.destroy');
       Route::post('/multdelete', [UsulController::class, 'multdelete'])->name('usul.multdelete');
     });
-  });
-
-  Route::prefix('validasi')->group(function () {
-    Route::get('/', [ValidasiController::class, 'index'])->name('validasi.index');
-    Route::post('/setfilter', [ValidasiController::class, 'setfilter'])->name('validasi.setfilter');
-    Route::delete('/', [ValidasiController::class, 'destroy'])->name('validasi.destroy');
-    Route::post('/multdelete', [ValidasiController::class, 'multdelete'])->name('validasi.multdelete');
-    Route::get('/{perencanaan}/belanja', [ValidasiController::class, 'belanja'])->name('validasi.belanja');
-    Route::post('/accept', [ValidasiController::class, 'accept'])->name('validasi.accept');
-    Route::post('/reject', [ValidasiController::class, 'reject'])->name('validasi.reject');
   });
 });

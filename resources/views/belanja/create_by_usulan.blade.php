@@ -13,7 +13,7 @@
     </x-slot>
 
     <x-btn.a-weight-bold-svg href="{{ route('belanja.index') }}" svg="Navigation/Angle-left.svg"
-      class="btn-sm btn-light-primary ml-2">
+      class="ml-2 btn-sm btn-light-primary">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
 @endsection
@@ -30,12 +30,13 @@
           <h3 class="card-title">Tambah Belanja Berdasarkan Usulan</h3>
         </div>
         <div class="card-body">
-          <div class="row justify-content-center my-5 px-10">
+          <div class="px-10 my-5 row justify-content-center">
             <div class="col-xl-12 col-xxl-9">
 
               <h3 class="mb-10 font-weight-bold text-dark">Isi Data</h3>
 
               <input type="hidden" name="usulan_id" value="{{ $usulan->id }}">
+              <input type="hidden" name="ruangan_id" value="{{ $usulan->ruangan_id }}">
 
               <x-validation.inline.txt type="text" value="{{ $usulan->ul_name }}" disabled>Nama Usulan Barang
               </x-validation.inline.txt>

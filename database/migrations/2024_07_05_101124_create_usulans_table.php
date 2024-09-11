@@ -14,6 +14,7 @@ return new class extends Migration {
       $table->uuid('id')->primary();
       $table->foreignUuid('unit_id')->constrained('units');
       $table->foreignUuid('perencanaan_id')->constrained('perencanaans');
+      $table->foreignId('ruangan_id')->nullable()->constrained('ruangans');
       $table->string('ul_name', 100);
       $table->bigInteger('ul_prise')->nullable();
       $table->integer('ul_qty');

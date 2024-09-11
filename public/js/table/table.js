@@ -2,7 +2,7 @@ const setPerPage = function (dom) {
   dom.form.submit();
 };
 
-const destroy_pivot = function (belanja_id, barang_id, name, usulan_id) {
+const destroy_pivot = function (belanja_id, pivot_id, name, usulan_id) {
   Swal.fire({
     title: `Apakah anda yakin?`,
     text: `Menghapus '${name}'`,
@@ -22,8 +22,8 @@ const destroy_pivot = function (belanja_id, barang_id, name, usulan_id) {
           '<input type="hidden" name="_token" value="' +
           $('meta[name="csrf-token"]').attr("content") +
           '" />' +
-          '<input type="hidden" name="barang_id" value="' +
-          barang_id +
+          '<input type="hidden" name="pivot_id" value="' +
+          pivot_id +
           '" />' +
           '<input type="hidden" name="belanja_id" value="' +
           belanja_id +
@@ -109,6 +109,28 @@ const accept = function (id, name) {
   Swal.fire(swalProps).then((result) => {
     if (result.isConfirmed) {
       const urx_accept = $("#urx_accept").val();
+      var form = $(
+        '<form action="' +
+          urx_accept +
+          '" method="post">' +
+          '<input type="hidden" name="_token" value="' +
+          $('meta[name="csrf-token"]').attr("content") +
+          '" />' +
+          '<input type="hidden" name="id" value="' +
+          id +
+          '" />' +
+          "</form>"
+      );
+      $("body").append(form);
+      form.submit();
+    }
+  });
+};
+
+const validate = function (id, name) {
+  Swal.fire(swalProps).then((result) => {
+    if (result.isConfirmed) {
+      const urx_accept = $("#urx_validate").val();
       var form = $(
         '<form action="' +
           urx_accept +

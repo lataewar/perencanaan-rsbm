@@ -17,4 +17,9 @@ class Usulan extends Model
   {
     return $this->belongsTo(Perencanaan::class);
   }
+
+  public function ruangan(): BelongsTo
+  {
+    return $this->belongsTo(Ruangan::class);
+  }
 }

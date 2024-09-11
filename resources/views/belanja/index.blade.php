@@ -29,7 +29,7 @@
     </div>
 
     <x-btn.a-weight-bold-svg href="{{ route('perencanaan.index') }}" svg="Navigation/Angle-left.svg"
-      class="btn-sm btn-light-primary ml-2">
+      class="ml-2 btn-sm btn-light-primary">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
 @endsection
@@ -38,8 +38,12 @@
   @include('layouts.flash-data')
 
   <!--begin::Card-->
-  @can('perencanaan follow_up')
+  @can('perencanaan accept')
     <input type="hidden" id="urx_accept" value="{{ route('perencanaan.accept') }}">
+    <input type="hidden" id="urx_reject" value="{{ route('perencanaan.reject') }}">
+  @endcan
+  @can('perencanaan validate')
+    <input type="hidden" id="urx_validate" value="{{ route('perencanaan.validate') }}">
     <input type="hidden" id="urx_reject" value="{{ route('perencanaan.reject') }}">
   @endcan
   <input type="hidden" id="urx" value="{{ route('belanja.index') }}">
@@ -58,8 +62,13 @@
         <div>
           <x-table.menu-dropdown>
 
-            @if (auth()->user()->can('perencanaan follow_up') && $status->isDikirim() && $data->total > 0)
+            @if (auth()->user()->can('perencanaan accept') && $status->isDivalidasi() && $data->total > 0)
               <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :item="$data" />
+              <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :item="$data" />
+              <x-table.nav-separator />
+            @endif
+            @if (auth()->user()->can('perencanaan validate') && $status->isDikirim())
+              <x-table.nav-item route="javascript:;" name="Validasi" icon="la la-check-circle-o" :item="$data" />
               <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :item="$data" />
               <x-table.nav-separator />
             @endif
@@ -74,7 +83,7 @@
     </div>
     <div class="card-body">
 
-      <div class="row justify-content-center mb-4">
+      <div class="mb-4 row justify-content-center">
         <div class="col-lg-6">
           <div class="text-dark-50 line-height-lg">
             <div class="d-flex flex-column">
@@ -107,7 +116,7 @@
                 <span class="font-weight-boldest mr-15">Total Belanja</span>
                 <span class="text-right font-weight-boldest">{{ formatNomor($data->total) }}</span>
               </div>
-              <div class="separator separator-dashed my-1"></div>
+              <div class="my-1 separator separator-dashed"></div>
 
             </div>
           </div>
@@ -117,7 +126,7 @@
 
       <div class="row">
 
-        <div class="col-md-5 px-1">
+        <div class="px-1 col-md-5">
           <h5 class="mb-4 text-center font-weight-light">Tabel Usulan</h5>
           <!--begin: Table Usulan-->
           <table class="table table-hover">
@@ -133,16 +142,16 @@
                 <tr @if ($usulan->is_accommodated) class="table-success" @endif>
                   <td>{{ $loop->iteration }}</td>
                   <td>
-                    <div class="font-weight-bold font-size-md text-success pb-2">{{ $usulan->ul_name }}</div>
+                    <div class="pb-2 font-weight-bold font-size-md text-success">{{ $usulan->ul_name }}</div>
                     <div class="row border-bottom" style="background-color: #f5f5f5;">
-                      <div class="col-sm-2 font-size-sm text-right">jml</div>
-                      <div class="col-sm-4 font-size-sm text-right">harga</div>
-                      <div class="col-sm-6 font-size-sm text-right">total</div>
+                      <div class="text-right col-sm-2 font-size-sm">jml</div>
+                      <div class="text-right col-sm-4 font-size-sm">harga</div>
+                      <div class="text-right col-sm-6 font-size-sm">total</div>
                     </div>
                     <div class="row border-bottom font-weight-bold">
-                      <div class="col-sm-2 font-size-sm text-right">{{ $usulan->ul_qty }}</div>
-                      <div class="col-sm-4 font-size-sm text-right">{{ formatNomor($usulan->ul_prise) }}</div>
-                      <div class="col-sm-6 font-size-sm text-right">
+                      <div class="text-right col-sm-2 font-size-sm">{{ $usulan->ul_qty }}</div>
+                      <div class="text-right col-sm-4 font-size-sm">{{ formatNomor($usulan->ul_prise) }}</div>
+                      <div class="text-right col-sm-6 font-size-sm">
                         {{ formatNomor($usulan->ul_qty * $usulan->ul_prise) }}
                       </div>
                     </div>
@@ -162,7 +171,7 @@
 
         </div>
 
-        <div class="col-md-7 px-1">
+        <div class="px-1 col-md-7">
           <h5 class="mb-4 text-center font-weight-light">Tabel Perencanaan</h5>
           <!--begin: Table Perencanaan-->
           <table class="table table-hover">
@@ -175,43 +184,43 @@
             </thead>
             <tbody>
               @foreach ($belanjas as $jenbel1)
-                <tr class="font-weight-boldest py-0" style="background-color: #dddddd;">
+                <tr class="py-0 font-weight-boldest" style="background-color: #dddddd;">
                   <td class="py-0">{{ $jenbel1->jb_fullkode }}</td>
                   <td class="py-0">{{ $jenbel1->jb_name }}</td>
-                  <td class="text-center py-0"></td>
+                  <td class="py-0 text-center"></td>
                 </tr>
 
                 @foreach ($jenbel1->jenis_belanjas as $jenbel2)
                   <tr class="py-0" style="background-color: #efefef;">
                     <td class="py-0">{{ $jenbel2->jb_fullkode }}</td>
                     <td class="py-0">{{ $jenbel2->jb_name }}</td>
-                    <td class="text-center py-0"></td>
+                    <td class="py-0 text-center"></td>
                   </tr>
 
                   @foreach ($jenbel2->jenis_belanjas as $jenbel3)
-                    <tr class="font-weight-lighter py-0" style="background-color: #f5f5f5;">
+                    <tr class="py-0 font-weight-lighter" style="background-color: #f5f5f5;">
                       <td class="py-0">{{ $jenbel3->jb_fullkode }}</td>
                       <td class="py-0"> {{ $jenbel3->jb_name }}</td>
-                      <td class="text-center py-0"></td>
+                      <td class="py-0 text-center"></td>
 
                     </tr>
 
-                    <tr class="font-weight-lighter py-0">
+                    <tr class="py-0 font-weight-lighter">
                       <td class="py-0" colspan="3">
-                        <div class="col-md-12 mt-1 mb-2">
+                        <div class="mt-1 mb-2 col-md-12">
                           <div class="row border-bottom font-weight-bold" style="background-color: #f5f5f5;">
                             <div class="col-sm-3 font-size-sm">nama brg</div>
-                            <div class="col-sm-1 font-size-sm text-right">jml</div>
-                            <div class="col-sm-2 font-size-sm text-right">harga</div>
-                            <div class="col-sm-3 font-size-sm text-right">total</div>
-                            <div class="col-sm-2 font-size-sm text-right">ket.</div>
-                            <div class="col-sm-1 font-size-sm text-right"></div>
+                            <div class="text-right col-sm-1 font-size-sm">jml</div>
+                            <div class="text-right col-sm-2 font-size-sm">harga</div>
+                            <div class="text-right col-sm-3 font-size-sm">total</div>
+                            <div class="text-right col-sm-2 font-size-sm">ket.</div>
+                            <div class="text-right col-sm-1 font-size-sm"></div>
                           </div>
 
                           @foreach ($jenbel3->barangs as $barang)
                             <div class="row border-bottom"
                               @if ($barang->pivot->is_exist) style="background-color: #fccdd2;" @endif>
-                              <div class="col-sm-3 font-size-sm pt-2">
+                              <div class="pt-2 col-sm-3 font-size-sm">
                                 @if ($barang->pivot->is_exist)
                                   <span class="label label-light-danger label-rounded font-weight-bold"
                                     data-toggle="tooltip" data-original-title="{{ $barang->pivot->message }}">i</span>
@@ -219,30 +228,29 @@
                                 @endif
                                 {{ $barang->br_name }}
                               </div>
-                              <div class="col-sm-1 font-size-sm text-right pt-2">
+                              <div class="pt-2 text-right col-sm-1 font-size-sm">
                                 {{ formatNomor($barang->pivot->jumlah) }}
                               </div>
-                              <div class="col-sm-2 font-size-sm text-right pt-2">
+                              <div class="pt-2 text-right col-sm-2 font-size-sm">
                                 {{ formatNomor($barang->pivot->harga) }}
                               </div>
-                              <div class="col-sm-3 font-size-sm text-right pt-2">
+                              <div class="pt-2 text-right col-sm-3 font-size-sm">
                                 {{ formatNomor($barang->pivot->harga * $barang->pivot->jumlah) }}</div>
-                              <div class="col-sm-2 font-size-sm text-right pt-2">
+                              <div class="pt-2 text-right col-sm-2 font-size-sm">
                                 {!! $barang->pivot->sumber_anggaran
                                     ? App\Enums\SumberAnggaranEnum::from($barang->pivot->sumber_anggaran)->getName()
                                     : '' !!}
                               </div>
-                              <div class="col-sm-1 font-size-sm text-right">
+                              <div class="text-right col-sm-1 font-size-sm">
                                 <x-table.menu-dropdown>
 
                                   @can('perencanaan update')
                                     @if ($isCanUpdateBelanja)
                                       <x-table.nav-item :route="route('belanja.edit', [
-                                          'barang' => $barang->pivot->barang_id,
-                                          'belanja' => $barang->pivot->belanja_id,
+                                        'pivot' => $barang->pivot->id,
                                       ])" name="Ubah" icon="la la-pencil" />
                                       <x-table.nav-item route="javascript:;" name="Hapus" icon="la la-trash"
-                                        :belanja="$barang->pivot->belanja_id" :barang="$barang->pivot->barang_id" :namabarang="$barang->br_name" :usulan="$barang->pivot->usulan_id" />
+                                        :belanja="$barang->pivot->belanja_id" :pivotid="$barang->pivot->id" :namabarang="$barang->br_name" :usulan="$barang->pivot->usulan_id" />
                                     @endif
                                   @endcan
 
@@ -253,7 +261,7 @@
 
                           <div class="row border-bottom" style="background-color: #d7ecff;">
                             <div class="col-sm-6 font-size-sm">Total Belanja</div>
-                            <div class="col-sm-3 font-size-sm text-right">{{ formatNomor($jenbel3->total_harga) }}</div>
+                            <div class="text-right col-sm-3 font-size-sm">{{ formatNomor($jenbel3->total_harga) }}</div>
                           </div>
 
                         </div>

@@ -15,7 +15,7 @@ class PerencanaanController extends Controller
   public function __construct(
     protected PerencanaanService $service
   ) {
-    $this->middleware('permission:perencanaan follow_up')->only(['accept', 'reject']);
+    $this->middleware('permission:perencanaan accept')->only(['accept', 'reject']);
     $this->middleware('permission:perencanaan read')->only(['index', 'setfilter', 'belanja']);
     $this->middleware('permission:perencanaan delete')->only(['destroy']);
   }
@@ -51,10 +51,27 @@ class PerencanaanController extends Controller
 
     if (!auth()->user()->role_id->isPerencana()) // Cek Role is_perencana
       return to_route('perencanaan.index')->with('error', 'Role salah.');
-    if (!$status->isDikirim()) // Cek Status is_dikirim
+    if (!$status->isDivalidasi()) // Cek Status is_divalidasi
       return to_route('perencanaan.index')->with('error', 'Terjadi kesalahan pada proses kirim.');
 
     if ($this->service->update_status($request->id, StatusEnum::DISETUJUI->value, 'Perencanaan disetujui.'))
+      return to_route('perencanaan.index')->with('success', 'Perencanaan berhasil dikirim.');
+
+    return to_route('perencanaan.index');
+  }
+
+  //----------  VALIDATE  ----------//
+  public function validasi(Request $request): RedirectResponse
+  {
+    $find = $this->service->find_total($request->id);
+    $status = StatusEnum::from($find->status);
+
+    if (!auth()->user()->role_id->isBidang()) // Cek Role is_bidang
+      return to_route('perencanaan.index')->with('error', 'Role salah.');
+    if (!$status->isDikirim()) // Cek Status is_dikirim
+      return to_route('perencanaan.index')->with('error', 'Terjadi kesalahan pada proses kirim.');
+
+    if ($this->service->update_status($request->id, StatusEnum::DIVALIDASI->value, 'Perencanaan divalidasi.'))
       return to_route('perencanaan.index')->with('success', 'Perencanaan berhasil dikirim.');
 
     return to_route('perencanaan.index');

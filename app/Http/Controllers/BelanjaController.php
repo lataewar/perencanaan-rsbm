@@ -74,7 +74,7 @@ class BelanjaController extends Controller
   {
     Gate::authorize('update', Belanja::class);
 
-    $query = $this->service->delete_pivot($request->barang_id, $request->belanja_id, $request->usulan_id);
+    $query = $this->service->delete_pivot($request->pivot_id, $request->belanja_id, $request->usulan_id);
     if ($query)
       return to_route('belanja.index')->with('success', 'Data berhasil dihapus.');
 
@@ -104,21 +104,21 @@ class BelanjaController extends Controller
   }
 
   //----------  EDIT  ----------//
-  public function edit(string $barang, string $belanja): View
+  public function edit(string $pivot): View
   {
     Gate::authorize('update', Belanja::class);
 
     return view('belanja.edit', [
-      'data' => $this->service->find_pivot($barang, $belanja),
+      'data' => $this->service->find_pivot($pivot),
     ]);
   }
 
   //----------  UPDATE  ----------//
-  public function update($barang, $belanja, BelanjaUpdateRequest $request): RedirectResponse
+  public function update($pivot, BelanjaUpdateRequest $request): RedirectResponse
   {
     Gate::authorize('update', Belanja::class);
 
-    $query = $this->service->update($barang, $belanja, $request);
+    $query = $this->service->update($pivot, $request);
     if ($query)
       return to_route('belanja.index')->with('success', 'Data berhasil diubah.');
 

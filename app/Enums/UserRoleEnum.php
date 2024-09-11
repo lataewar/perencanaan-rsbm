@@ -9,6 +9,7 @@ enum UserRoleEnum: int
   case PIMPINAN = 3;
   case PERENCANA = 4;
   case UNIT = 5;
+  case BIDANG = 6;
 
   public static function toArray(): array
   {
@@ -44,6 +45,11 @@ enum UserRoleEnum: int
     return $this === self::UNIT;
   }
 
+  public function isBidang(): bool
+  {
+    return $this === self::BIDANG;
+  }
+
   public function getName(): string
   {
     return match ($this) {
@@ -52,6 +58,7 @@ enum UserRoleEnum: int
       self::PIMPINAN => "pimpinan",
       self::PERENCANA => "perencana",
       self::UNIT => "unit",
+      self::BIDANG => "bidang",
     };
   }
 
@@ -63,6 +70,7 @@ enum UserRoleEnum: int
       self::PIMPINAN => "Pimpinan",
       self::PERENCANA => "Perencana",
       self::UNIT => "Unit",
+      self::BIDANG => "Bidang",
     };
   }
 
@@ -74,6 +82,7 @@ enum UserRoleEnum: int
       self::PIMPINAN => "info",
       self::PERENCANA => "success",
       self::UNIT => "primary",
+      self::BIDANG => "secondary",
     };
   }
 

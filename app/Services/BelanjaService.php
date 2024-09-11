@@ -122,20 +122,20 @@ class BelanjaService extends BaseService
     return $this->repository->storeByUsulan((object) $request->validated());
   }
 
-  public function delete_pivot(string|array $barang, string $belanja, ?string $usulan): bool
+  public function delete_pivot(string|int $pivot_id, string $belanja, ?string $usulan): bool
   {
-    return $this->repository->delete_pivot($barang, $belanja, $usulan);
+    return $this->repository->delete_pivot($pivot_id, $belanja, $usulan);
   }
 
-  public function find_pivot(string $barang, string $belanja): ?Model
+  public function find_pivot(string|int $pivot): ?stdClass
   {
-    return $this->repository->find_pivot($barang, $belanja);
+    return $this->repository->find_pivot($pivot);
   }
 
-  public function update(string $barang, string $belanja, BelanjaUpdateRequest $request): bool
+  public function update(string|int $pivot, BelanjaUpdateRequest $request): bool
   {
     $validated = (object) $request->validated();
-    return $this->repository->update_pivot($barang, $belanja, $validated);
+    return $this->repository->update_pivot($pivot, $validated);
   }
 
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\UsulanRequest;
 use App\Models\Usulan;
 use App\Services\Datatables\UsulTableService;
 use App\Services\PerencanaanService;
+use App\Services\RuanganService;
 use App\Services\UsulanService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -45,7 +46,11 @@ class UsulController extends Controller
   {
     Gate::authorize('update', Usulan::class);
 
-    return view('usul.create');
+    $ruangans = app(RuanganService::class)->select_by_unit(auth()->user()->unit_id);
+
+    return view('usul.create', [
+      'ruangans' => $ruangans,
+    ]);
   }
 
   //----------  STORE  ----------//
@@ -65,7 +70,10 @@ class UsulController extends Controller
   {
     Gate::authorize('update', Usulan::class);
 
+    $ruangans = app(RuanganService::class)->select_by_unit(auth()->user()->unit_id);
+
     return view('usul.edit', [
+      'ruangans' => $ruangans,
       'data' => $this->service->find($usul),
     ]);
   }

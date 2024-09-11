@@ -33,10 +33,13 @@ class UsulTableService extends DatatableService
       ->addColumn('ul_prise', function ($data) {
         return formatNomor($data->ul_prise);
       })
+      ->addColumn('ruang', function ($data) {
+        return $data->ruangan->r_name ?? '';
+      })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);
       })
-      ->rawColumns(['aksi', 'cb', 'total'])
+      ->rawColumns(['aksi', 'cb', 'total', 'ruang'])
       ->make();
   }
 }

@@ -27,6 +27,10 @@ const columns = [
     name: "ul_desc",
   },
   {
+    data: "ruang",
+    name: "ruangan.r_name",
+  },
+  {
     data: "aksi",
     name: "aksi",
   },
@@ -34,12 +38,12 @@ const columns = [
 
 const columnDefs = [
   {
-    targets: [0, 1, 7],
+    targets: [0, 1, 8],
     orderable: false,
     className: "text-center",
   },
   {
-    targets: [2, 6],
+    targets: [2, 6, 7],
     orderable: true,
   },
   {

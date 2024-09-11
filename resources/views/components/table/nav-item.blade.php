@@ -4,7 +4,7 @@
     'route',
     'name',
     'belanja' => null,
-    'barang' => null,
+    'pivotid' => null,
     'namabarang' => null,
     'usulan' => null,
 ])
@@ -17,10 +17,11 @@
           'Terima' => "accept('$action')",
           'Tolak' => "reject('$action')",
           'Kirim' => "send('$action')",
+          'Validasi' => "validate('$action')",
           'Hapus' => "destroy_item('$action')",
       };
-  } elseif ($belanja && $barang) {
-      $onclick = "destroy_pivot('$belanja','$barang','$namabarang','$usulan')";
+  } elseif ($belanja && $pivotid) {
+      $onclick = "destroy_pivot('$belanja','$pivotid','$namabarang','$usulan')";
   }
 @endphp
 

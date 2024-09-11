@@ -17,8 +17,8 @@ class BelanjaPolicy
     $find = app(PerencanaanService::class)->find_usulan(Session::get('perencanaan_id'));
     $status = StatusEnum::from($find->status);
 
-    // if status == dikirim && role_id == perencana
-    if ($status->isDikirim() && $user->role_id->isPerencana())
+    // if status == divalidasi && role_id == perencana
+    if ($status->isDivalidasi() && $user->role_id->isPerencana())
       return true;
 
     return false;

@@ -20,7 +20,7 @@
       @can('perencanaan delete')
         @if ($isCanUpdateBelanja)
           <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;"
-            class="btn-sm btn-light-danger mr-2 btn-multdelete">
+            class="mr-2 btn-sm btn-light-danger btn-multdelete">
             Hapus Terpilih</x-btn.weight-bold-svg>
         @endif
       @endcan
@@ -34,7 +34,7 @@
       @endcan
     </div>
     <x-btn.a-weight-bold-svg href="{{ route('usulan.index') }}" svg="Navigation/Angle-left.svg"
-      class="btn-sm btn-light-primary ml-2">
+      class="ml-2 btn-sm btn-light-primary">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
 @endsection
@@ -76,14 +76,14 @@
     </div>
     <div class="card-body">
 
-      <div class="row justify-content-center mb-4">
+      <div class="mb-4 row justify-content-center">
         <div class="col-lg-6">
           <div class="text-dark-50 line-height-lg">
             <div class="d-flex flex-column">
 
               <div class="d-flex justify-content-between">
                 <span class="font-weight-bold mr-15">Unit:</span>
-                <span class="text-right font-weight-light">{{ $data->u_name }}</span>
+                <span class="text-right font-weight-light">{{ $data->unit->u_name }}</span>
               </div>
               <x-separator margin="1" />
               <div class="d-flex justify-content-between">
@@ -130,6 +130,7 @@
               <th class="text-right">Jumlah</th>
               <th class="text-right">Total</th>
               <th>Spesifikasi</th>
+              <th>Ruangan</th>
               <th class="text-center">Aksi</th>
             </tr>
           </thead>
