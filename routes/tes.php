@@ -19,7 +19,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/tes', function () {
-  $ruangans = app(RuanganService::class)->getAll();
+  // $ruangans = app(RuanganService::class)->getAll();
 
-  return $ruangans->find(2)->r_name ?? '';
+  // return $ruangans->find(2)->r_name ?? '';
+
+  return auth()->user();
 });

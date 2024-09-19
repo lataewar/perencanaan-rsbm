@@ -24,7 +24,8 @@ class PerencanaanRepository extends BaseRepository
   {
     $query = $this->model
       ->unit_scope()
-      ->non_unit_scope()
+      ->bidang_scope()
+      ->perencana_scope()
       ->select(
         [
           'perencanaans.id',
@@ -44,6 +45,7 @@ class PerencanaanRepository extends BaseRepository
         ]
       )
       ->join('units as u', 'u.id', '=', 'perencanaans.unit_id')
+      ->join('bidang_unit as bu', 'bu.unit_id', '=', 'u.id')
       ->join('belanjas as bl', 'bl.perencanaan_id', '=', 'perencanaans.id', 'left')
       ->join('barang_belanja as bb', 'bb.belanja_id', '=', 'bl.id', 'left')
       ->join('barangs as br', 'br.id', '=', 'bb.barang_id', 'left')

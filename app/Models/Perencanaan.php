@@ -29,16 +29,34 @@ class Perencanaan extends Model
   public function scopeUnit_scope(Builder $builder): void
   {
     // IF USER ROLE IS UNIT
-    if (auth()->check() && auth()->user()->role_id->isUnit())
+    if (auth()->check() && auth()->user()->role_id->isUnit()) {
       $builder->where('u.id', auth()->user()->unit_id);
+    }
   }
 
-  public function scopeNon_unit_scope(Builder $builder): void
+  public function scopeBidang_scope(Builder $builder): void
   {
-    // IF USER ROLE IS NOT UNIT
-    if (auth()->check() && !auth()->user()->role_id->isUnit())
-      $builder->where('statuses.status', '!=', StatusEnum::DRAFT->value);
+    // IF USER ROLE IS BIDANG
+    if (auth()->check() && auth()->user()->role_id->isBidang()) {
+      $builder->where('bu.bidang_id', auth()->user()->bidang_id);
+      $builder->whereIn('statuses.status', [StatusEnum::DIKIRIM->value, StatusEnum::DIVALIDASI->value]);
+    }
   }
+
+  public function scopePerencana_scope(Builder $builder): void
+  {
+    // IF USER ROLE IS PERENCANA
+    if (auth()->check() && auth()->user()->role_id->isPerencana()) {
+      $builder->whereIn('statuses.status', [StatusEnum::DIVALIDASI->value, StatusEnum::DISETUJUI->value]);
+    }
+  }
+
+  // public function scopeNon_unit_scope(Builder $builder): void
+  // {
+  //   // IF USER ROLE IS NOT UNIT & BIDANG
+  //   if (auth()->check() && !auth()->user()->role_id->isUnit() && !auth()->user()->role_id->isBidang())
+  //     $builder->where('statuses.status', '!=', StatusEnum::DRAFT->value);
+  // }
 
   public function unit(): BelongsTo
   {
