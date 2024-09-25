@@ -31,6 +31,11 @@ class Unit extends Model
     return $this->belongsToMany(Bidang::class);
   }
 
+  public function isPartOfBidang(string|int $bidang_id): bool
+  {
+    return $this->bidangs()->where('bidang_id', $bidang_id)->exists();
+  }
+
   public function ruangans(): HasMany
   {
     return $this->hasMany(Ruangan::class);

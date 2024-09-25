@@ -99,6 +99,14 @@ class PerencanaanRepository extends BaseRepository
       ->first();
   }
 
+  public function find_status(string $id): ?Perencanaan
+  {
+    return $this->model
+      ->with('last_status')
+      ->where('id', $id)
+      ->first();
+  }
+
   public function store(stdClass $request): Perencanaan
   {
     $perencanaan = $this->model->create([

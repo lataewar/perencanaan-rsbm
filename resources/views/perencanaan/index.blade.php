@@ -28,6 +28,18 @@
     <input type="hidden" id="urx_validate" value="{{ route('perencanaan.validate') }}">
     <input type="hidden" id="urx_reject" value="{{ route('perencanaan.reject') }}">
   @endcan
+
+  @php
+    $statuses = [];
+    if (auth()->user()->role_id->isBidang()) {
+      $statuses = StatusEnum::toArrayRoleBIdang();
+    } elseif (auth()->user()->role_id->isPerencana()) {
+      $statuses = StatusEnum::toArrayRolePerencana();
+    } else {
+      $statuses = StatusEnum::toArray();
+    }
+  @endphp
+
   <div class="card card-custom gutter-b">
     <div class="card-body">
 
@@ -52,7 +64,7 @@
               <div class="my-2 col-md-4 my-md-0">
                 <select class="form-control form-control-solid" name="status">
                   <option value="">Semua Status</option>
-                  @foreach (StatusEnum::toArray() as $item)
+                  @foreach ($statuses as $item)
                     <option value="{{ $item['id'] }}" @if (session()->get('ptable.status') == $item['id']) selected @endif>
                       {{ $item['name'] }}
                     </option>

@@ -23,5 +23,6 @@ Route::get('/tes', function () {
 
   // return $ruangans->find(2)->r_name ?? '';
 
-  return auth()->user();
+  $perencanaan = Perencanaan::with('last_status')->where('id', 'dc3c462f-cb32-40e4-9438-d156c7e52e67')->firstOrFail();
+  return $perencanaan;
 });

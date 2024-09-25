@@ -19,6 +19,22 @@ enum StatusEnum: int
     return $data;
   }
 
+  public static function toArrayRoleBIdang(): array
+  {
+    return [
+      ['id' => self::DIKIRIM->value, 'name' => self::DIKIRIM->getLabelText()],
+      ['id' => self::DIVALIDASI->value, 'name' => self::DIVALIDASI->getLabelText()],
+    ];
+  }
+
+  public static function toArrayRolePerencana(): array
+  {
+    return [
+      ['id' => self::DIVALIDASI->value, 'name' => self::DIVALIDASI->getLabelText()],
+      ['id' => self::DISETUJUI->value, 'name' => self::DISETUJUI->getLabelText()],
+    ];
+  }
+
   public function isDraft(): bool
   {
     return $this === self::DRAFT;

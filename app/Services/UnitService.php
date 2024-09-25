@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\UnitRequest;
 use App\Models\Unit;
 use App\Repositories\UnitRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class UnitService extends BaseService
 {
@@ -12,6 +13,14 @@ class UnitService extends BaseService
     protected UnitRepository $repository
   ) {
     parent::__construct($repository);
+  }
+
+  public function getAll(): Collection
+  {
+    if (auth()->user()->role_id->isBidang())
+      return $this->repo->get_all_by_bidang(auth()->user()->bidang_id);
+
+    return $this->repo->all();
   }
 
   public function store(UnitRequest $request): Unit

@@ -43,6 +43,15 @@ class UnitRepository extends BaseRepository
     return $this->model->select(['id', 'u_name as name'])->get();
   }
 
+  public function get_all_by_bidang(string $bidangId): Collection
+  {
+    return $this->model
+      ->select(['id', 'u_name as name'])
+      ->join('bidang_unit as bu', 'bu.unit_id', '=', 'units.id')
+      ->where('bidang_id', $bidangId)
+      ->get();
+  }
+
   public function get_count(): int
   {
     return $this->model->count();

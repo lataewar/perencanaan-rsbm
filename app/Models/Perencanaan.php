@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Perencanaan extends Model
 {
@@ -51,13 +52,6 @@ class Perencanaan extends Model
     }
   }
 
-  // public function scopeNon_unit_scope(Builder $builder): void
-  // {
-  //   // IF USER ROLE IS NOT UNIT & BIDANG
-  //   if (auth()->check() && !auth()->user()->role_id->isUnit() && !auth()->user()->role_id->isBidang())
-  //     $builder->where('statuses.status', '!=', StatusEnum::DRAFT->value);
-  // }
-
   public function unit(): BelongsTo
   {
     return $this->belongsTo(Unit::class, 'unit_id', 'id');
@@ -71,6 +65,11 @@ class Perencanaan extends Model
   public function statuses(): HasMany
   {
     return $this->hasMany(Status::class);
+  }
+
+  public function last_status(): HasOne
+  {
+    return $this->hasOne(Status::class)->latestOfMany();
   }
 
   public function usulans(): HasMany
