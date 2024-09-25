@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Services\BidangService;
 use App\Services\Datatables\UserTableService;
 use App\Services\UnitService;
 use App\Services\UserService;
@@ -39,7 +40,8 @@ class UserController extends Controller
   public function create(): View
   {
     return view('user.create', [
-      'units' => app(UnitService::class)->getAll()
+      'units' => app(UnitService::class)->getAll(),
+      'bidangs' => app(BidangService::class)->getAll(),
     ]);
   }
 
@@ -59,6 +61,7 @@ class UserController extends Controller
     return view('user.edit', [
       'data' => $this->service->find($user),
       'units' => app(UnitService::class)->getAll(),
+      'bidangs' => app(BidangService::class)->getAll(),
     ]);
   }
 

@@ -32,6 +32,7 @@ class UserRepository extends BaseRepository
         'password' => Hash::make($request->password),
         'role_id' => $request->role_id,
         'unit_id' => $request->unit_id,
+        'bidang_id' => $request->bidang_id,
       ]);
       $user->syncRoles((int) $request->role_id);
 
@@ -54,6 +55,7 @@ class UserRepository extends BaseRepository
         'password' => $request->password,
         'role_id' => $request->role_id,
         'unit_id' => $request->unit_id,
+        'bidang_id' => $request->bidang_id,
       ]);
       $user->syncRoles((int) $request->role_id);
 
@@ -75,6 +77,7 @@ class UserRepository extends BaseRepository
         'email' => $request->email,
         'role_id' => $request->role_id,
         'unit_id' => $request->unit_id,
+        'bidang_id' => $request->bidang_id,
       ]);
       $user->syncRoles((int) $request->role_id);
 

@@ -13,7 +13,7 @@
     </x-slot>
 
     <x-btn.a-weight-bold-svg href="{{ route('user.index') }}" svg="Navigation/Angle-left.svg"
-      class="btn-sm btn-light-primary ml-2">
+      class="ml-2 btn-sm btn-light-primary">
       Kembali</x-btn.a-weight-bold-svg>
   </x-subheader>
 @endsection
@@ -65,6 +65,14 @@
                 </x-validation.select-static-stack>
               </div>
 
+              <div id="bidang" @if (old('role_id') != 6) style="display: none;" @endif>
+                <x-validation.select-static-stack name="bidang_id" :messages="$errors->get('bidang_id')">
+                  Bidang <x-redstar />
+                  @slot('items', $bidangs)
+                  @slot('current', old('bidang_id'))
+                </x-validation.select-static-stack>
+              </div>
+
             </div>
           </div>
 
@@ -80,10 +88,15 @@
   <!--begin::Page Vendors(used by this page)-->
   <script>
     $('#role_id').on('change', function() {
-      if ($('#role_id').val() != 5) {
-        $('#unit').hide();
-      } else {
+      if ($('#role_id').val() == 5) {
         $('#unit').show();
+        $('#bidang').hide();
+      } else if ($('#role_id').val() == 6) {
+        $('#unit').hide();
+        $('#bidang').show();
+      } else {
+        $('#unit').hide();
+        $('#bidang').hide();
       }
     });
   </script>

@@ -20,6 +20,11 @@ class BidangRepository extends BaseRepository
     return $this->model->withCount(['units']);
   }
 
+  public function all(): Collection
+  {
+    return $this->model->select(['id', 'b_name as name'])->get();
+  }
+
   public function withUnits(int|string $id): Bidang
   {
     return $this->model->with('units')->where('id', $id)->first();

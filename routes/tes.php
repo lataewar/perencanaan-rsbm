@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tes', function () {
   // $ruangans = app(RuanganService::class)->getAll();
 
+  dd(auth()->user());
+
   // return $ruangans->find(2)->r_name ?? '';
 
   $perencanaan = Perencanaan::with('last_status')->where('id', 'dc3c462f-cb32-40e4-9438-d156c7e52e67')->firstOrFail();
