@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenbelController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PerencanaanController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -85,6 +86,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/{jenbel}', [JenbelController::class, 'destroy'])->name('jenbel.destroy');
     Route::post('/multdelete', [JenbelController::class, 'multdelete'])->name('jenbel.multdelete');
   });
+
+  Route::post('periode/datatable', [PeriodeController::class, 'datatable'])->name('periode.datatable');
+  Route::resource('periode', PeriodeController::class)->except('show');
 
   Route::prefix('barang')->group(function () {
     Route::get('/choose_belanja', [BarangController::class, 'setbelanja'])->name('barang.getbelanja');

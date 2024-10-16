@@ -80,6 +80,14 @@ class AppSeeder extends Seeder
         'created_at' => now(),
         'updated_at' => now(),
       ],
+      [
+        'id' => 7,
+        'menu_id' => 3,
+        'name' => 'Periode',
+        'route' => 'periode.index',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
     ]);
 
     DB::table('menu_role')->insert([
@@ -132,8 +140,9 @@ class AppSeeder extends Seeder
     $p_jenbels = ['jenis_belanja create', 'jenis_belanja read', 'jenis_belanja update', 'jenis_belanja delete', 'jenis_belanja multidelete'];
     $p_barangs = ['barang create', 'barang read', 'barang update', 'barang delete', 'barang multidelete'];
     $p_perencanaans = ['perencanaan create', 'perencanaan read', 'perencanaan update', 'perencanaan delete', 'perencanaan send', 'perencanaan validate', 'perencanaan accept', 'perencanaan reject'];
+    $p_periodes = ['periode create', 'periode read', 'periode update', 'periode delete'];
 
-    foreach ([...$p_units, ...$p_bidangs, ...$p_jenbels, ...$p_barangs, ...$p_perencanaans] as $item) {
+    foreach ([...$p_units, ...$p_bidangs, ...$p_jenbels, ...$p_barangs, ...$p_perencanaans, ...$p_periodes] as $item) {
       Permission::create(['name' => $item]);
     }
 
@@ -164,6 +173,7 @@ class AppSeeder extends Seeder
       ...$p_units,
       ...$p_jenbels,
       ...$p_barangs,
+      ...$p_periodes,
       ...['perencanaan read', 'perencanaan update', 'perencanaan delete', 'perencanaan accept', 'perencanaan reject']
     ]);
 
