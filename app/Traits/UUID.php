@@ -13,11 +13,11 @@ trait UUID
 
     /**
      * Listen for the creating event on the Model.
-     * Sets the 'id' to a UUID using Str::uuid() on the instance being created
+     * Sets the 'id' to a UUID using Str::orderedUuid() on the instance being created
      */
     static::creating(function ($model) {
       if ($model->getKey() === null) {
-        $model->setAttribute($model->getKeyName(), Str::uuid());
+        $model->setAttribute($model->getKeyName(), Str::orderedUuid());
       }
     });
   }
@@ -42,7 +42,7 @@ trait UUID
   public static function booted()
   {
     static::creating(function ($model) {
-      $model->id = \Illuminate\Support\Str::uuid();
+      $model->id = \Illuminate\Support\Str::orderedUuid();
     });
   }
   */

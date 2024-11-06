@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\UsulanRequest;
+use App\Http\Requests\UsulRequest;
 use App\Models\Usulan;
 use App\Repositories\UsulanRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -33,17 +33,17 @@ class UsulanService extends BaseService
     }
   }
 
-  public function getTahun(): array
+  public function getTahun(): Collection
   {
-    return app(PerencanaanService::class)->getTahun();
+    return app(PeriodeService::class)->getAllActive();
   }
 
-  public function store(UsulanRequest $request): Usulan
+  public function store(UsulRequest $request): Usulan
   {
     return $this->repository->store((object) $request->validated());
   }
 
-  public function update(string $usul, UsulanRequest $request): Usulan
+  public function update(string $usul, UsulRequest $request): Usulan
   {
     $validated = (object) $request->validated();
     return $this->repository->update($usul, $validated);

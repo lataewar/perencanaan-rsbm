@@ -15,7 +15,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Kelompok Staf Medis",
         "u_kode" => "-",
         "u_desc" => "Kelompok Staf Medis",
-        "id" => "f35cfb7d-52fe-4c52-90c4-2bc907987b09",
+        "id" => "9d41d1fe-530c-470b-b815-a85a0e9b9ae0",
         "is_has_ruang" => true,
         "updated_at" => now(),
         "created_at" => now()
@@ -24,7 +24,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Pelayanan Medis",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Pelayanan Medis",
-        "id" => "d7dd2920-37c2-4d5d-8d6b-d974f047806b",
+        "id" => "9d41d3ba-68fb-4013-8899-ad5aeb0b7fd4",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -33,7 +33,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Rawat Inap",
         "u_kode" => "-",
         "u_desc" => "Instalasi Rawat Inap",
-        "id" => "2fd31e71-9334-46e5-aae2-4a21ffefdf52",
+        "id" => "9d41d3ba-69f3-4ce5-b26e-0eb0bcb935ca",
         "is_has_ruang" => true,
         "updated_at" => now(),
         "created_at" => now()
@@ -42,7 +42,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Rawat Jalan",
         "u_kode" => "-",
         "u_desc" => "Instalasi Rawat Jalan",
-        "id" => "b433c233-b91f-4b41-ab33-b39f9433174e",
+        "id" => "9d41d3ba-69fa-4d49-b306-ffd0a0621117",
         "is_has_ruang" => true,
         "updated_at" => now(),
         "created_at" => now()
@@ -51,7 +51,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Kamar Bersalin",
         "u_kode" => "-",
         "u_desc" => "Instalasi Kamar Bersalin",
-        "id" => "71d97120-0b57-485c-a827-36d51a73d03a",
+        "id" => "9d41d3ba-69fd-415d-8b7d-891fdf270685",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -60,7 +60,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Bedah Sentral",
         "u_kode" => "-",
         "u_desc" => "Instalasi Bedah Sentral",
-        "id" => "4524d4c8-f794-4ac4-a714-41b09cec3ace",
+        "id" => "9d41d3ba-69ff-49d1-bd09-d08037bda712",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -69,7 +69,7 @@ class UnitSeeder extends Seeder
         "u_name" => "ICCU",
         "u_kode" => "-",
         "u_desc" => "ICCU",
-        "id" => "c3e7722b-ac2a-475a-aaff-e60ec390cebb",
+        "id" => "9d41d3ba-6a04-4578-bac4-068900a71409",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -78,7 +78,7 @@ class UnitSeeder extends Seeder
         "u_name" => "ICU",
         "u_kode" => "-",
         "u_desc" => "ICU",
-        "id" => "4360a591-c744-45d8-9618-16aa42a3382b",
+        "id" => "9d41d3ba-6a06-4615-9d10-67d436fe774a",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -87,7 +87,7 @@ class UnitSeeder extends Seeder
         "u_name" => "NICU",
         "u_kode" => "-",
         "u_desc" => "NICU",
-        "id" => "b1c40f06-e7a7-4550-bfff-c5876319a6f7",
+        "id" => "9d41d3ba-6a0a-49fa-b269-7c0d8c16faad",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -96,7 +96,7 @@ class UnitSeeder extends Seeder
         "u_name" => "PICU",
         "u_kode" => "-",
         "u_desc" => "PICU",
-        "id" => "97926780-f074-44be-ad8c-dde6abc79695",
+        "id" => "9d41d3ba-6a0c-464a-96bd-adf529aad930",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -105,7 +105,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Pelayanan Keperawatan",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Pelayanan Keperawatan",
-        "id" => "78b574ad-bad8-47fa-81b2-bab72e355d48",
+        "id" => "9d41d3ba-6a0d-4d62-a6f4-ff846c4fea41",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -114,7 +114,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Radiologi",
         "u_kode" => "-",
         "u_desc" => "Instalasi Radiologi",
-        "id" => "68addb8c-86cc-462a-8f7b-a15eb24bf2fe",
+        "id" => "9d41d48d-2a81-4887-be1d-6c563519fc33",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -123,7 +123,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Gizi",
         "u_kode" => "-",
         "u_desc" => "Instalasi Gizi",
-        "id" => "95c5b442-e3fc-4821-9e6c-04d9f08cf2b8",
+        "id" => "9d41d48d-2aff-4782-988a-35c9b59dfff7",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -132,7 +132,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Patologi Klinik",
         "u_kode" => "-",
         "u_desc" => "Instalasi Patologi Klinik",
-        "id" => "411fb01e-a56b-47ff-82dd-f847a8adbdd0",
+        "id" => "9d41d48d-2b02-4ce0-b7c6-69799853f438",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -141,7 +141,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Rehabilitasi Medik",
         "u_kode" => "-",
         "u_desc" => "Instalasi Rehabilitasi Medik",
-        "id" => "0b5e95f6-30d0-430d-b2de-e5826de6d96e",
+        "id" => "9d41d48d-2b05-47d3-95b6-6f3b445bb829",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -150,7 +150,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi CSSD dan Binatu",
         "u_kode" => "-",
         "u_desc" => "Instalasi CSSD dan Binatu",
-        "id" => "de59808c-7ac5-4b80-8477-e7509f2db1f1",
+        "id" => "9d41d48d-2b08-4491-85a3-6ae5c33ef425",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -159,7 +159,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Forensik, Medikolegal dan Pemulsaran Jenazah",
         "u_kode" => "-",
         "u_desc" => "Instalasi Forensik, Medikolegal dan Pemulsaran Jenazah",
-        "id" => "61c7a731-1c33-4fd7-88b2-e12506b9a075",
+        "id" => "9d41d48d-2b11-4920-8a6d-58efd30c46fd",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -168,7 +168,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Gas Medik",
         "u_kode" => "-",
         "u_desc" => "Instalasi Gas Medik",
-        "id" => "99b7c26f-9676-4a74-aa48-805fa9fefcd5",
+        "id" => "9d41d48d-2b14-419a-af63-27660177476d",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -177,7 +177,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Farmasi",
         "u_kode" => "-",
         "u_desc" => "Instalasi Farmasi",
-        "id" => "5a06b3e0-3036-45fd-b39b-15ace9a505fd",
+        "id" => "9d41d48d-2b16-4e59-a4f9-bfd868a9e005",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -186,7 +186,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Patologi Anatomi",
         "u_kode" => "-",
         "u_desc" => "Instalasi Patologi Anatomi",
-        "id" => "43b5901a-7d9a-4b93-b75b-9e3372918571",
+        "id" => "9d41d48d-2b18-4c64-ba96-33df9e052614",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -195,7 +195,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Penunjang Pelayanan",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Penunjang Pelayanan",
-        "id" => "bf96b6c1-2725-455a-b908-ab82bee9236f",
+        "id" => "9d41d48d-2b1a-41a5-ad70-814bcf041d6b",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -204,7 +204,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Pemeliharaan Sarana dan Prasarana",
         "u_kode" => "-",
         "u_desc" => "Instalasi Pemeliharaan Sarana dan Prasarana",
-        "id" => "97ab02b3-b062-40c6-9e87-a84077d7d5ab",
+        "id" => "9d41d55c-683e-417b-ae17-c70c079724bd",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -213,7 +213,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi Sanitasi",
         "u_kode" => "-",
         "u_desc" => "Instalasi Sanitasi",
-        "id" => "aedfc9ef-5fce-4754-8360-24f2bbf30af0",
+        "id" => "9d41d55c-68bc-481d-b8e5-9ee6166649f8",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -222,7 +222,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Umum",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Umum",
-        "id" => "9e86e663-7008-42f0-9955-d168380874cd",
+        "id" => "9d41d55c-68bf-42b7-b6c9-c89aa3160d4c",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -231,7 +231,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Sumber Daya Manusia",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Sumber Daya Manusia",
-        "id" => "85d14bf2-2f99-47fc-ae11-d8a95cc1ada6",
+        "id" => "9d41d55c-68c2-47c8-a39f-c2ff02c54ec6",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -240,7 +240,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Keuangan",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Keuangan",
-        "id" => "5cf4b10a-5064-4973-8efb-54ea2f57388f",
+        "id" => "9d41d55c-68c4-430c-ac26-5ae84d250b98",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -249,7 +249,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Perencanaan dan Evaluasi",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Perencanaan dan Evaluasi",
-        "id" => "89ee45c5-1245-419a-a2a0-cbda76ea6745",
+        "id" => "9d41d55c-68c6-458d-9907-fe44487b85a7",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -258,7 +258,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Instalasi SIMRS",
         "u_kode" => "-",
         "u_desc" => "Instalasi SIMRS",
-        "id" => "d130f8a9-dbc0-439e-9989-869411006a76",
+        "id" => "9d41d55c-68c8-4500-adcc-cd29c7c12d3e",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -267,7 +267,7 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Informasi dan Rekam Medis",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Informasi dan Rekam Medis",
-        "id" => "9517cf6a-6d3b-465c-9437-8d89a8ce39bf",
+        "id" => "9d41d55c-68ca-458f-a333-b1c20dd9a835",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
@@ -276,77 +276,77 @@ class UnitSeeder extends Seeder
         "u_name" => "Sub Bidang Diklat dan Litbang",
         "u_kode" => "-",
         "u_desc" => "Sub Bidang Diklat dan Litbang",
-        "id" => "c20fca05-487f-4ba0-a272-7e8e0231fa29",
+        "id" => "9d41d55c-68cc-4d48-b394-286959911c95",
         "is_has_ruang" => false,
         "updated_at" => now(),
         "created_at" => now()
       ],
     ]);
 
-    $b_pelayanan_medis = Bidang::find('13d70039-3e0a-4f49-a9fa-a7e330b7b41d');
+    $b_pelayanan_medis = Bidang::find('9d41d1fe-527c-4dce-9b92-99403f9de481');
     $b_pelayanan_medis->units()->attach([
-      'f35cfb7d-52fe-4c52-90c4-2bc907987b09',
-      'd7dd2920-37c2-4d5d-8d6b-d974f047806b',
+      '9d41d1fe-530c-470b-b815-a85a0e9b9ae0',
+      '9d41d3ba-68fb-4013-8899-ad5aeb0b7fd4',
     ]);
 
-    $b_pelayanan_keperawatan = Bidang::find('247f626c-e321-4ce5-944a-1248b4809e0b');
+    $b_pelayanan_keperawatan = Bidang::find('9d41d1fe-52fa-4aa9-ae64-d6fa16a883f3');
     $b_pelayanan_keperawatan->units()->attach([
-      '2fd31e71-9334-46e5-aae2-4a21ffefdf52',
-      'b433c233-b91f-4b41-ab33-b39f9433174e',
-      '71d97120-0b57-485c-a827-36d51a73d03a',
-      '4524d4c8-f794-4ac4-a714-41b09cec3ace',
-      'c3e7722b-ac2a-475a-aaff-e60ec390cebb',
-      '4360a591-c744-45d8-9618-16aa42a3382b',
-      'b1c40f06-e7a7-4550-bfff-c5876319a6f7',
-      '97926780-f074-44be-ad8c-dde6abc79695',
-      '78b574ad-bad8-47fa-81b2-bab72e355d48',
+      '9d41d3ba-69f3-4ce5-b26e-0eb0bcb935ca',
+      '9d41d3ba-69fa-4d49-b306-ffd0a0621117',
+      '9d41d3ba-69fd-415d-8b7d-891fdf270685',
+      '9d41d3ba-69ff-49d1-bd09-d08037bda712',
+      '9d41d3ba-6a04-4578-bac4-068900a71409',
+      '9d41d3ba-6a06-4615-9d10-67d436fe774a',
+      '9d41d3ba-6a0a-49fa-b269-7c0d8c16faad',
+      '9d41d3ba-6a0c-464a-96bd-adf529aad930',
+      '9d41d3ba-6a0d-4d62-a6f4-ff846c4fea41',
     ]);
 
-    $b_penunjang_pelayanan = Bidang::find('9a874145-e333-4ef4-953c-8d01cc81537f');
+    $b_penunjang_pelayanan = Bidang::find('9d41d1fe-52fd-457b-923d-d52dfc13f693');
     $b_penunjang_pelayanan->units()->attach([
-      '68addb8c-86cc-462a-8f7b-a15eb24bf2fe',
-      '95c5b442-e3fc-4821-9e6c-04d9f08cf2b8',
-      '411fb01e-a56b-47ff-82dd-f847a8adbdd0',
-      '0b5e95f6-30d0-430d-b2de-e5826de6d96e',
-      'de59808c-7ac5-4b80-8477-e7509f2db1f1',
-      '61c7a731-1c33-4fd7-88b2-e12506b9a075',
-      '99b7c26f-9676-4a74-aa48-805fa9fefcd5',
-      '5a06b3e0-3036-45fd-b39b-15ace9a505fd',
-      '43b5901a-7d9a-4b93-b75b-9e3372918571',
-      'bf96b6c1-2725-455a-b908-ab82bee9236f',
+      '9d41d48d-2a81-4887-be1d-6c563519fc33',
+      '9d41d48d-2aff-4782-988a-35c9b59dfff7',
+      '9d41d48d-2b02-4ce0-b7c6-69799853f438',
+      '9d41d48d-2b05-47d3-95b6-6f3b445bb829',
+      '9d41d48d-2b08-4491-85a3-6ae5c33ef425',
+      '9d41d48d-2b11-4920-8a6d-58efd30c46fd',
+      '9d41d48d-2b14-419a-af63-27660177476d',
+      '9d41d48d-2b16-4e59-a4f9-bfd868a9e005',
+      '9d41d48d-2b18-4c64-ba96-33df9e052614',
+      '9d41d48d-2b1a-41a5-ad70-814bcf041d6b',
     ]);
 
-    $b_umum = Bidang::find('98455b5b-3542-459f-adc7-0edd80dfe82e');
+    $b_umum = Bidang::find('9d41d1fe-5300-41f1-9fa7-3ea44faf4798');
     $b_umum->units()->attach([
-      '97ab02b3-b062-40c6-9e87-a84077d7d5ab',
-      'aedfc9ef-5fce-4754-8360-24f2bbf30af0',
-      '9e86e663-7008-42f0-9955-d168380874cd',
+      '9d41d55c-683e-417b-ae17-c70c079724bd',
+      '9d41d55c-68bc-481d-b8e5-9ee6166649f8',
+      '9d41d55c-68bf-42b7-b6c9-c89aa3160d4c',
     ]);
 
-    $b_sdm = Bidang::find('7ae1d3dc-73e9-4c36-add6-5b6c951d9ac9');
+    $b_sdm = Bidang::find('9d41d1fe-5302-4e60-a9d5-88b76bcbb8dd');
     $b_sdm->units()->attach([
-      '85d14bf2-2f99-47fc-ae11-d8a95cc1ada6',
+      '9d41d55c-68c2-47c8-a39f-c2ff02c54ec6',
     ]);
 
-    $b_keuangan = Bidang::find('cd277789-85df-4924-90c9-e86da09ebaad');
+    $b_keuangan = Bidang::find('9d41d1fe-5304-459f-90e0-6e61970480b6');
     $b_keuangan->units()->attach([
-      '5cf4b10a-5064-4973-8efb-54ea2f57388f',
+      '9d41d55c-68c4-430c-ac26-5ae84d250b98',
     ]);
 
-    $b_perencanaan = Bidang::find('208ca3ff-2f49-437d-ad6f-40a59be94bff');
+    $b_perencanaan = Bidang::find('9d41d1fe-5306-4ec1-9cc7-c759d36975f3');
     $b_perencanaan->units()->attach([
-      '89ee45c5-1245-419a-a2a0-cbda76ea6745',
+      '9d41d55c-68c6-458d-9907-fe44487b85a7',
     ]);
 
-    $b_informasi_rekammedis = Bidang::find('df7577b0-1d02-40d0-9731-001610b0b36b');
+    $b_informasi_rekammedis = Bidang::find('9d41d1fe-5308-4c24-94a1-c50a1f5b4eee');
     $b_informasi_rekammedis->units()->attach([
-      'd130f8a9-dbc0-439e-9989-869411006a76',
-      '9517cf6a-6d3b-465c-9437-8d89a8ce39bf',
+      '9d41d55c-68c8-4500-adcc-cd29c7c12d3e',
+      '9d41d55c-68ca-458f-a333-b1c20dd9a835',
     ]);
 
-    $b_diklat_litbang = Bidang::find('e336fee6-57d2-4c26-b8a6-12a0e6c9c1ec');
+    $b_diklat_litbang = Bidang::find('9d41d1fe-5309-43b8-8148-471306eb9781');
     $b_diklat_litbang->units()->attach([
-      'c20fca05-487f-4ba0-a272-7e8e0231fa29',
+      '9d41d55c-68cc-4d48-b394-286959911c95',
     ]);
 
 

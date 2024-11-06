@@ -17,7 +17,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Pelayanan Medis",
         "b_kode" => "-",
         "b_desc" => "Pelayanan Medis",
-        "id" => "13d70039-3e0a-4f49-a9fa-a7e330b7b41d",
+        "id" => "9d41d1fe-527c-4dce-9b92-99403f9de481",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -25,7 +25,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Pelayanan Keperawatan",
         "b_kode" => "-",
         "b_desc" => "Pelayanan Keperawatan",
-        "id" => "247f626c-e321-4ce5-944a-1248b4809e0b",
+        "id" => "9d41d1fe-52fa-4aa9-ae64-d6fa16a883f3",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -33,7 +33,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Penunjang Pelayanan",
         "b_kode" => "-",
         "b_desc" => "Penunjang Pelayanan",
-        "id" => "9a874145-e333-4ef4-953c-8d01cc81537f",
+        "id" => "9d41d1fe-52fd-457b-923d-d52dfc13f693",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -41,7 +41,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Umum",
         "b_kode" => "-",
         "b_desc" => "Umum",
-        "id" => "98455b5b-3542-459f-adc7-0edd80dfe82e",
+        "id" => "9d41d1fe-5300-41f1-9fa7-3ea44faf4798",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -49,7 +49,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Sumber Daya Manusia",
         "b_kode" => "-",
         "b_desc" => "Sumber Daya Manusia",
-        "id" => "7ae1d3dc-73e9-4c36-add6-5b6c951d9ac9",
+        "id" => "9d41d1fe-5302-4e60-a9d5-88b76bcbb8dd",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -57,7 +57,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Keuangan",
         "b_kode" => "-",
         "b_desc" => "Keuangan",
-        "id" => "cd277789-85df-4924-90c9-e86da09ebaad",
+        "id" => "9d41d1fe-5304-459f-90e0-6e61970480b6",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -65,7 +65,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Perencanaan dan Evaluasi",
         "b_kode" => "-",
         "b_desc" => "Perencanaan dan Evaluasi",
-        "id" => "208ca3ff-2f49-437d-ad6f-40a59be94bff",
+        "id" => "9d41d1fe-5306-4ec1-9cc7-c759d36975f3",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -73,7 +73,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Informasi dan Rekam Medis",
         "b_kode" => "-",
         "b_desc" => "Informasi dan Rekam Medis",
-        "id" => "df7577b0-1d02-40d0-9731-001610b0b36b",
+        "id" => "9d41d1fe-5308-4c24-94a1-c50a1f5b4eee",
         "updated_at" => now(),
         "created_at" => now()
       ],
@@ -81,7 +81,7 @@ class BidangSeeder extends Seeder
         "b_name" => "Diklat dan Litbang",
         "b_kode" => "-",
         "b_desc" => "Diklat dan Litbang",
-        "id" => "e336fee6-57d2-4c26-b8a6-12a0e6c9c1ec",
+        "id" => "9d41d1fe-5309-43b8-8148-471306eb9781",
         "updated_at" => now(),
         "created_at" => now()
       ],

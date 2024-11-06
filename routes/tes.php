@@ -11,6 +11,7 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Repositories\BelanjaRepository;
 use App\Repositories\PerencanaanRepository;
+use App\Services\PeriodeService;
 use App\Services\RuanganService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\File;
@@ -19,12 +20,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/tes', function () {
-  // $ruangans = app(RuanganService::class)->getAll();
 
-  dd(auth()->user());
-
-  // return $ruangans->find(2)->r_name ?? '';
-
-  $perencanaan = Perencanaan::with('last_status')->where('id', 'dc3c462f-cb32-40e4-9438-d156c7e52e67')->firstOrFail();
-  return $perencanaan;
+  return app(PeriodeService::class)->getAllActive();
 });

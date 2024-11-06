@@ -41,7 +41,7 @@
           <div class="col-lg-9 col-xl-8">
             <div class="row justify-content-center">
               @unlessrole('unit')
-                <div class="col-md-5 my-2 my-md-0">
+                <div class="my-2 col-md-5 my-md-0">
                   <select class="form-control form-control-solid" name="units">
                     <option value="">Semua Unit</option>
                     @foreach ($units as $item)
@@ -52,7 +52,7 @@
                   </select>
                 </div>
               @endunlessrole
-              <div class="col-md-4 my-2 my-md-0">
+              <div class="my-2 col-md-4 my-md-0">
                 <select class="form-control form-control-solid" name="status">
                   <option value="">Semua Status</option>
                   @foreach (StatusEnum::toArray() as $item)
@@ -62,17 +62,17 @@
                   @endforeach
                 </select>
               </div>
-              <div class="col-md-3 my-2 my-md-0">
+              <div class="my-2 col-md-3 my-md-0">
 
                 <div class="row">
                   <div class="col-md-6">
                     <button type="submit" name="action" value="submit" class="form-control btn btn-light-primary">
-                      <i class="la la-search p-0"></i>
+                      <i class="p-0 la la-search"></i>
                     </button>
                   </div>
                   <div class="col-md-6">
                     <button type="submit" name="action" value="reset" class="form-control btn btn-secondary">
-                      <i class="la la-close p-0"></i>
+                      <i class="p-0 la la-close"></i>
                     </button>
                   </div>
                 </div>
@@ -92,7 +92,7 @@
           <thead class="thead-light">
             <tr>
               <th>No</th>
-              <th>Unit / Tahun</th>
+              <th>Unit / Tahun - Periode</th>
               <th class="text-center">Waktu</th>
               <th class="text-center">Status</th>
               <th class="text-right">Jumlah Barang</th>
@@ -108,7 +108,7 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>
                   <span class='font-weight-bold'>{{ $item->u_name }}</span><br>
-                  <span class='font-size-sm text-success'>{{ $item->p_tahun }}</span>
+                  <span class='font-size-sm text-success'>{{ $item->p_tahun }} - {{ $item->p_periode }}</span>
                 </td>
                 <td class="text-center">
                   <div class=''>{{ formatTime($item->st_created_at) }}</div>
@@ -156,15 +156,15 @@
       </div>
 
       <!--start: pagination-->
-      <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="flex-wrap d-flex justify-content-between align-items-center">
 
-        <div class="d-flex flex-wrap py-2 mr-3">
+        <div class="flex-wrap py-2 mr-3 d-flex">
           {!! $data->appends(request()->input())->links('layouts.paginator') !!}
         </div>
 
-        <div class="d-flex align-items-center py-3">
+        <div class="py-3 d-flex align-items-center">
           <form action="{{ route('usulan.setfilter', request()->query()) }}" method="post">@csrf
-            <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary"
+            <select class="mr-4 border-0 form-control form-control-sm text-primary font-weight-bold bg-light-primary"
               style="width: 75px;" name="per_page" onchange="setPerPage(this)">
               @foreach ([10, 25, 50, 100] as $item)
                 <option value="{{ $item }}" @if (session()->get('utable.per_page') == $item) selected @endif>

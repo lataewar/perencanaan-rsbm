@@ -8,6 +8,9 @@
   $isCanUpdateBelanja = auth()
       ->user()
       ->can('update', App\Models\Usulan::class);
+  $isPeriodeAktif = auth()
+      ->user()
+      ->can('is_periode_aktif', $data);
   $status = $data->statuses->last()->status;
 @endphp
 @section('subheader')
@@ -61,7 +64,7 @@
         <div>
           <x-table.menu-dropdown>
 
-            @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()) && $data->usulans_count > 0)
+            @if (auth()->user()->can('perencanaan send') && ($status->isDraft() || $status->isDitolak()) && $data->usulans_count > 0 && $isPeriodeAktif)
               <x-table.nav-item route="javascript:;" name="Kirim" icon="la la-send" :item="$data" />
               <x-table.nav-separator />
             @endif

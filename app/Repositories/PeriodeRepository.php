@@ -3,8 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Periode;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class PeriodeRepository extends BaseRepository
@@ -40,8 +42,41 @@ class PeriodeRepository extends BaseRepository
     ]);
   }
 
-  public function all(): Collection
+  public function getAllActive(): Collection
   {
-    return $this->model->select(['id', 'u_name as name'])->get();
+    $today = Carbon::today();
+
+    return $this->model
+      ->select([
+        'id',
+        DB::raw("CONCAT(w_tahun, ' - ',w_periode) as name"),
+      ])
+      ->whereDate('w_date_start', '<=', $today)
+      ->whereDate('w_date_end', '>=', $today)
+      ->get();
+  }
+
+  public function checkIfActive(string $id): ?Periode
+  {
+    $today = Carbon::today();
+
+    return $this->model
+      ->where('id', $id)
+      ->whereDate('w_date_start', '<=', $today)
+      ->whereDate('w_date_end', '>=', $today)
+      ->first();
+  }
+
+  public function checkIfActiveByTahunPeriode(string|int $tahun, string|int $periode): bool
+  {
+    $today = Carbon::today();
+
+    return $this->model
+      ->where('w_tahun', $tahun)
+      ->where('w_periode', $periode)
+      ->whereDate('w_date_start', '<=', $today)
+      ->whereDate('w_date_end', '>=', $today)
+      ->first()
+      ? true : false;
   }
 }

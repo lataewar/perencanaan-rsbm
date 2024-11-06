@@ -20,6 +20,11 @@ class PeriodeService extends BaseService
     return $this->repo->all();
   }
 
+  public function getAllActive(): Collection
+  {
+    return $this->repository->getAllActive();
+  }
+
   public function store(PeriodeRequest $request): Periode
   {
     return $this->repository->store((object) $request->validated());
@@ -29,6 +34,16 @@ class PeriodeService extends BaseService
   {
     $validated = (object) $request->validated();
     return $this->repository->update($id, $validated);
+  }
+
+  public function checkIfActive(string $id): ?Periode
+  {
+    return $this->repository->checkIfActive($id);
+  }
+
+  public function checkIfActiveByTahunPeriode(string|int $tahun, string|int $periode): bool
+  {
+    return $this->repository->checkIfActiveByTahunPeriode($tahun, $periode);
   }
 
 }

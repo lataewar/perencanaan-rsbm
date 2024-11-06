@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Perencanaan;
 use App\Models\User;
+use App\Services\PeriodeService;
 use Illuminate\Auth\Access\Response;
 
 class PerencanaanPolicy
@@ -41,6 +42,11 @@ class PerencanaanPolicy
     }
 
     return true;
+  }
+
+  public function is_periode_aktif(User $user, Perencanaan $perencanaan): bool
+  {
+    return app(PeriodeService::class)->checkIfActiveByTahunPeriode($perencanaan->p_tahun, $perencanaan->p_periode);
   }
 
 }

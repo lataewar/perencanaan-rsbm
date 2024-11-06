@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\PerencanaanRequest;
+use App\Http\Requests\UsulanRequest;
 use App\Models\Perencanaan;
 use App\Repositories\PerencanaanRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -35,7 +35,7 @@ class PerencanaanService extends BaseService
     }
   }
 
-  public function store(PerencanaanRequest $request): Perencanaan
+  public function store(UsulanRequest $request): Perencanaan
   {
     return $this->repository->store((object) $request->validated());
   }
@@ -53,18 +53,6 @@ class PerencanaanService extends BaseService
   public function update_status(string $id, int $status, string $msg): bool
   {
     return $this->repository->update_status($id, $status, $msg);
-  }
-
-  public function getTahun(): array
-  {
-    $arrays = array();
-    for ($i = 0; $i < 10; $i++) {
-      array_push($arrays, [
-        'id' => 2024 + $i,
-        'name' => 2024 + $i,
-      ]);
-    }
-    return $arrays;
   }
 
   public function validate_isexist(string $barang_id, string $perencanaan_id): Collection

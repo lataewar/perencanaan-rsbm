@@ -2,40 +2,41 @@
 
 namespace App\Http\Requests;
 
+use App\Services\PeriodeService;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Session;
 
 class UsulanRequest extends FormRequest
 {
   public function rules(): array
   {
     return [
-      'perencanaan_id' => ['required'],
-      'ul_name' => ['required'],
-      'ul_qty' => ['required', 'integer'],
-      'ul_prise' => ['nullable', 'integer'],
-      'ul_desc' => [],
-      'ruangan_id' => ['sometimes', 'required'],
+      'p_tahun' => ['required'],
+      'p_periode' => [],
     ];
   }
 
   protected function prepareForValidation(): void
   {
-    $this->merge([
-      'perencanaan_id' => Session::get('usulan'),
-      'ul_prise' => !$this->ul_prise ? null : str_replace(".", "", $this->ul_prise),
-      'ul_qty' => str_replace(".", "", $this->ul_qty),
-    ]);
+    $periode = app(PeriodeService::class)->checkIfActive($this->p_tahun);
+
+    if ($periode) {
+      $this->merge([
+        'p_tahun' => $periode->w_tahun,
+        'p_periode' => $periode->w_periode,
+      ]);
+    } else {
+      $this->merge([
+        'p_tahun' => null,
+        'p_periode' => null,
+      ]);
+    }
+
   }
 
   public function messages(): array
   {
     return [
-      'ul_name.required' => 'Nama Barang harus diisi.',
-      'ul_qty.required' => 'Jumlah Barang harus diisi.',
-      'ul_name.integer' => 'Jumlah Barang harus berupa angka.',
-      'ul_prise.integer' => 'Harga Barang harus berupa angka.',
-      'ruangan_id.required' => 'Ruangan harus dipilih.',
+      'p_tahun.required' => 'Tahun harus dipilih.',
     ];
   }
 }

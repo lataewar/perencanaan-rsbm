@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
-use App\Http\Requests\PerencanaanRequest;
+use App\Http\Requests\UsulanRequest;
 use App\Services\PerencanaanService;
 use App\Services\UnitService;
 use App\Services\UsulanService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -56,7 +57,7 @@ class UsulanController extends Controller
   }
 
   //----------  STORE  ----------//
-  public function store(PerencanaanRequest $request): RedirectResponse
+  public function store(UsulanRequest $request): RedirectResponse
   {
     try {
       app(PerencanaanService::class)->store($request);
@@ -86,6 +87,8 @@ class UsulanController extends Controller
   public function send(Request $request): RedirectResponse
   {
     $find = app(PerencanaanService::class)->find_usulan($request->id);
+    Gate::authorize('is_periode_aktif', $find);
+
     $status = StatusEnum::from($find->status);
 
     if ($find->u_id != auth()->user()->unit_id) // Cek Unit

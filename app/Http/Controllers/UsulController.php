@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UsulanRequest;
+use App\Http\Requests\UsulRequest;
 use App\Models\Usulan;
 use App\Services\Datatables\UsulTableService;
 use App\Services\PerencanaanService;
@@ -45,6 +45,7 @@ class UsulController extends Controller
   public function create(): View
   {
     Gate::authorize('update', Usulan::class);
+    // Gate::authorize('is_periode_aktif', app(PerencanaanService::class)->find(id: Session::get('usulan') ?? 'x'));
 
     $ruangans = app(RuanganService::class)->select_by_unit(auth()->user()->unit_id);
 
@@ -54,7 +55,7 @@ class UsulController extends Controller
   }
 
   //----------  STORE  ----------//
-  public function store(UsulanRequest $request): RedirectResponse
+  public function store(UsulRequest $request): RedirectResponse
   {
     Gate::authorize('update', Usulan::class);
     $usulan = $this->service->store($request);
@@ -79,7 +80,7 @@ class UsulController extends Controller
   }
 
   //----------  UPDATE  ----------//
-  public function update($usul, UsulanRequest $request): RedirectResponse
+  public function update($usul, UsulRequest $request): RedirectResponse
   {
     Gate::authorize('update', Usulan::class);
 
