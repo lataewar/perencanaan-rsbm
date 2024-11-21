@@ -117,6 +117,14 @@ class BelanjaRepository extends BaseRepository
     }
   }
 
+  private function delete_barang(string|int $pivot_id, ?string $usulan): void
+  {
+    DB::table('barang_belanja')->where('id', $pivot_id)->delete();
+
+    if ($usulan)
+      Usulan::find($usulan)->update(['is_accommodated' => false]);
+  }
+
   public function delete_pivot(string|int $pivot_id, string $belanja, ?string $usulan): bool
   {
     DB::beginTransaction();
@@ -124,13 +132,33 @@ class BelanjaRepository extends BaseRepository
     try {
       $belanja = $this->find($belanja);
 
-      DB::table('barang_belanja')->where('id', $pivot_id)->delete();
-
-      if ($usulan)
-        Usulan::find($usulan)->update(['is_accommodated' => false]);
+      $this->delete_barang($pivot_id, $usulan);
 
       if ($belanja->barangs()->count() == 0)
         $belanja->delete();
+
+      DB::commit();
+      return true;
+    } catch (\Exception $e) {
+      DB::rollback();
+      return false;
+    }
+  }
+
+  public function delete_belanja(string|int $perencanaan_id): bool
+  {
+    DB::beginTransaction();
+
+    try {
+
+      $belanja = $this->model->where('perencanaan_id', $perencanaan_id)->first();
+
+      $belanjas = DB::table('barang_belanja')->where('belanja_id', $belanja->id)->get();
+      $belanjas->each(function ($item) {
+        $this->delete_barang($item->id, $item->usulan_id);
+      });
+
+      $belanja->delete();
 
       DB::commit();
       return true;

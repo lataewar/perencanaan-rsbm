@@ -73,8 +73,8 @@ class PerencanaanController extends Controller
   {
     Gate::authorize('reject', $this->service->find_status($request->id));
 
-    if ($this->service->update_status($request->id, StatusEnum::DITOLAK->value, 'Perencanaan ditolak.'))
-      return to_route('perencanaan.index')->with('success', 'Perencanaan berhasil dikirim.');
+    if ($this->service->reject($request->id))
+      return to_route('perencanaan.index')->with('success', 'Perencanaan ditolak.');
 
     return to_route('perencanaan.index');
   }

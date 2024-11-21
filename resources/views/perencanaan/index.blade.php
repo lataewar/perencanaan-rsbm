@@ -139,8 +139,10 @@
                       <x-table.nav-item :route="route('perencanaan.belanja', ['perencanaan' => $item->id])" name="Detail Belanja" icon="la la-money-check-alt" />
                     @endcan
 
-                    @if (auth()->user()->can('perencanaan accept') && $status->isDivalidasi() && $item->total > 0)
+                    @if (auth()->user()->can('perencanaan accept') && $status->isDivalidasi())
+                      @if ($item->total > 0)
                       <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :$item />
+                      @endif
                       <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :$item />
                     @endif
 

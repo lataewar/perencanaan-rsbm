@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\StatusEnum;
 use App\Http\Requests\UsulanRequest;
 use App\Models\Perencanaan;
+use App\Repositories\BelanjaRepository;
 use App\Repositories\PerencanaanRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -48,6 +50,13 @@ class PerencanaanService extends BaseService
   public function find_status(string $id): ?Perencanaan
   {
     return $this->repository->find_status($id);
+  }
+
+  public function reject(string $id): bool
+  {
+    app(BelanjaRepository::class)->delete_belanja($id);
+
+    return $this->update_status($id, StatusEnum::DITOLAK->value, 'Perencanaan ditolak.');
   }
 
   public function update_status(string $id, int $status, string $msg): bool

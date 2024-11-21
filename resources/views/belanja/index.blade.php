@@ -62,18 +62,19 @@
         <div>
           <x-table.menu-dropdown>
 
-            @if (auth()->user()->can('perencanaan accept') && $status->isDivalidasi() && $data->total > 0)
-              <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :item="$data" />
+            @if (auth()->user()->can('perencanaan accept') && $status->isDivalidasi())
+              @if ($data->total > 0)
+                <x-table.nav-item route="javascript:;" name="Terima" icon="la la-check-circle-o" :item="$data" />
+              @endif
               <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :item="$data" />
-              <x-table.nav-separator />
             @endif
             @if (auth()->user()->can('perencanaan validate') && $status->isDikirim())
               <x-table.nav-item route="javascript:;" name="Validasi" icon="la la-check-circle-o" :item="$data" />
               <x-table.nav-item route="javascript:;" name="Tolak" icon="la la-times-circle-o" :item="$data" />
-              <x-table.nav-separator />
             @endif
 
             @if ($data->total > 0)
+              <x-table.nav-separator />
               <x-table.nav-item :route="route('perencanaan.cetak', $data->id)" name="Cetak Excell" icon="la la-print" />
             @endif
 
